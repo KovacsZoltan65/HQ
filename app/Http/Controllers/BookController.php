@@ -27,7 +27,9 @@ class BookController extends Controller
 
     public function getBooks(Request $request){
         $books = Book::query()->paginate(config('app.page_lines'));
-//dd($books);
+
+        sleep(5);
+
         return response()->json($books, Response::HTTP_OK);
     }
 

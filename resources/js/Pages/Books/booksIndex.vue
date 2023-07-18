@@ -13,9 +13,11 @@
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-4 py-4">
 
                     <button @click="openForm()" 
-                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-3">Create New Book</button>
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-3"
+                    >Create New Book</button>
 
                     <!-- table -->
+                    <BooksTable></BooksTable>
                     
                 </div>
             </div>
@@ -29,18 +31,22 @@
     import AppLayout from '../../Layouts/AppLayout.vue';
     import Pagination from '../../Components/Pagination.vue';
     import BookForm from '../../Components/Book/form.vue'
+    import BooksTable from './booksTable.vue'
 
     const state = reactive({
-        Books: [],
+        //Books: [],
     });
-
-    onMounted(async () => {
+    /*    onMounted(async () => {
         getBooks();
     });
     async function getBooks(){
         const response = await axios.post(route('getBooks'))
-        .then(response => { console.log(response); });
+        .then(response => {
+            console.log(response);
+            state.Books = response.data;
+        });
     }
+    */
     /*
     const defaultFormObject = {
         title: null, author: null, image: null
