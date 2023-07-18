@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -33,6 +34,7 @@ Route::middleware([
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
+    Route::post('/getBooks', [BookController::class, 'getBooks'])->name('getBooks');
     Route::resource('books', App\Http\Controllers\BookController::class)
         ->names([
             'index' => 'books'
