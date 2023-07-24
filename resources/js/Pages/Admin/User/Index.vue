@@ -16,12 +16,12 @@ const props = defineProps({
 </script>
 
 <template>
-    <Head title="Users" />
+    <Head title="Felhasználók" />
 
     <AppLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Users
+                Felhasználók
             </h2>
         </template>
 
@@ -30,10 +30,14 @@ const props = defineProps({
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="flex bg-gray-800 justify-between items=center p-5">
                         <div class="flex space-x-2 items-center text-white">
-                            Users Settings Page! Here you can list, create, update or delete user!
+                            Felhasználói beállítások oldala! 
+                            Itt listázhat, létrehozhat, frissíthet vagy törölhet felhasználót!
                         </div>
                         <div class="flex space-x-2 items-center" v-if="can.create">
-                            <a href="#" class="px-4 py-2 bg-green-500 uppercase text-white rounded focus:outline-none flex items-center"><span class="iconify mr-1" data-icon="gridicons:create" data-inline="false"></span> Create User</a>
+                            <a href="#" class="px-4 py-2 bg-green-500 uppercase text-white rounded focus:outline-none flex items-center">
+                                <span class="iconify mr-1" data-icon="gridicons:create" data-inline="false"></span>
+                                + Felhasználó
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -43,29 +47,30 @@ const props = defineProps({
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
-                                <th scope="col" class="py-3 px-6">Name</th>
-                                <th scope="col" class="py-3 px-6">Email</th>
-                                <th v-if="can.edit || can.delete" scope="col" class="py-3 px-6">Actions</th>
+                                <th class="py-3 px-6" scope="col">Név</th>
+                                <th class="py-3 px-6" scope="col">Email</th>
+                                <th class="py-3 px-6" scope="col" v-if="can.edit || can.delete">Műveletek</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="user in users.data" :key="user.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <tr v-for="user in users.data" :key="user.id" 
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                 <td data-label="Name" class="py-4 px-6">
                                     {{ user.name }}
                                 </td>
-                                <td data-label="Email" class="py-4 px-6">
+                                <td class="py-4 px-6" data-label="Email">
                                     {{ user.email }}
                                 </td>
-                                <td
-                                    v-if="can.edit || can.delete"
-                                    class="py-4 px-6"
-                                >
+                                <td class="py-4 px-6 w-45" width="250px"
+                                    v-if="can.edit || can.delete">
                                     <div type="justify-start lg:justify-end" no-wrap>
-                                        <button class="ml-4 bg-green-500 px-2 py-1 rounded text-white cursor-pointer" v-if="can.edit">
-                                            Edit
+                                        <button class="ml-4 bg-green-500 px-2 py-1 rounded text-white cursor-pointer" 
+                                                v-if="can.edit">
+                                            Szerkesztés
                                         </button>
-                                        <button class="ml-4 bg-red-500 px-2 py-1 rounded text-white cursor-pointer" v-if="can.delete">
-                                            Delete
+                                        <button class="ml-4 bg-red-500 px-2 py-1 rounded text-white cursor-pointer" 
+                                                v-if="can.delete">
+                                            Törlés
                                         </button>
                                     </div>
                                 </td>
