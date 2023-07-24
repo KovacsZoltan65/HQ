@@ -19,4 +19,22 @@ php artisan migrate
 php artisan make:model Book --all
 
 
+// ---------------------------------------
+// Roles and Permissions
+// ---------------------------------------
+https://laraveltuts.com/laravel-9-vue-js-roles-and-permission-vite-js/
 
+composer require spatie/laravel-permission
+php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
+php artisan optimize:clear
+# or
+php artisan config:clear
+
+php artisan migrate
+
+superadmin@laraveltuts.com
+password
+admin@laraveltuts.com
+password
+test@laraveltuts.com
+password
