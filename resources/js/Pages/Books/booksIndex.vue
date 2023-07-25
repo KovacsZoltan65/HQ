@@ -33,17 +33,24 @@
                                 <td class="px-4 py-2 border">{{ book.title }}</td>
                                 <td class="px-4 py-2 border">{{ book.author }}</td>
                                 <td class="px-4 py-2 border">{{ book.image }}</td>
-                                <td class="px-4 py-2 border">action</td>
+                                <td class="px-4 py-2 w-45 border" width="250px">
+                                    <div type="justify-start lg:justify-end" no-wrap>
+                                        <button class="ml-4 bg-green-500 px-2 py-1 rounded text-white cursor-pointer"
+                                                @click="editBook(book)">Szerkesztés</button>
+                                        <button class="ml-4 bg-red-500 px-2 py-1 rounded text-white cursor-pointer" 
+                                                @click="deleteBook_init(book)">Törlés</button>
+                                    </div>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
 
                     <div class="mb-3 bg-white shadow bg-body rounded w-75 ln-max-width mx-auto p-3 d-flex align-items-center justify-content-center">
                         <v-pagination v-model="state.pagination.current_page" 
-                                    :pages="state.pagination.total"  
-                                    :range-size="state.pagination.range"
-                                    active-color="#DCEDFF"
-                                    @update:modelValue="getBooks"/>
+                            :pages="state.pagination.total_number_of_pages"  
+                            :range-size="state.pagination.range"
+                            active-color="#DCEDFF"
+                            @update:modelValue="getBooks"/>
                     </div>
 
                 </div>
@@ -110,10 +117,13 @@
         <template #title>
             Delete Book
         </template>
-        <template #content></template>
+        <template #content>
+            Are you sure you want to delete this Book?
+        </template>
         <template #footer>
             <secondary-button @click="closeDeleteModal()">Cancel</secondary-button>
-            <primary-button type="button" class="ml-3" @click="deleteBook()">Delete</primary-button>
+            <primary-button type="button" class="ml-3" 
+                @click="deleteBook()">Delete</primary-button>
         </template>
     </dialog-modal>
 
@@ -155,7 +165,7 @@
     import VPagination from '@hennge/vue3-pagination';
     import '@hennge/vue3-pagination/dist/vue3-pagination.css';
     import SecondaryButton from '@/Components/SecondaryButton.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
+    import PrimaryButton from '@/Components/PrimaryButton.vue';
 
     const local_storage_column_key = 'books_columns';
 
@@ -205,9 +215,13 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 
         pagination: {
             current_page: 1,
+            total_number_of_pages: 0,
             per_page: 10,
-            total: 0,
             range: 5,
+        },
+        filters: {
+            tags: [],
+            search: null
         },
     });
 
@@ -228,12 +242,22 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
         }
     });
     
-    function getBooks(){
-        axios.post(route('getBooks'))
+    function getBooks(page = state.pagination.current_page) {
+        axios.post(route('getBooks', {
+            filters: state.filters,
+            config: {
+                per_page: state.pagination.per_page,
+            },
+            page
+        }))
         .then(response => {
             //console.log(response);
             state.Books = response.data;
-            //console.log(state.Books.links);
+
+            state.pagination.total_number_of_pages = response.data.last_page;
+            state.pagination.current_page = response.data.current_page;
+
+            console.log(state.pagination);
         });
     }
     
@@ -380,50 +404,4 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
     function closeDeleteModal() {
         state.showDeleteModal = false;
     }
-
-    /*
-    const defaultFormObject = {
-        title: null, author: null, image: null
-    };
-
-    export default {
-        props: ['data'],
-        components: {
-            AppLayout,
-            Pagination,
-            BookForm
-        },
-        onMounted(){
-            console.log('onMount');
-            getBooks();
-        },
-        data(){
-            return {
-                isFormOpen: false,
-                isFormEdit: false,
-                formObject: defaultFormObject,
-                books: []
-            }
-        },
-        methods: {
-            saveItem(item){
-                console.log(item);
-            },
-            closeModal(){
-                this.isFormOpen = false;
-            },
-            openForm(item){
-                this.isFormOpen = true;
-                this.isFormEdit = !!item;
-                this.formObject = item ? item : defaultFormObject;
-            },
-            deleteItem(item){
-                console.log('delete ' + item.id);
-            },
-            async getBooks(){
-                books = axios.post(route('getBooks'));
-            }
-        }
-    }
-    */
 </script>

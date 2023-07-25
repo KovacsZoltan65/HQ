@@ -26,7 +26,15 @@ class BookController extends Controller
     }
 
     public function getBooks(Request $request){
-        $books = Book::query()->paginate(config('app.page_lines'));
+
+        $config = $request->get('config', []);
+
+        $per_page = count($config) != 0 && isset($config['per_page'])  
+            ? $config['per_page'] 
+            : config('app.per_page');
+
+        $books = Book::query()
+            ->paginate($per_page);
 
         //sleep(5);
 
