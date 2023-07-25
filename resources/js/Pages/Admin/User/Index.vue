@@ -25,6 +25,7 @@ const props = defineProps({
             </h2>
         </template>
 
+        <!-- FEJLÉC -->
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-5">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -42,6 +43,8 @@ const props = defineProps({
                     </div>
                 </div>
             </div>
+
+            <!-- TÁBLÁZAT -->
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-2">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
