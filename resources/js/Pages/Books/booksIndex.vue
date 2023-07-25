@@ -257,12 +257,12 @@
             state.pagination.total_number_of_pages = response.data.last_page;
             state.pagination.current_page = response.data.current_page;
 
-            console.log(state.pagination);
+            //console.log(state.pagination);
         });
     }
     
     function openForm(item) {
-        console.log('OPEN FORM');
+        //console.log('OPEN FORM');
 
         state.isFormOpen = true;
         state.isFormEdit = !!item;
