@@ -12,7 +12,7 @@
             <div class="mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-4 py-4">
 
-                    <button @click="openForm()" 
+                    <button @click="openEditModal()" 
                             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-3"
                     >Create New Book</button>
 
@@ -51,17 +51,111 @@
         </div>
 
     </app-layout>
+
+    <!-- EDIT MODAL -->
+    <dialog-modal :show="state.showEditModal">
+        <template #title>
+            <!--<span v-if="state.editingBook && state.editingBook.id">Edit Book</span>
+            <span v-else>Create Book</span>-->
+            {{ state.isEdit ? 'Edit Book' : 'Create Book' }}
+        </template>
+
+        <template #content>
+            <div class="grid gap-6 mb-6 md:grid-cols-2">
+
+                <!-- TITLE -->
+                <div>
+                    <label for="title" 
+                           class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >Title</label>
+                    <input type="text" id="title" 
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                            placeholder="title" v-model="state.Book.title" required>
+                </div>
+
+                <!-- AUTHOR -->
+                <div>
+                    <label for="author" 
+                           class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >Author</label>
+                    <input type="text" id="author" 
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                            placeholder="Author" v-model="state.Book.author" required>
+                </div>
+
+                <!-- IMAGE -->
+                <div>
+                    <label for="image" 
+                           class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >Image</label>
+                    <input type="text" id="image" 
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                            placeholder="Image" v-model="state.Book.image" required>
+                </div>
+
+            </div>
+        </template>
+
+        <template #footer>
+            <secondary-button @click="closeEditModal()">Cancel</secondary-button>
+            <primary-button type="button" class="ml-3" @click="saveBook()">
+                {{ state.isEdit ? 'Edit Book' : 'Create Book' }}
+            </primary-button>
+        </template>
+
+    </dialog-modal>
+
+    <!-- CONFIRM DELETE MODAL -->
+    <dialog-modal :show="state.showDeleteModal">
+        <template #title>
+            Delete Book
+        </template>
+        <template #content></template>
+        <template #footer>
+            <secondary-button @click="closeDeleteModal()">Cancel</secondary-button>
+            <primary-button type="button" class="ml-3" @click="deleteBook()">Delete</primary-button>
+        </template>
+    </dialog-modal>
+
+    <!-- SETTINGS MODAL -->
+    <dialog-modal :show="state.showSettingsModal">
+        <template #title>Settings</template>
+        <template #content>
+            <fieldset>
+                <legend class="sr-only">Checkbox Variant</legend>
+                <div class="flex items-center mb-4" 
+                     v-for="(config, column) in state.columns" 
+                     :key="column">
+
+                    <input v-model="config.is_visible" 
+                           :id="column" type="checkbox" value=""
+                           class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                        <label :for="column" 
+                            class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                        >{{ config.label }}</label>
+                </div>
+            </fieldset>
+        </template>
+        <template #footer>
+            <secondary-button @click="closeSettingsModal()">Cancel</secondary-button>
+        </template>
+    </dialog-modal>
+
 </template>
 
 <script setup>
     import {reactive, onMounted, watch, computed} from 'vue';
-    import AppLayout from '../../Layouts/AppLayout.vue';
-    import BookForm from '../../Components/Book/form.vue';
+    import axios from 'axios';
     import { initFlowbite } from 'flowbite';
+
+    import AppLayout from '../../Layouts/AppLayout.vue';
+    //import BookForm from '../../Components/Book/form.vue';
+    import DialogModal from '@/Components/DialogModal.vue';
 
     import VPagination from '@hennge/vue3-pagination';
     import '@hennge/vue3-pagination/dist/vue3-pagination.css';
-import axios from 'axios';
+    import SecondaryButton from '@/Components/SecondaryButton.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 
     const local_storage_column_key = 'books_columns';
 
@@ -82,9 +176,9 @@ import axios from 'axios';
         isFormOpen: false,
         isEdit: false,
 
-        openSettingsModal: false,
-        openEditModal: false,
-        openDeleteModal: false,
+        showSettingsModal: false,
+        showEditModal: false,
+        showDeleteModal: false,
 
         columns: {
             id: {
@@ -176,7 +270,7 @@ import axios from 'axios';
         state.Book = state.editingBook;
         state.isEdit = true;
 
-        state.openEditModal = true;
+        state.showEditModal = true;
     }
 
     function saveBook(){
@@ -257,33 +351,34 @@ import axios from 'axios';
     // SETTINGS MODAL
     // --------------------
     function openSettingsModal() {
-        state.openSettingsModal = true;
+        state.showSettingsModal = true;
     }
 
     function closeSettingsModal() {
-        state.openSettingsModal = false;
+        state.showSettingsModal = false;
     }
 
     // --------------------
     // EDIT MODAL
     // --------------------
     function openEditModal() {
-        state.openEditModal = true;
+        state.showEditModal = true;
     }
 
     function closeEditModal() {
-        state.openEditModal = false;
+        cancelEdit();
+        state.showEditModal = false;
     }
 
     // --------------------
     // DELETE MODAL
     // --------------------
     function openDeleteModal() {
-        state.openDeleteModal = true;
+        state.showDeleteModal = true;
     }
     
     function closeDeleteModal() {
-        state.openDeleteModal = false;
+        state.showDeleteModal = false;
     }
 
     /*
