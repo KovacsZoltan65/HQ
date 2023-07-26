@@ -16,24 +16,91 @@
                             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-3"
                     >Create New Book</button>
 
+                    <!-- selected ids -->
+                    <div class="text-uppercase text-bold">id selected: {{state.selected}}</div>
+
+                    <!-- settings -->
+                    <div>
+                        <secondary-button @click="settings_init">
+                            Settings
+                        </secondary-button>
+                    </div>
+
                     <!-- table -->
-                    <table class="table table-bordered table-fixed w-full posts-table">
-                        <thead>
+                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr class="bg-gray-100">
-                                <th>#</th>
-                                <th>title</th>
-                                <th>author</th>
-                                <th>image</th>
-                                <th>action</th>
+                                
+                                <!-- header checkbox -->
+                                <th scope="col" class="px-6 py-3" >
+                                    <div>
+                                        <input id="checkbox-all" 
+                                            type="checkbox"
+                                            v-model="state.selectAll"
+                                            @click="select"
+                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+                                        <label for="checkbox-all" 
+                                            class="sr-only">checkbox</label>
+                                    </div>
+                                </th>
+
+                                <th scope="col" class="px-6 py-3" 
+                                    v-show="state.columns.id.is_visible">
+                                    <div class="flex items-center">
+                                        {{ state.columns.id.label }}
+                                        <a href="#">
+                                            <SorterIcon/>
+                                        </a>
+                                    </div>
+                                </th>
+                                <th scope="col" class="px-6 py-3" v-show="state.columns.title.is_visible">
+                                    <div class="flex items-center">
+                                        {{ state.columns.title.label }}
+                                        <a href="#">
+                                            <SorterIcon/>
+                                        </a>
+                                    </div>
+                                </th>
+                                <th scope="col" class="px-6 py-3" v-show="state.columns.author.is_visible">
+                                    <div class="flex items-center">
+                                        {{ state.columns.author.label }}
+                                        <a href="#">
+                                            <SorterIcon/>
+                                        </a>
+                                    </div>
+                                </th>
+                                <th scope="col" class="px-6 py-3" v-show="state.columns.image.is_visible">
+                                    <div class="flex items-center">
+                                        {{ state.columns.image.label }}
+                                        <a href="#">
+                                            <SorterIcon/>
+                                        </a>
+                                    </div>
+                                </th>
+                                <th scope="col" class="px-6 py-3" width="250px" v-show="state.columns.action.is_visible">
+                                    <div class="flex items-center">
+                                        {{ state.columns.action.label }}
+                                        <a href="#">
+                                            <SorterIcon/>
+                                        </a>
+                                    </div>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="book in state.Books.data">
-                                <td class="px-4 py-2 border">{{ book.id }}</td>
-                                <td class="px-4 py-2 border">{{ book.title }}</td>
-                                <td class="px-4 py-2 border">{{ book.author }}</td>
-                                <td class="px-4 py-2 border">{{ book.image }}</td>
-                                <td class="px-4 py-2 w-45 border" width="250px">
+                                <td class="px-4 py-2 border">
+                                    <div>
+                                        <input :id="book.id" type="checkbox" :value="book.id" :key="book.id" v-model="state.selected" 
+                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+                                        <label class="sr-only" :for="book.id">checkbox</label>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-2 border" v-show="state.columns.id.is_visible">{{ book.id }}</td>
+                                <td class="px-4 py-2 border" v-show="state.columns.title.is_visible">{{ book.title }}</td>
+                                <td class="px-4 py-2 border" v-show="state.columns.author.is_visible">{{ book.author }}</td>
+                                <td class="px-4 py-2 border" v-show="state.columns.image.is_visible">{{ book.image }}</td>
+                                <td class="px-4 py-2 w-45 border" width="250px" v-show="state.columns.action.is_visible">
                                     <div type="justify-start lg:justify-end" no-wrap>
                                         <button class="ml-4 bg-green-500 px-2 py-1 rounded text-white cursor-pointer"
                                                 @click="editBook(book)">Szerkesztés</button>
@@ -167,6 +234,8 @@
     import SecondaryButton from '@/Components/SecondaryButton.vue';
     import PrimaryButton from '@/Components/PrimaryButton.vue';
 
+    import SorterIcon from '../../Components/icons/SorterIcon.vue';
+
     const local_storage_column_key = 'books_columns';
 
     const props = defineProps({});
@@ -178,21 +247,36 @@
     };
 
     const state = reactive({
+        // Összes rekord
         Books: [],
+        // Kiválasztott rekord
         Book: newBook(),
+        // Szerkeszteni kívánt rekord
         editingBook: null,
+        // Törölni kívánt rekord
         deletingBook: null,
 
+        // Van nyitott ablak
         isFormOpen: false,
+        // A folyamatban levő művelet szerkesztés
         isEdit: false,
 
+        // "settings" modal megnyitása / bezárása
         showSettingsModal: false,
+        // "edit" modal megnyitása / bezárása
         showEditModal: false,
+        // "delete" modal megnyitása / bezárása
         showDeleteModal: false,
 
+        // Kiválasztott rekordok azonosítója
+        selected: [],
+        // Összes elem ki van választva
+        selectAll: false,
+
+        // Táblázat oszlopai
         columns: {
             id: {
-                label: 'ID',
+                label: '#',
                 is_visible: true,
             },
             title: {
@@ -213,18 +297,21 @@
             },
         },
 
+        // Oldaltörés
         pagination: {
             current_page: 1,
             total_number_of_pages: 0,
             per_page: 10,
             range: 5,
         },
+        // Szűrés és keresés
         filters: {
             tags: [],
             search: null
         },
     });
 
+    // Figyeli az oszlopok változását
     watch(state.columns, (new_value, old_value) => {
         localStorage.setItem(local_storage_column_key, JSON.stringify(new_value));
     });
@@ -242,6 +329,17 @@
         }
     });
     
+    function select(){
+        state.selected = [];
+        if( !state.selectAll ){
+            state.Books.data.forEach(book => {
+                //console.log(book);
+                state.selected.push(book.id);
+            });
+        }
+    }
+
+    // Táblázat adatok lekérése
     function getBooks(page = state.pagination.current_page) {
         axios.post(route('getBooks', {
             filters: state.filters,
@@ -251,7 +349,7 @@
             page
         }))
         .then(response => {
-            //console.log(response);
+            //console.log(response.data.data);
             state.Books = response.data;
 
             state.pagination.total_number_of_pages = response.data.last_page;
@@ -371,6 +469,9 @@
         state.Book = newBook();
     }
 
+    function settings_init(){
+        openSettingsModal();
+    }
     // --------------------
     // SETTINGS MODAL
     // --------------------
