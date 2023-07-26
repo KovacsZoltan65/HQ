@@ -8,13 +8,28 @@
             </h2>
         </template>
 
+        <div class="py-12" style="padding-bottom: 0px;">
+            <div class="mx-auto sm:px-6 lg:px-8">
+                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-4 py-4">
+                    <div class="flex justify-between items=center p-5">
+                        <div class="flex space-x-2 items-center">
+                            Nyílvántartott könyvek oldala!<br/> 
+                            Itt listázhat, létrehozhat, frissíthet vagy törölhet könyvet!
+                        </div>
+
+                        <div class="flex space-x-2 items-center">
+                            <button @click="openEditModal()" 
+                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-3"
+                            >Add New Book</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="py-12">
             <div class="mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-4 py-4">
-
-                    <button @click="openEditModal()" 
-                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-3"
-                    >Create New Book</button>
 
                     <!-- selected ids -->
                     <div class="text-uppercase text-bold">id selected: {{state.selected}}</div>
