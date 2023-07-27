@@ -4,16 +4,17 @@
         <!-- header -->
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Books List
+                Könyvek
             </h2>
         </template>
 
+        <!-- Új elem felvitelle -->
         <div class="py-12" style="padding-bottom: 0px;">
             <div class="mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-4 py-4">
                     <div class="flex justify-between items=center p-5">
                         <div class="flex space-x-2 items-center">
-                            Nyílvántartott könyvek oldala!<br/> 
+                            Nyílvántartott könyvek oldala!<br/>
                             Itt listázhat, létrehozhat, frissíthet vagy törölhet könyvet!
                         </div>
 
@@ -27,6 +28,7 @@
             </div>
         </div>
 
+        <!-- Könyvek listája -->
         <div class="py-12">
             <div class="mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-4 py-4">
@@ -103,7 +105,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="book in state.Books.data">
+                            <tr v-for="book in state.Books">
                                 <td class="px-4 py-2 border">
                                     <div>
                                         <input :id="book.id" type="checkbox" :value="book.id" :key="book.id" v-model="state.selected" 
@@ -142,7 +144,7 @@
     </app-layout>
 
     <!-- EDIT MODAL -->
-    <dialog-modal :show="state.showEditModal">
+    <dialog-modal :show="state.showEditModal" id="edit_modal">
         <template #title>
             <!--<span v-if="state.editingBook && state.editingBook.id">Edit Book</span>
             <span v-else>Create Book</span>-->
@@ -195,7 +197,7 @@
     </dialog-modal>
 
     <!-- CONFIRM DELETE MODAL -->
-    <dialog-modal :show="state.showDeleteModal">
+    <dialog-modal :show="state.showDeleteModal" id="delete_modal">
         <template #title>
             Delete Book
         </template>
@@ -210,26 +212,19 @@
     </dialog-modal>
 
     <!-- SETTINGS MODAL -->
-    <dialog-modal :show="state.showSettingsModal">
+    <dialog-modal :show="state.showSettingsModal" id="settings_modal">
         <template #title>Settings</template>
         <template #content>
-            <fieldset>
-                <legend class="sr-only">Checkbox Variant</legend>
-                <div class="flex items-center mb-4" 
-                     v-for="(config, column) in state.columns" 
-                     :key="column">
-
-                    <input v-model="config.is_visible" 
-                           :id="column" type="checkbox" value=""
-                           class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label :for="column" 
-                            class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                        >{{ config.label }}</label>
-                </div>
-            </fieldset>
+            <div v-for="(config, column) in state.columns" 
+                :key="column" class="d-flex align-items-center">
+                <input v-model="config.is_visible" 
+                    :id="column" class="me-3" type="checkbox" />
+                <label :for="column">{{ config.label }}</label>
+            </div>
         </template>
         <template #footer>
-            <secondary-button @click="closeSettingsModal()">Cancel</secondary-button>
+            <secondary-button @click="closeSettingsModal()"
+            >Cancel</secondary-button>
         </template>
     </dialog-modal>
 
@@ -251,7 +246,7 @@
 
     import SorterIcon from '../../Components/icons/SorterIcon.vue';
 
-    const local_storage_column_key = 'books_columns';
+    const local_storage_column_key = 'ln_books_grid_columns';
 
     const props = defineProps({});
 
@@ -307,7 +302,7 @@
                 is_visible: true,
             },
             action: {
-                label: 'Action',
+                label: 'Image',
                 is_visible: true,
             },
         },
@@ -328,16 +323,21 @@
 
     // Figyeli az oszlopok változását
     watch(state.columns, (new_value, old_value) => {
+        //console.log(new_value);
         localStorage.setItem(local_storage_column_key, JSON.stringify(new_value));
     });
 
-    onMounted(() => {
+    onMounted(async () => {
         initFlowbite();
+
         getBooks();
 
         let columns = localStorage.getItem(local_storage_column_key);
+        
+        //console.log('columns', columns);
+
         if (columns) {
-            state.columns = JSON.parse(columns);
+            columns = JSON.parse(columns);
             for(const column_name in columns){
                 state.columns[column_name] = columns[column_name];
             }
@@ -347,7 +347,7 @@
     function select(){
         state.selected = [];
         if( !state.selectAll ){
-            state.Books.data.forEach(book => {
+            state.Books.forEach(book => {
                 //console.log(book);
                 state.selected.push(book.id);
             });
@@ -365,21 +365,12 @@
         }))
         .then(response => {
             //console.log(response.data.data);
-            state.Books = response.data;
-
+            state.Books = response.data.data;
             state.pagination.total_number_of_pages = response.data.last_page;
             state.pagination.current_page = response.data.current_page;
 
             //console.log(state.pagination);
         });
-    }
-    
-    function openForm(item) {
-        //console.log('OPEN FORM');
-
-        state.isFormOpen = true;
-        state.isFormEdit = !!item;
-        state.formObject = item ? item : defaultFormObject;
     }
 
     // Új könyv előkészítése
@@ -403,11 +394,12 @@
 
     // Szerkesztés
     function editBook(book){
+        
         state.editingBook = JSON.parse(JSON.stringify(book));
         state.Book = state.editingBook;
         state.isEdit = true;
 
-        state.showEditModal = true;
+        openEditModal();
     }
 
     function saveBook(){
@@ -420,18 +412,17 @@
                 image: state.editingBook.image,
             })
             .then((response) => {
-                openEditModal();
-
-                const b = response.data.book;
-
+                //
                 for(let i = 0; i < state.Books.length; i++){
-                    if(state.Books[i].id === b.id){
-                        state.Books[i] = b;
+                    if(state.Books[i].id === response.data.id){
+                        state.Books[i] = response.data;
                     }
                 }
+
+                closeEditModal();
             })
             .catch((error) => {
-                console.log('saveBook', error);
+                console.log('updateBook', error);
             });
         }else{
             // Rekord mentése
@@ -441,13 +432,13 @@
                 image: state.Book.image,
             })
             .then((response) => {
-                state.Book = newBook();
+                //state.Book = newBook();
                 state.Books.push(response.data.book);
 
                 closeEditModal();
             })
             .catch((error) => {
-                console.log('saveBook', error);
+                console.log('storeBook', error);
             });
         }
 
