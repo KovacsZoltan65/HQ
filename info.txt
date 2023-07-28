@@ -38,3 +38,10 @@ admin@laraveltuts.com
 password
 test@laraveltuts.com
 password
+
+// ---------------------------------------
+// Validation
+// ---------------------------------------
+https://www.youtube.com/watch?v=25JbDjHWzsE
+https://laraveldaily.com/post/laravel-8-vue-3-crud-composition-api
+https://github.com/LaravelDaily/Laravel-Vue-3-Composition-API-CRUD

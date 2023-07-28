@@ -154,6 +154,13 @@
         <template #content>
             <div class="grid gap-6 mb-6 md:grid-cols-2">
 
+                <div v-if="errors">
+                    <div v-for="(v, k) in errors" :key="k" class="bg-red-500 text-white rounded font-bold mb-4 shadow-lg py-2 px-4 pr-0">
+                        <p v-for="error in v" :key="error" class="text-sm">
+                            {{ error }}
+                        </p>
+                    </div>
+                </div>
                 <!-- TITLE -->
                 <div>
                     <label for="title" 
@@ -162,6 +169,7 @@
                     <input type="text" id="title" 
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
                             placeholder="title" v-model="state.Book.title" required>
+                            <span></span>
                 </div>
 
                 <!-- AUTHOR -->
@@ -189,7 +197,7 @@
 
         <template #footer>
             <secondary-button @click="closeEditModal()">Cancel</secondary-button>
-            <primary-button type="button" class="ml-3" @click="saveBook()">
+            <primary-button type="button" class="ml-3" @click="storeBook()">
                 {{ state.isEdit ? 'Edit Book' : 'Create Book' }}
             </primary-button>
         </template>
@@ -231,7 +239,7 @@
 </template>
 
 <script setup>
-    import {reactive, onMounted, watch, computed} from 'vue';
+    import {reactive, onMounted, watch, computed, ref} from 'vue';
     import axios from 'axios';
     import { initFlowbite } from 'flowbite';
 
@@ -247,6 +255,8 @@
     import SorterIcon from '../../Components/icons/SorterIcon.vue';
 
     const local_storage_column_key = 'ln_books_grid_columns';
+
+    const errors = ref('');
 
     const props = defineProps({});
 
@@ -400,6 +410,22 @@
         state.isEdit = true;
 
         openEditModal();
+    }
+
+
+    function storeBook(){
+        //console.log('storeBook');
+        errors.value = '';
+        axios.post(route('books_store'), state.Book)
+        .then(res => {
+            console.log('res', res);
+        })
+            .catch(e => {
+                if( e.response.status == 422 ){
+                    console.log(e.response.data.errors);
+                    errors.value = e.response.data.errors;
+                }
+            });
     }
 
     function saveBook(){
