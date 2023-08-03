@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Role;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
@@ -17,6 +17,7 @@ class RoleController extends Controller
         $this->middleware('can:role edit', ['only' => ['edit', 'update']]);
         $this->middleware('can:role delete', ['only' => ['destroy']]);
     }
+
     /**
      * Display a listing of the resource.
      */
@@ -32,7 +33,7 @@ class RoleController extends Controller
                 'create' => Auth::user()->can('role create'),
                 'edit' => Auth::user()->can('role edit'),
                 'delete' => Auth::user()->can('role delete'),
-            ]
+            ],
         ]);
     }
 

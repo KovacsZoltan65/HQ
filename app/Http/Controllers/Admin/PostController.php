@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Post;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
@@ -17,7 +17,7 @@ class PostController extends Controller
         $this->middleware('can:post edit', ['only' => ['edit', 'update']]);
         $this->middleware('can:post delete', ['only' => ['destroy']]);
     }
-    
+
     /**
      * Display a listing of the resource.
      */
@@ -33,7 +33,7 @@ class PostController extends Controller
                 'create' => Auth::user()->can('post create'),
                 'edit' => Auth::user()->can('post edit'),
                 'delete' => Auth::user()->can('post delete'),
-            ]
+            ],
         ]);
     }
 

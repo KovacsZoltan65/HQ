@@ -27,7 +27,8 @@ class StoreBookRequest extends FormRequest
         ];
     }
 
-    public function messages(): array{
+    public function messages(): array
+    {
         return [
             'title.required' => 'A cím megadása kötelező',
             'author.required' => 'A szerző megadása kötelező',

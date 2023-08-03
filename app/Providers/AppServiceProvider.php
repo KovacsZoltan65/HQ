@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\ServiceProvider;
 use Inertia\Inertia;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,20 +25,20 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
         Inertia::share([
-            'errors' => function(){
-                return Session::get('errors') 
-                    ? Session::get('errors')->getBag('default')->getMessages() 
-                    : (object)[];
-            }
+            'errors' => function () {
+                return Session::get('errors')
+                    ? Session::get('errors')->getBag('default')->getMessages()
+                    : (object) [];
+            },
         ]);
 
-        Inertia::share('flash', function(){
+        Inertia::share('flash', function () {
             return [
                 'message' => Session::get('message'),
             ];
         });
 
-        Inertia::share('csrf_token', function(){
+        Inertia::share('csrf_token', function () {
             return csrf_token();
         });
     }

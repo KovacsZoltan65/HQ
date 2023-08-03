@@ -33,7 +33,7 @@ class UserController extends Controller
                 'create' => Auth::user()->can('user create'),
                 'edit' => Auth::user()->can('user edit'),
                 'delete' => Auth::user()->can('user delete'),
-            ]
+            ],
         ]);
     }
 

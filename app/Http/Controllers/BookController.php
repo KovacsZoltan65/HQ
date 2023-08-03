@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Book;
 use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
+use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
@@ -25,12 +25,12 @@ class BookController extends Controller
         return Inertia::render('Books/booksIndex');
     }
 
-    public function getBooks(Request $request){
-
+    public function getBooks(Request $request)
+    {
         $config = $request->get('config', []);
 
-        $per_page = count($config) != 0 && isset($config['per_page'])  
-            ? $config['per_page'] 
+        $per_page = count($config) != 0 && isset($config['per_page'])
+            ? $config['per_page']
             : config('app.per_page');
 
         $books = Book::query()
@@ -44,7 +44,9 @@ class BookController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(){}
+    public function create()
+    {
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -64,12 +66,16 @@ class BookController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Book $book){}
+    public function show(Book $book)
+    {
+    }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Book $book){}
+    public function edit(Book $book)
+    {
+    }
 
     /**
      * Update the specified resource in storage.
@@ -95,6 +101,7 @@ class BookController extends Controller
     public function destroy(Book $book)
     {
         $book->delete();
+
         return redirect()->back()
             ->with('message', 'Book deleted');
     }
