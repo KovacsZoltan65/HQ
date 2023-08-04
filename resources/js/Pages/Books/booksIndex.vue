@@ -19,10 +19,10 @@
                         </div>
 
                         <div class="flex space-x-2 items-center">
-                            <button @click="openEditModal()" 
-                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-3"
-                            >Add New Book</button>
+                            <default-button size="text-base" @click="settings_init">Settings</default-button>
+                            <green-button @click="newBook_init">Add New Book</green-button>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -34,13 +34,8 @@
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-4 py-4">
 
                     <!-- selected ids -->
-                    <div class="text-uppercase text-bold">id selected: {{state.selected}}</div>
-
-                    <!-- settings -->
-                    <div>
-                        <secondary-button @click="settings_init">
-                            Settings
-                        </secondary-button>
+                    <div class="text-uppercase text-bold mb-4">
+                        id selected: {{state.selected}}
                     </div>
 
                     <!-- table -->
@@ -67,7 +62,7 @@
                                     v-show="state.columns.id.is_visible">
                                     <div class="flex items-center">
                                         {{ state.columns.id.label }}
-                                        <a href="#">
+                                        <a href="#" v-show="state.columns.id.is_sortable">
                                             <SorterIcon/>
                                         </a>
                                     </div>
@@ -75,7 +70,7 @@
                                 <th scope="col" class="px-6 py-3" v-show="state.columns.title.is_visible">
                                     <div class="flex items-center">
                                         {{ state.columns.title.label }}
-                                        <a href="#">
+                                        <a href="#" v-show="state.columns.title.is_sortable">
                                             <SorterIcon/>
                                         </a>
                                     </div>
@@ -83,7 +78,7 @@
                                 <th scope="col" class="px-6 py-3" v-show="state.columns.author.is_visible">
                                     <div class="flex items-center">
                                         {{ state.columns.author.label }}
-                                        <a href="#">
+                                        <a href="#" v-show="state.columns.author.is_sortable">
                                             <SorterIcon/>
                                         </a>
                                     </div>
@@ -91,7 +86,7 @@
                                 <th scope="col" class="px-6 py-3" v-show="state.columns.image.is_visible">
                                     <div class="flex items-center">
                                         {{ state.columns.image.label }}
-                                        <a href="#">
+                                        <a href="#" v-show="state.columns.image.is_sortable">
                                             <SorterIcon/>
                                         </a>
                                     </div>
@@ -99,7 +94,7 @@
                                 <th scope="col" class="px-6 py-3" width="250px" v-show="state.columns.action.is_visible">
                                     <div class="flex items-center">
                                         {{ state.columns.action.label }}
-                                        <a href="#">
+                                        <a href="#" v-show="state.columns.action.is_sortable">
                                             <SorterIcon/>
                                         </a>
                                     </div>
@@ -108,7 +103,7 @@
                         </thead>
                         <tbody>
                             <tr v-for="book in state.Books">
-                                <td class="px-4 py-2 border">
+                                <td class="px-6 py-3 border">
                                     <div>
                                         <input :id="book.id" type="checkbox" :value="book.id" :key="book.id" v-model="state.selected" 
                                         class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 
@@ -123,16 +118,19 @@
                                 <td class="px-4 py-2 border" v-show="state.columns.image.is_visible">{{ book.image }}</td>
                                 <td class="px-4 py-2 w-45 border" width="250px" v-show="state.columns.action.is_visible">
                                     <div type="justify-start lg:justify-end" no-wrap>
-                                        <button class="ml-4 bg-green-500 px-2 py-1 rounded text-white cursor-pointer"
-                                                @click="editBook(book)">Szerkesztés</button>
-                                        <button class="ml-4 bg-red-500 px-2 py-1 rounded text-white cursor-pointer" 
-                                                @click="deleteBook_init(book)">Törlés</button>
+                                        <green-button class="mt-1" size="text-xs" @click="editBook(book)">Szerkesztés</green-button>
+                                        <red-button class="mt-1" size="text-xs" @click="deleteBook_init(book)">Törlés</red-button>
+                                        <!--<button class="ml-4 bg-green-500 px-2 py-1 rounded text-white cursor-pointer"
+                                                @click="editBook(book)">Szerkesztés</button>-->
+                                        <!--<button class="ml-4 bg-red-500 px-2 py-1 rounded text-white cursor-pointer" 
+                                                @click="deleteBook_init(book)">Törlés</button>-->
                                     </div>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
 
+                    <!-- pagination -->
                     <div class="mb-3 bg-white shadow bg-body rounded w-75 ln-max-width mx-auto p-3 d-flex align-items-center justify-content-center">
                         <v-pagination v-model="state.pagination.current_page" 
                             :pages="state.pagination.total_number_of_pages"  
@@ -159,7 +157,8 @@
             <div class="grid gap-6 mb-6 md:grid-cols-2">
 
                 <div v-if="errors">
-                    <div v-for="(v, k) in errors" :key="k" class="bg-red-500 text-white rounded font-bold mb-4 shadow-lg py-2 px-4 pr-0">
+                    <div v-for="(v, k) in errors" :key="k" 
+                        class="bg-red-500 text-white rounded font-bold mb-4 shadow-lg py-2 px-4 pr-0">
                         <p v-for="error in v" :key="error" class="text-sm">
                             {{ error }}
                         </p>
@@ -172,7 +171,10 @@
                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >Title</label>
                     <input type="text" id="title" 
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                                focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
+                                dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
+                                dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
                             placeholder="title" v-model="state.Book.title" required>
                             <span></span>
                 </div>
@@ -183,7 +185,10 @@
                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >Author</label>
                     <input type="text" id="author" 
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                                focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
+                                dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
+                                dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
                             placeholder="Author" v-model="state.Book.author" required>
                 </div>
 
@@ -201,10 +206,8 @@
         </template>
 
         <template #footer>
-            <secondary-button @click="closeEditModal()">Cancel</secondary-button>
-            <primary-button type="button" class="ml-3" @click="storeBook()">
-                {{ state.isEdit ? 'Edit Book' : 'Create Book' }}
-            </primary-button>
+            <light-button size="text-xs" type="button" @click="closeEditModal()">Cancel</light-button>
+            <green-button size="text-xs" type="button" @click="storeBook()">{{ state.isEdit ? 'Edit Book' : 'Create Book' }}</green-button>
         </template>
 
     </dialog-modal>
@@ -218,9 +221,12 @@
             Are you sure you want to delete this Book?
         </template>
         <template #footer>
+        <!--
             <secondary-button @click="closeDeleteModal()">Cancel</secondary-button>
-            <primary-button type="button" class="ml-3" 
-                @click="deleteBook()">Delete</primary-button>
+            <primary-button type="button" class="ml-3" @click="deleteBook()">Delete</primary-button>
+        -->
+            <light-button size="text-xs" type="button" @click="closeDeleteModal()">Cancel</light-button>
+            <red-button size="text-xs" type="button" @click="deleteBook()">Delete</red-button>
         </template>
     </dialog-modal>
 
@@ -236,8 +242,7 @@
             </div>
         </template>
         <template #footer>
-            <secondary-button @click="closeSettingsModal()"
-            >Cancel</secondary-button>
+            <light-button size="text-xs" type="button" @click="closeSettingsModal()">Cancel</light-button>
         </template>
     </dialog-modal>
 
@@ -254,8 +259,13 @@
 
     import VPagination from '@hennge/vue3-pagination';
     import '@hennge/vue3-pagination/dist/vue3-pagination.css';
+
     import SecondaryButton from '@/Components/SecondaryButton.vue';
     import PrimaryButton from '@/Components/PrimaryButton.vue';
+    import DefaultButton from '../../Components/buttons/DefaultButton.vue';
+    import GreenButton from '../../Components/buttons/GreenButton.vue';
+    import RedButton from '../../Components/buttons/RedButton.vue';
+    import LightButton from '../../Components/buttons/LightButton.vue';
 
     import SorterIcon from '../../Components/icons/SorterIcon.vue';
 
@@ -303,22 +313,32 @@
             id: {
                 label: '#',
                 is_visible: true,
+                is_sortable: true,
+                is_filterable: true,
             },
             title: {
                 label: 'Title',
                 is_visible: true,
+                is_sortable: true,
+                is_filterable: true,
             },
             author: {
                 label: 'Author',
                 is_visible: true,
+                is_sortable: true,
+                is_filterable: true,
             },
             image: {
                 label: 'Image',
                 is_visible: true,
+                is_sortable: true,
+                is_filterable: true,
             },
             action: {
                 label: 'Action',
                 is_visible: true,
+                is_sortable: false,
+                is_filterable: false,
             },
         },
 
