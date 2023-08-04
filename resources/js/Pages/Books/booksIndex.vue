@@ -363,7 +363,7 @@
     });
 
     onMounted(async () => {
-        initFlowbite();
+        //initFlowbite();
 
         getBooks();
 
