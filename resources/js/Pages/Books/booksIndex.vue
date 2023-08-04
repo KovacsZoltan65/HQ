@@ -161,6 +161,7 @@
                         </p>
                     </div>
                 </div>
+
                 <!-- TITLE -->
                 <div>
                     <label for="title" 
@@ -354,6 +355,19 @@
         }
     });
     
+    function sordedBook (){
+        return state.Books.sort((a, b) => {
+            return a.title.localeCompare(b.title);
+        });
+    };
+
+    function filteredBooks (){
+        return state.Books.filter((book) => {
+            return book.title.toLowerCase().includes(state.filters.search.toLowerCase());
+        });
+    };
+
+    // Kiválasztás
     function select(){
         state.selected = [];
         if( !state.selectAll ){
@@ -364,7 +378,7 @@
         }
     }
 
-    // Táblázat adatok lekérése
+    // Táblázat adatainak lekérése
     function getBooks(page = state.pagination.current_page) {
         axios.post(route('getBooks', {
             filters: state.filters,
@@ -412,22 +426,49 @@
         openEditModal();
     }
 
-
+    // Új rekord mentése
     function storeBook(){
-        //console.log('storeBook');
         errors.value = '';
         axios.post(route('books_store'), state.Book)
         .then(res => {
             console.log('res', res);
+            state.Books.push(res.data.book);
+
+            closeEditModal();
         })
-            .catch(e => {
-                if( e.response.status == 422 ){
-                    console.log(e.response.data.errors);
-                    errors.value = e.response.data.errors;
-                }
-            });
+        .catch(e => {
+            if( e.response.status == 422 ){
+                console.log(e.response.data.errors);
+                errors.value = e.response.data.errors;
+            }
+        });
     }
 
+    // Szerkesztett adatok mentése
+    function updateBook(){
+        //
+        errors.value = '';
+        axios.put('books_update', {book: state.editingBook.id})
+        .then(res => {
+            //console.log('res', res);
+            // 
+            for(let i = 0; i < state.Books.length; i++){
+                if(state.Books[i].id == res.data.id){
+                    state.Books[i] = res.data;
+                }
+            }
+
+            closeEditModal();
+        })
+        .catch(e => {
+            if( e.response.status == 422 ){
+                console.log('e', e.response.data.errors);
+                errors.value = e.response.data.errors;
+            }
+        });
+    }
+
+    // Régi mentés rutin
     function saveBook(){
         
         if(state.editingBook && state.editingBook.id){
@@ -437,11 +478,11 @@
                 author: state.editingBook.author,
                 image: state.editingBook.image,
             })
-            .then((response) => {
+            .then((res) => {
                 //
                 for(let i = 0; i < state.Books.length; i++){
-                    if(state.Books[i].id === response.data.id){
-                        state.Books[i] = response.data;
+                    if(state.Books[i].id === res.data.id){
+                        state.Books[i] = res.data;
                     }
                 }
 
@@ -480,7 +521,7 @@
         openDeleteModal();
     }
 
-    // Törlés
+    // Rekord törlése
     function deleteBook(book){
 
         axios.delete(route('books_delete', {book: state.deletingBook.id}))
@@ -501,39 +542,38 @@
         state.Book = newBook();
     }
 
+    // Beállítások előkészítése
     function settings_init(){
         openSettingsModal();
     }
-    // --------------------
-    // SETTINGS MODAL
-    // --------------------
+    
+    // SETTINGS MODAL megnyitása
     function openSettingsModal() {
         state.showSettingsModal = true;
     }
 
+    // SETTINGS MODAL bezárása
     function closeSettingsModal() {
         state.showSettingsModal = false;
     }
 
-    // --------------------
-    // EDIT MODAL
-    // --------------------
+    // EDIT MODAL megnyitása
     function openEditModal() {
         state.showEditModal = true;
     }
 
+    // EDIT MODAL bezárása
     function closeEditModal() {
         cancelEdit();
         state.showEditModal = false;
     }
 
-    // --------------------
-    // DELETE MODAL
-    // --------------------
+    // DELETE MODAL megnyitása
     function openDeleteModal() {
         state.showDeleteModal = true;
     }
     
+    // DELETE MODAL bezárása
     function closeDeleteModal() {
         state.showDeleteModal = false;
     }
