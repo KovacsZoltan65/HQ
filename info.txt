@@ -18,6 +18,23 @@ php artisan migrate
 
 php artisan make:model Book --all
 
+// ---------------------------------------
+// Design
+// ---------------------------------------
+ICONS:
+    https://heroicons.com/
+
+TAILWIND:
+    https://tailwindcss.com/
+    https://tailwindui.com/
+
+Flowbite:
+    https://flowbite.com/
+    npm install flowbite
+
+design: Admin One
+    https://github.com/justboil/admin-one-vue-tailwind
+    https://justboil.github.io/admin-one-vue-tailwind/#/dashboard
 
 // ---------------------------------------
 // Roles and Permissions
