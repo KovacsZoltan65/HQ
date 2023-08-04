@@ -41,10 +41,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
         ]);
 });
 
-Route::group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin', 'middleware' => ['auth']], 
-function(){
-    Route::resource('user', \App\Http\Controllers\Admin\UserController::class);
-    Route::resource('role', \App\Http\Controllers\Admin\RoleController::class);
-    Route::resource('permission', \App\Http\Controllers\Admin\PermissionController::class);
-    Route::resource('post', \App\Http\Controllers\Admin\PostController::class);
-});
+Route::group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin', 'middleware' => ['auth']],
+    function () {
+        Route::resource('user', \App\Http\Controllers\Admin\UserController::class);
+        Route::resource('role', \App\Http\Controllers\Admin\RoleController::class);
+        Route::resource('permission', \App\Http\Controllers\Admin\PermissionController::class);
+        Route::resource('post', \App\Http\Controllers\Admin\PostController::class);
+    });

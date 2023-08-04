@@ -55,7 +55,9 @@
                                             type="checkbox"
                                             v-model="state.selectAll"
                                             @click="select"
-                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 
+                                                dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 
+                                                focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
                                         <label for="checkbox-all" 
                                             class="sr-only">checkbox</label>
                                     </div>
@@ -109,7 +111,9 @@
                                 <td class="px-4 py-2 border">
                                     <div>
                                         <input :id="book.id" type="checkbox" :value="book.id" :key="book.id" v-model="state.selected" 
-                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 
+                                            dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 
+                                            focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
                                         <label class="sr-only" :for="book.id">checkbox</label>
                                     </div>
                                 </td>
@@ -313,7 +317,7 @@
                 is_visible: true,
             },
             action: {
-                label: 'Image',
+                label: 'Action',
                 is_visible: true,
             },
         },

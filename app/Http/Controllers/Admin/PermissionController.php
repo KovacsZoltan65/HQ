@@ -17,7 +17,7 @@ class PermissionController extends Controller
         $this->middleware('can:permission edit', ['only' => ['edit', 'update']]);
         $this->middleware('can:permission delete', ['only' => ['destroy']]);
     }
-    
+
     /**
      * Display a listing of the resource.
      */
@@ -33,7 +33,7 @@ class PermissionController extends Controller
                 'create' => Auth::user()->can('permission create'),
                 'edit' => Auth::user()->can('permission edit'),
                 'delete' => Auth::user()->can('permission delete'),
-            ]
+            ],
         ]);
     }
 
