@@ -63,19 +63,25 @@
                                             d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                                     </svg>
                                 </div>
+
+                                <!-- search field -->
                                 <input type="search" id="default-search" 
                                     class="block w-full p-4 pl-10 
                                         text-sm text-gray-900 border 
                                         border-gray-300 rounded-lg bg-gray-50 
                                         focus:ring-blue-500 focus:border-blue-500 
                                         dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                    placeholder="Search Mockups, Logos..." required>
+                                    placeholder="Search Mockups, Logos..." 
+                                    v-model="state.filters.search" 
+                                    required>
+                                <!-- search button -->
                                 <button type="submit" 
                                     class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 
                                         hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 
                                         font-medium rounded-lg text-sm px-4 py-2 
                                         dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                                >Keresés</button>                                  
+                                    @click="getBooks()"
+                                >Keresés</button>
                             </div>
                         </div>
 
@@ -98,7 +104,7 @@
                                                 class="sr-only">checkbox</label>
                                         </div>
                                     </th>
-
+                                    <!-- ID -->
                                     <th scope="col" class="px-6 py-3" 
                                         v-show="state.columns.id.is_visible">
                                         <div class="flex items-center">
@@ -108,6 +114,7 @@
                                             </a>
                                         </div>
                                     </th>
+                                    <!-- TITLE -->
                                     <th scope="col" class="px-6 py-3" v-show="state.columns.title.is_visible">
                                         <div class="flex items-center">
                                             {{ state.columns.title.label }}
@@ -116,6 +123,7 @@
                                             </a>
                                         </div>
                                     </th>
+                                    <!-- AUTHOR -->
                                     <th scope="col" class="px-6 py-3" v-show="state.columns.author.is_visible">
                                         <div class="flex items-center">
                                             {{ state.columns.author.label }}
@@ -124,6 +132,7 @@
                                             </a>
                                         </div>
                                     </th>
+                                    <!-- IMAGE -->
                                     <th scope="col" class="px-6 py-3" v-show="state.columns.image.is_visible">
                                         <div class="flex items-center">
                                             {{ state.columns.image.label }}
@@ -132,6 +141,7 @@
                                             </a>
                                         </div>
                                     </th>
+                                    <!-- ACTION -->
                                     <th scope="col" class="px-6 py-3" width="250px" v-show="state.columns.action.is_visible">
                                         <div class="flex items-center">
                                             {{ state.columns.action.label }}
@@ -143,6 +153,7 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                
                                 <tr v-for="book in state.Books">
                                     <td class="px-6 py-3 border">
                                         <div>
@@ -157,13 +168,15 @@
                                     <td class="px-4 py-2 border" v-show="state.columns.title.is_visible">{{ book.title }}</td>
                                     <td class="px-4 py-2 border" v-show="state.columns.author.is_visible">{{ book.author }}</td>
                                     <td class="px-4 py-2 border" v-show="state.columns.image.is_visible">{{ book.image }}</td>
-                                    <td class="px-4 py-2 w-45 border" width="250px" v-show="state.columns.action.is_visible">
+                                    <td class="px-4 py-2 w-45 border" width="250px" 
+                                        v-show="state.columns.action.is_visible">
                                         <div type="justify-start lg:justify-end" no-wrap>
                                             <green-button class="mt-1" size="text-xs" @click="editBook(book)">Szerkesztés</green-button>
                                             <red-button class="mt-1" size="text-xs" @click="deleteBook_init(book)">Törlés</red-button>
                                         </div>
                                     </td>
                                 </tr>
+                                
                             </tbody>
                         </table>
                     </div>
@@ -434,7 +447,6 @@
         state.selected = [];
         if( !state.selectAll ){
             state.Books.forEach(book => {
-                //console.log(book);
                 state.selected.push(book.id);
             });
         }
@@ -450,12 +462,10 @@
             page
         }))
         .then(response => {
-            //console.log(response.data.data);
-            state.Books = response.data.data;
-            state.pagination.total_number_of_pages = response.data.last_page;
-            state.pagination.current_page = response.data.current_page;
-
-            //console.log(state.pagination);
+            state.Books = response.data.books.data;
+            
+            state.pagination.total_number_of_pages = response.data.books.last_page;
+            state.pagination.current_page = response.data.books.current_page;
         });
     }
 

@@ -28,17 +28,55 @@ class BookController extends Controller
     public function getBooks(Request $request)
     {
         $config = $request->get('config', []);
+        $filters = $request->get('filters', []);
 
+        $query = Book::query();
+        
+        if( count($filters) > 0 ){
+            if( $search = ($filters['search'] ?? null) ){
+                $search_cleaned = preg_replace("/[^a-zA-Z0-9\(\)\-\+\_@\.]+/", " ", $search);
+                
+                $terms = array_reduce(
+                    explode(' ', $search_cleaned),
+                    function($carry, $term){
+                        $term = trim($term);
+                        if(!empty($term)){
+                            $carry[] = strtolower($term);
+                        }
+                        return $carry;
+                    }, 
+                    []
+                );
+                    
+                if( count($terms) > 0 ){
+                    $query->where(function($q) use($terms) {
+                        $whereType = 'where';
+                        foreach( $terms as $term ){
+                            $q->{$whereType}('title', 'LIKE', "%{$term}%");
+                            $whereType = 'orWhere';
+                            $q->{$whereType}('author', 'LIKE', "%{$term}%");
+                        }
+                    });
+                }
+            }
+        }
+        
         $per_page = count($config) != 0 && isset($config['per_page'])
             ? $config['per_page']
             : config('app.per_page');
 
-        $books = Book::query()
-            ->paginate($per_page);
+        $books = $query->paginate($per_page);
+        
+        $data = [
+            'books' => $books,
+            'config' => $config,
+            'filters' => $filters,
+        ];
 
         //sleep(5);
 
-        return response()->json($books, Response::HTTP_OK);
+        //return response()->json($books, Response::HTTP_OK);
+        return response()->json($data, Response::HTTP_OK);
     }
 
     /**
