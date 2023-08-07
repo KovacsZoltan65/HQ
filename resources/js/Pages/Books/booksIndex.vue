@@ -9,18 +9,21 @@
         </template>
 
         <!-- Új elem felvitelle -->
-        <div class="py-12" style="padding-bottom: 0px;">
+        <div class="py-6" style="padding-bottom: 0px;">
             <div class="mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-4 py-4">
-                    <div class="flex justify-between items=center p-5">
+                    <div class="flex justify-between items=center">
+
+                        <!-- FELIRAT -->
                         <div class="flex space-x-2 items-center">
                             Nyílvántartott könyvek oldala!<br/>
                             Itt listázhat, létrehozhat, frissíthet vagy törölhet könyvet!
                         </div>
 
+                        <!-- GOMBOK -->
                         <div class="flex space-x-2 items-center">
-                            <default-button size="text-base" @click="settings_init">Settings</default-button>
-                            <green-button @click="newBook_init">Add New Book</green-button>
+                            <default-button size="text-base" @click="settings_init">Beállítások</default-button>
+                            <green-button @click="newBook_init">Új könyv</green-button>
                         </div>
 
                     </div>
@@ -29,106 +32,141 @@
         </div>
 
         <!-- Könyvek listája -->
-        <div class="py-12">
+        <div class="py-6">
             <div class="mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-4 py-4">
 
                     <!-- selected ids -->
-                    <div class="text-uppercase text-bold mb-4">
-                        id selected: {{state.selected}}
+                    <div class="text-uppercase text-bold mb-4 mt-4">
+                        <div class="relative">
+                            id selected: {{state.selected}}
+                        </div>
                     </div>
 
-                    <!-- table -->
-                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                            <tr class="bg-gray-100">
-                                
-                                <!-- header checkbox -->
-                                <th scope="col" class="px-6 py-3" >
-                                    <div>
-                                        <input id="checkbox-all" 
-                                            type="checkbox"
-                                            v-model="state.selectAll"
-                                            @click="select"
+                    <!-- TABLE AND SEARCH -->
+                    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+
+                        <!-- SEARCH -->
+                        <div class="pb-4 bg-white dark:bg-gray-900">
+                            
+                            <div class="relative mt-1 ml-10 mr-10">
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" 
+                                        aria-hidden="true" 
+                                        xmlns="http://www.w3.org/2000/svg" 
+                                        fill="none" 
+                                        viewBox="0 0 20 20">
+                                        <path stroke="currentColor" 
+                                            stroke-linecap="round" 
+                                            stroke-linejoin="round" 
+                                            stroke-width="2" 
+                                            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                                    </svg>
+                                </div>
+                                <input type="search" id="default-search" 
+                                    class="block w-full p-4 pl-10 
+                                        text-sm text-gray-900 border 
+                                        border-gray-300 rounded-lg bg-gray-50 
+                                        focus:ring-blue-500 focus:border-blue-500 
+                                        dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                                    placeholder="Search Mockups, Logos..." required>
+                                <button type="submit" 
+                                    class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 
+                                        hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 
+                                        font-medium rounded-lg text-sm px-4 py-2 
+                                        dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                >Keresés</button>                                  
+                            </div>
+                        </div>
+
+                        <!-- TABLE -->
+                        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <tr class="bg-gray-100">
+                                    
+                                    <!-- header checkbox -->
+                                    <th scope="col" class="px-6 py-3" >
+                                        <div>
+                                            <input id="checkbox-all" 
+                                                type="checkbox"
+                                                v-model="state.selectAll"
+                                                @click="select"
+                                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 
+                                                    dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 
+                                                    focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+                                            <label for="checkbox-all" 
+                                                class="sr-only">checkbox</label>
+                                        </div>
+                                    </th>
+
+                                    <th scope="col" class="px-6 py-3" 
+                                        v-show="state.columns.id.is_visible">
+                                        <div class="flex items-center">
+                                            {{ state.columns.id.label }}
+                                            <a href="#" v-show="state.columns.id.is_sortable">
+                                                <SorterIcon/>
+                                            </a>
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="px-6 py-3" v-show="state.columns.title.is_visible">
+                                        <div class="flex items-center">
+                                            {{ state.columns.title.label }}
+                                            <a href="#" v-show="state.columns.title.is_sortable">
+                                                <SorterIcon/>
+                                            </a>
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="px-6 py-3" v-show="state.columns.author.is_visible">
+                                        <div class="flex items-center">
+                                            {{ state.columns.author.label }}
+                                            <a href="#" v-show="state.columns.author.is_sortable">
+                                                <SorterIcon/>
+                                            </a>
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="px-6 py-3" v-show="state.columns.image.is_visible">
+                                        <div class="flex items-center">
+                                            {{ state.columns.image.label }}
+                                            <a href="#" v-show="state.columns.image.is_sortable">
+                                                <SorterIcon/>
+                                            </a>
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="px-6 py-3" width="250px" v-show="state.columns.action.is_visible">
+                                        <div class="flex items-center">
+                                            {{ state.columns.action.label }}
+                                            <a href="#" v-show="state.columns.action.is_sortable">
+                                                <SorterIcon/>
+                                            </a>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="book in state.Books">
+                                    <td class="px-6 py-3 border">
+                                        <div>
+                                            <input :id="book.id" type="checkbox" :value="book.id" :key="book.id" v-model="state.selected" 
                                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 
                                                 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 
                                                 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                                        <label for="checkbox-all" 
-                                            class="sr-only">checkbox</label>
-                                    </div>
-                                </th>
-
-                                <th scope="col" class="px-6 py-3" 
-                                    v-show="state.columns.id.is_visible">
-                                    <div class="flex items-center">
-                                        {{ state.columns.id.label }}
-                                        <a href="#" v-show="state.columns.id.is_sortable">
-                                            <SorterIcon/>
-                                        </a>
-                                    </div>
-                                </th>
-                                <th scope="col" class="px-6 py-3" v-show="state.columns.title.is_visible">
-                                    <div class="flex items-center">
-                                        {{ state.columns.title.label }}
-                                        <a href="#" v-show="state.columns.title.is_sortable">
-                                            <SorterIcon/>
-                                        </a>
-                                    </div>
-                                </th>
-                                <th scope="col" class="px-6 py-3" v-show="state.columns.author.is_visible">
-                                    <div class="flex items-center">
-                                        {{ state.columns.author.label }}
-                                        <a href="#" v-show="state.columns.author.is_sortable">
-                                            <SorterIcon/>
-                                        </a>
-                                    </div>
-                                </th>
-                                <th scope="col" class="px-6 py-3" v-show="state.columns.image.is_visible">
-                                    <div class="flex items-center">
-                                        {{ state.columns.image.label }}
-                                        <a href="#" v-show="state.columns.image.is_sortable">
-                                            <SorterIcon/>
-                                        </a>
-                                    </div>
-                                </th>
-                                <th scope="col" class="px-6 py-3" width="250px" v-show="state.columns.action.is_visible">
-                                    <div class="flex items-center">
-                                        {{ state.columns.action.label }}
-                                        <a href="#" v-show="state.columns.action.is_sortable">
-                                            <SorterIcon/>
-                                        </a>
-                                    </div>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="book in state.Books">
-                                <td class="px-6 py-3 border">
-                                    <div>
-                                        <input :id="book.id" type="checkbox" :value="book.id" :key="book.id" v-model="state.selected" 
-                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 
-                                            dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 
-                                            focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                                        <label class="sr-only" :for="book.id">checkbox</label>
-                                    </div>
-                                </td>
-                                <td class="px-4 py-2 border" v-show="state.columns.id.is_visible">{{ book.id }}</td>
-                                <td class="px-4 py-2 border" v-show="state.columns.title.is_visible">{{ book.title }}</td>
-                                <td class="px-4 py-2 border" v-show="state.columns.author.is_visible">{{ book.author }}</td>
-                                <td class="px-4 py-2 border" v-show="state.columns.image.is_visible">{{ book.image }}</td>
-                                <td class="px-4 py-2 w-45 border" width="250px" v-show="state.columns.action.is_visible">
-                                    <div type="justify-start lg:justify-end" no-wrap>
-                                        <green-button class="mt-1" size="text-xs" @click="editBook(book)">Szerkesztés</green-button>
-                                        <red-button class="mt-1" size="text-xs" @click="deleteBook_init(book)">Törlés</red-button>
-                                        <!--<button class="ml-4 bg-green-500 px-2 py-1 rounded text-white cursor-pointer"
-                                                @click="editBook(book)">Szerkesztés</button>-->
-                                        <!--<button class="ml-4 bg-red-500 px-2 py-1 rounded text-white cursor-pointer" 
-                                                @click="deleteBook_init(book)">Törlés</button>-->
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                            <label class="sr-only" :for="book.id">checkbox</label>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-2 border" v-show="state.columns.id.is_visible">{{ book.id }}</td>
+                                    <td class="px-4 py-2 border" v-show="state.columns.title.is_visible">{{ book.title }}</td>
+                                    <td class="px-4 py-2 border" v-show="state.columns.author.is_visible">{{ book.author }}</td>
+                                    <td class="px-4 py-2 border" v-show="state.columns.image.is_visible">{{ book.image }}</td>
+                                    <td class="px-4 py-2 w-45 border" width="250px" v-show="state.columns.action.is_visible">
+                                        <div type="justify-start lg:justify-end" no-wrap>
+                                            <green-button class="mt-1" size="text-xs" @click="editBook(book)">Szerkesztés</green-button>
+                                            <red-button class="mt-1" size="text-xs" @click="deleteBook_init(book)">Törlés</red-button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
                     <!-- pagination -->
                     <div class="mb-3 bg-white shadow bg-body rounded w-75 ln-max-width mx-auto p-3 d-flex align-items-center justify-content-center">
