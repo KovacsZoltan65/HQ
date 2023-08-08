@@ -42,6 +42,18 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
             'update' => 'books_update',
             'delete' => 'books_delete',
         ]);
+    
+    // ------------
+    // ROLES
+    // ------------
+    Route::post('/getRoles', [\App\Http\Controllers\Admin\RoleController::class, 'getRoles'])->name('getRoles');
+    Route::resource('roles', \App\Http\Controllers\Admin\RoleController::class)
+        ->names([
+            'index' => 'roles',
+            'store' => 'roles_store',
+            'update' => 'roles_update',
+            'delete' => 'roles_delete',
+        ]);
 });
 
 Route::group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin', 'middleware' => ['auth']],

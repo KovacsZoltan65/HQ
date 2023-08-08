@@ -1,0 +1,299 @@
+<script setup>
+    import {reactive, onMounted, watch, computed, ref} from 'vue';
+    import axios from 'axios';
+
+    import AppLayout from '@/Layouts/AppLayout.vue';
+    import DialogModal from '@/Components/DialogModal.vue';
+
+    import VPagination from '@hennge/vue3-pagination';
+    import '@hennge/vue3-pagination/dist/vue3-pagination.css';
+
+    const local_storage_column_key = 'ln_roles_grid_columns';
+
+    const errors = ref('');
+
+    const props = defineProps({
+        can: {
+            type: Object,
+            default: () => ({}),
+        }
+    });
+
+    const defaultFormObject = {
+        title: null,
+        author: null,
+        image: null,
+    };
+
+    const state = reactive({
+        Roles: [],
+        Role: newRole(),
+        editingRole: null,
+        deletingRole: null,
+        // Van nyitott ablak
+        isFormOpen: false,
+        // A folyamatban levő művelet szerkesztés
+        isEdit: false,
+
+        // "settings" modal megnyitása / bezárása
+        showSettingsModal: false,
+        // "edit" modal megnyitása / bezárása
+        showEditModal: false,
+        // "delete" modal megnyitása / bezárása
+        showDeleteModal: false,
+
+        // Kiválasztott rekordok azonosítója
+        selected: [],
+        // Összes elem ki van választva
+        selectAll: false,
+        // Táblázat oszlopai
+        columns: {
+            id: {
+                label: '#',
+                is_visible: true,
+                is_sortable: true,
+                is_filterable: true,
+            },
+            name: {
+                label: 'Name',
+                is_visible: true,
+                is_sortable: true,
+                is_filterable: true,
+            }
+        },
+        // Oldaltörés
+        pagination: {
+            current_page: 1,
+            total_number_of_pages: 0,
+            per_page: 10,
+            range: 5,
+        },
+        // Szűrés és keresés
+        filters: {
+            tags: [],
+            search: null
+        },
+    });
+
+    // Figyeli az oszlopok változását
+    watch(state.columns, (new_value, old_value) => {
+        //console.log(new_value);
+        localStorage.setItem(local_storage_column_key, JSON.stringify(new_value));
+    });
+
+    onMounted(async () => {
+        getRoles();
+    });
+
+    // Új könyv előkészítése
+    function newRole_init(){
+        state.Role = newRole();
+        state.editingRole = null;
+        state.isEdit = false;
+
+        //openEditModal();
+    }
+
+    // Új könyv adatai
+    function newRole(){
+        return {
+            id: null,
+            name: null,
+        };
+    }
+
+    // Szerepkörök lekérése
+    function getRoles(page = state.pagination.current_page) {
+        axios.post(route('getRoles', {
+            filters: state.filters,
+            config: {
+                per_page: state.pagination.per_page,
+            }, page
+        })).then(response => {
+            //console.log(response);
+            state.Roles = response.data.roles.data;
+            
+            state.pagination.total_number_of_pages = response.data.roles.last_page;
+            state.pagination.current_page = response.data.roles.current_page;
+        });
+    };
+
+    // Kiválasztás
+    function select(){
+        state.selected = [];
+        if( !state.selectAll ){
+            state.Roles.forEach(role => {
+                state.selected.push(role.id);
+            });
+        }
+    };
+
+    function editRole(role){
+        state.editingRole = JSON.parse(JSON.stringify(role));
+        state.Role = state.editingRole;
+        state.isEdit = true;
+
+        openEditModal();
+    }
+
+    function storeRole(){
+        errors.value = '';
+
+        axios.post(route('roles_store'), state.Role)
+            .then(res => {
+                console.log('res', res);
+                state.Books.push(res.data.role);
+
+                closeEditModal();
+            })
+            .catch(e => {
+                if( e.response.status == 422 ){
+                    console.log(e.response.data.errors);
+                    errors.value = e.response.data.errors;
+                }
+            });
+    }
+
+    // Szerkesztett adatok mentése
+    function updateRole(){
+        //
+        errors.value = '';
+        axios.put('roles_update', {role: state.editingRole.id})
+        .then(res => {
+            // 
+            for(let i = 0; i < state.Roles.length; i++){
+                if(state.Roles[i].id == res.data.id){
+                    state.Roles[i] = res.data;
+                }
+            }
+
+            closeEditModal();
+        })
+        .catch(e => {
+            if( e.response.status == 422 ){
+                console.log('e', e.response.data.errors);
+                errors.value = e.response.data.errors;
+            }
+        });
+    }
+
+    // Törlés előkészítése
+    function deleteRole_init(role){
+        state.editingRole = null;
+        state.deletingRole = role;
+
+        openDeleteModal();
+    }
+
+    function deleteRole(){
+        axios.delete(route('roles_delete', {role: state.deletingRole.id})).then(res => {}).catch(e => {});
+    }
+
+    // Szerkesztés megszakítása
+    function cancelEdit(){
+        state.editingRole = null;
+        state.Role = newRole();
+    }
+
+    // Beállítások előkészítése
+    function settings_init(){ openSettingsModal(); }
+    
+    // SETTINGS MODAL megnyitása
+    function openSettingsModal() { state.showSettingsModal = true; }
+    // SETTINGS MODAL bezárása
+    function closeSettingsModal() { state.showSettingsModal = false; }
+    // EDIT MODAL megnyitása
+    function openEditModal() { state.showEditModal = true; }
+    // EDIT MODAL bezárása
+    function closeEditModal() {
+        cancelEdit();
+        state.showEditModal = false;
+    }
+    // DELETE MODAL megnyitása
+    function openDeleteModal() { state.showDeleteModal = true; }
+    // DELETE MODAL bezárása
+    function closeDeleteModal() { state.showDeleteModal = false; }
+</script>
+
+<template>
+    <app-layout title="Szerepkörök">
+
+        <!-- header -->
+        <template #header>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                Szerepkörök
+            </h2>
+        </template>
+
+        <div class="py-6" style="padding-bottom: 0px;">
+            
+            <!-- Új elem -->
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-5">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="flex bg-gray-800 justify-between items=center p-5">
+                        <div class="flex space-x-2 items-center text-white">
+                            Szerepbeállítások oldala! Itt listázhatja, létrehozhatja, frissítheti vagy törölheti a szerepkört!
+                        </div>
+
+                        <!-- new item -->
+                        <div class="flex space-x-2 items-center" v-if="can.create">
+                            <a href="#" 
+                               class="px-4 py-2 bg-green-500 uppercase 
+                                    text-white rounded focus:outline-none flex items-center">
+                                <span class="iconify mr-1" 
+                                      data-icon="gridicons:create" 
+                                      data-inline="false"></span>
+                                + Szerepkör
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Táblázat -->
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-2">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <tr class="bg-gray-100">
+                                <th scope="col" class="px-6 py-3" >
+                                    <div>
+                                        <input id="checkbox-all" 
+                                            type="checkbox"
+                                            v-model="state.selectAll"
+                                            @click="select"
+                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 
+                                                dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 
+                                                focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+                                        <label for="checkbox-all" 
+                                            class="sr-only">checkbox</label>
+                                    </div>
+                                </th>
+                                <th scope="col" class="py-3 px-6">#</th>
+                                <th scope="col" class="py-3 px-6">Név</th>
+                                <th scope="col" class="py-3 px-6">Műveletek</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="role in state.Roles" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                <td class="px-6 py-3 border">
+                                    <div>
+                                        <input :id="role.id" type="checkbox" :value="role.id" :key="role.id" v-model="state.selected" 
+                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 
+                                            dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 
+                                            focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+                                        <label class="sr-only" :for="role.id">checkbox</label>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-2 border">{{ role.id }}</td>
+                                <td class="px-4 py-2 border">{{ role.name }}</td>
+                                <td class="px-6 py-3 border">BTN</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </app-layout>
+</template>
