@@ -1,5 +1,5 @@
 <template>
-    <app-layout title="Books">
+    <app-layout title="Könyvek">
 
         <!-- header -->
         <template #header>
@@ -450,10 +450,13 @@
                 state.selected.push(book.id);
             });
         }
-    }
+    };
 
     // Táblázat adatainak lekérése
-    function getBooks(page = state.pagination.current_page) {
+    function 
+    
+    // Könyvek lekérése
+    getBooks(page = state.pagination.current_page) {
         axios.post(route('getBooks', {
             filters: state.filters,
             config: {
@@ -615,38 +618,20 @@
     }
 
     // Beállítások előkészítése
-    function settings_init(){
-        openSettingsModal();
-    }
-    
+    function settings_init(){ openSettingsModal(); }
     // SETTINGS MODAL megnyitása
-    function openSettingsModal() {
-        state.showSettingsModal = true;
-    }
-
+    function openSettingsModal() { state.showSettingsModal = true; }
     // SETTINGS MODAL bezárása
-    function closeSettingsModal() {
-        state.showSettingsModal = false;
-    }
-
+    function closeSettingsModal() { state.showSettingsModal = false; }
     // EDIT MODAL megnyitása
-    function openEditModal() {
-        state.showEditModal = true;
-    }
-
+    function openEditModal() { state.showEditModal = true; }
     // EDIT MODAL bezárása
     function closeEditModal() {
         cancelEdit();
         state.showEditModal = false;
     }
-
     // DELETE MODAL megnyitása
-    function openDeleteModal() {
-        state.showDeleteModal = true;
-    }
-    
+    function openDeleteModal() { state.showDeleteModal = true; }
     // DELETE MODAL bezárása
-    function closeDeleteModal() {
-        state.showDeleteModal = false;
-    }
+    function closeDeleteModal() { state.showDeleteModal = false; }
 </script>

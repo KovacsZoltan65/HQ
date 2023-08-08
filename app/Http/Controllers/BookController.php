@@ -12,6 +12,14 @@ use Inertia\Inertia;
 
 class BookController extends Controller
 {
+    public function __construct()
+    {
+        //$this->middleware('can:book list', ['only' => ['index', 'show']]);
+        //$this->middleware('can:book create', ['only' => ['create', 'store']]);
+        //$this->middleware('can:book edit', ['only' => ['edit', 'update']]);
+        //$this->middleware('can:book delete', ['only' => ['destroy']]);
+    }
+    
     /**
      * Display a listing of the resource.
      */
@@ -27,9 +35,12 @@ class BookController extends Controller
 
     public function getBooks(Request $request)
     {
+        // Beállítások
         $config = $request->get('config', []);
+        // Szűrők és keresések
         $filters = $request->get('filters', []);
 
+        // Lekérdezés előkészítése
         $query = Book::query();
         
         if( count($filters) > 0 ){
@@ -61,21 +72,22 @@ class BookController extends Controller
             }
         }
         
+        // Sorok a táblázat egy lapján
         $per_page = count($config) != 0 && isset($config['per_page'])
             ? $config['per_page']
             : config('app.per_page');
 
+        // Adatok lekérése
         $books = $query->paginate($per_page);
         
+        // Küldendő adatcsomag
         $data = [
             'books' => $books,
             'config' => $config,
             'filters' => $filters,
         ];
 
-        //sleep(5);
-
-        //return response()->json($books, Response::HTTP_OK);
+        // Adatok visszaküldése
         return response()->json($data, Response::HTTP_OK);
     }
 
