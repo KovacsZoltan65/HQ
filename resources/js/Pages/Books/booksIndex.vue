@@ -302,7 +302,7 @@
 <script setup>
     import {reactive, onMounted, watch, computed, ref} from 'vue';
     import axios from 'axios';
-    import { initFlowbite } from 'flowbite';
+    //import { initFlowbite } from 'flowbite';
 
     import AppLayout from '../../Layouts/AppLayout.vue';
     //import BookForm from '../../Components/Book/form.vue';
