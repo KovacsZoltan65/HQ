@@ -3,6 +3,9 @@ import { ref, onMounted } from 'vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { initFlowbite } from 'flowbite';
 
+import Menu from '../Components/menu/Menu.vue';
+import ResponsiveMenu from '../Components/menu/REsponsiveMenu.vue';
+
 import ApplicationMark from '@/Components/ApplicationMark.vue';
 import Banner from '@/Components/Banner.vue';
 import Footer from '@/Components/footer/Footer.vue';
@@ -55,30 +58,7 @@ onMounted(async () => {
                             </div>
 
                             <!-- Navigation Links -->
-                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Dashboard
-                                </NavLink>
-                                <NavLink :href="route('books')" :active="route().current('books')">
-                                    Books
-                                </NavLink>
-                                <NavLink :href="route('user.index')" :active="route().current('user.index')">
-		                            Users
-	                            </NavLink>
-
-                                <NavLink :href="route('permission.index')" :active="route().current('permission.index')">
-		                            Permission
-	                            </NavLink>
-
-                                <NavLink :href="route('role.index')" :active="route().current('role.index')">
-		                            Role
-	                            </NavLink>
-
-                                <NavLink :href="route('post.index')" :active="route().current('post.index')">
-		                            Post
-	                            </NavLink>
-
-                            </div>
+                            <Menu />
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ml-6">
@@ -225,14 +205,8 @@ onMounted(async () => {
 
                 <!-- Responsive Navigation Menu -->
                 <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
-                    <div class="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                            Dashboard
-                        </ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('books')" :active="route().current('books')">
-                            Books
-                        </ResponsiveNavLink>
-                    </div>
+                    
+                    <ResponsiveMenu />
 
                     <!-- Responsive Settings Options -->
                     <div class="pt-4 pb-1 border-t border-gray-200">
@@ -309,6 +283,7 @@ onMounted(async () => {
                         </div>
                     </div>
                 </div>
+
             </nav>
 
             <!-- Page Heading -->
