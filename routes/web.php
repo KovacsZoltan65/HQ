@@ -31,6 +31,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
+    // ------------
+    // BOOKS
+    // ------------
     Route::post('/getBooks', [BookController::class, 'getBooks'])->name('getBooks');
     Route::resource('books', App\Http\Controllers\BookController::class)
         ->names([
