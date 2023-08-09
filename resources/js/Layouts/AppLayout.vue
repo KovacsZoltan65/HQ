@@ -4,7 +4,7 @@ import { Head, Link, router } from '@inertiajs/vue3';
 import { initFlowbite } from 'flowbite';
 
 import Menu from '../Components/menu/Menu.vue';
-import ResponsiveMenu from '../Components/menu/REsponsiveMenu.vue';
+import ResponsiveMenu from '../Components/menu/ResponsiveMenu.vue';
 
 import ApplicationMark from '@/Components/ApplicationMark.vue';
 import Banner from '@/Components/Banner.vue';

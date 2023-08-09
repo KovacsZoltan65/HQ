@@ -62,3 +62,20 @@ password
 https://www.youtube.com/watch?v=25JbDjHWzsE
 https://laraveldaily.com/post/laravel-8-vue-3-crud-composition-api
 https://github.com/LaravelDaily/Laravel-Vue-3-Composition-API-CRUD
+
+// ---------------------------------------
+// Localization
+// ---------------------------------------
+npm install laravel-vue-i18n
+app.js módosítása:
+    .use(i18nVue, {
+        resolve: lang => import(`../../lang/${lang}.json`),
+    })
+web.php módosítása a nyelv váltáshoz:
+    Route::get('/greeting/{locale}', function(string $locale){
+        if( !in_array($locale, ['en', 'hu']) ){
+            abort(400);
+        }
+
+        App::setlocale($locale);
+    });

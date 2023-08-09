@@ -16,6 +16,14 @@ use Inertia\Inertia;
 |
 */
 
+Route::get('/greeting/{locale}', function(string $locale){
+    if( !in_array($locale, ['en', 'hu']) ){
+        abort(400);
+    }
+
+    App::setlocale($locale);
+});
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),

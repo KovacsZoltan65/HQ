@@ -19,7 +19,7 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
 </script>
 
 <template>
-    <Head title="Email Verification" />
+    <Head title="$t('email_verification')" />
 
     <AuthenticationCard>
         <template #logo>
@@ -27,25 +27,24 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
         </template>
 
         <div class="mb-4 text-sm text-gray-600">
-            Before continuing, could you verify your email address by clicking on the link we just emailed to you? If you didn't receive the email, we will gladly send you another.
+            {{ $t('email_verification_description') }}
         </div>
 
         <div v-if="verificationLinkSent" class="mb-4 font-medium text-sm text-green-600">
-            A new verification link has been sent to the email address you provided in your profile settings.
+            {{ $t('email_verification_description2') }}
         </div>
 
         <form @submit.prevent="submit">
             <div class="mt-4 flex items-center justify-between">
                 <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Resend Verification Email
+                    {{ $t('email_verification_resend') }}
                 </PrimaryButton>
 
                 <div>
                     <Link
                         :href="route('profile.show')"
                         class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    >
-                        Edit Profile</Link>
+                    >{{ $t('edit_profile') }}</Link>
 
                     <Link
                         :href="route('logout')"
@@ -53,7 +52,7 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
                         as="button"
                         class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ml-2"
                     >
-                        Log Out
+                        {{ $t('logout') }}
                     </Link>
                 </div>
             </div>
