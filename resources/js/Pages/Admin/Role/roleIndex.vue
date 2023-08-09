@@ -8,6 +8,11 @@
     import VPagination from '@hennge/vue3-pagination';
     import '@hennge/vue3-pagination/dist/vue3-pagination.css';
 
+    import DefaultButton from '@/Components/buttons/DefaultButton.vue';
+    import LightButton from '@/Components/buttons/LightButton.vue';
+    import GreenButton from '@/Components/buttons/GreenButton.vue';
+    import RedButton from '@/Components/buttons/RedButton.vue';
+
     const local_storage_column_key = 'ln_roles_grid_columns';
 
     const errors = ref('');
@@ -91,7 +96,7 @@
         state.editingRole = null;
         state.isEdit = false;
 
-        //openEditModal();
+        openEditModal();
     }
 
     // Új könyv adatai
@@ -225,26 +230,32 @@
             </h2>
         </template>
 
+        <!-- Új elem felvitelle -->
         <div class="py-6" style="padding-bottom: 0px;">
             
             <!-- Új elem -->
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-5">
+            <div class="mx-auto sm:px-6 lg:px-8 mb-5">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="flex bg-gray-800 justify-between items=center p-5">
-                        <div class="flex space-x-2 items-center text-white">
+                    <div class="flex justify-between items=center p-5">
+
+                        <!-- FELIRAT -->
+                        <div class="flex space-x-2 items-center">
                             Szerepbeállítások oldala! Itt listázhatja, létrehozhatja, frissítheti vagy törölheti a szerepkört!
                         </div>
 
                         <!-- new item -->
-                        <div class="flex space-x-2 items-center" v-if="can.create">
-                            <a href="#" 
+                        <div class="flex space-x-2 items-center" 
+                             v-if="can.create">
+                            <default-button size="text-base" @click="settings_init">Beállítások</default-button>
+                            <green-button @click="newRole_init">Új szerepkör</green-button>
+                            <!--<a href="#" 
                                class="px-4 py-2 bg-green-500 uppercase 
                                     text-white rounded focus:outline-none flex items-center">
                                 <span class="iconify mr-1" 
                                       data-icon="gridicons:create" 
                                       data-inline="false"></span>
                                 + Szerepkör
-                            </a>
+                            </a>-->
                         </div>
 
                     </div>
@@ -252,11 +263,11 @@
             </div>
 
             <!-- Táblázat -->
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-2">
+            <div class="mx-auto sm:px-6 lg:px-8 mb-2">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                            <tr class="bg-gray-100">
+                            <tr>
                                 <th scope="col" class="px-6 py-3" >
                                     <div>
                                         <input id="checkbox-all" 
@@ -296,4 +307,68 @@
             </div>
         </div>
     </app-layout>
+
+    <!-- EDIT MODAL -->
+    <dialog-modal :show="state.showEditModal" id="edit_modal">
+        <template #title></template>
+
+        <template #content>
+            <div class="grid gap-6 mb-6 md:grid-cols-2">
+
+                <!-- hibák -->
+                <div v-if="errors">
+                    <div v-for="(v, k) in errors" :key="k" 
+                        class="bg-red-500 text-white rounded font-bold mb-4 shadow-lg py-2 px-4 pr-0">
+                        <p v-for="error in v" :key="error" class="text-sm">
+                            {{ error }}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- NÉV -->
+                <div>
+                    <label for="title" 
+                           class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >Name</label>
+                    <input type="text" id="name" 
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                                focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
+                                dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
+                                dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                            placeholder="name" v-model="state.Role.name" required>
+                            <span></span>
+                </div>
+
+            </div>
+        </template>
+
+        <template #footer>
+            <light-button size="text-xs" type="button" @click="closeEditModal()">Cancel</light-button>
+            <green-button size="text-xs" type="button" @click="storeRole()">{{ state.isEdit ? 'Edit Role' : 'Create Role' }}</green-button>
+        </template>
+    </dialog-modal>
+
+    <!-- SETTINGS MODAL -->
+    <dialog-modal :show="state.showSettingsModal" id="settings_modal">
+        <template #title></template>
+
+        <template #content></template>
+
+        <template #footer>
+            <light-button size="text-xs" type="button" @click="closeSettingsModal()">Cancel</light-button>
+        </template>
+    </dialog-modal>
+
+    <!-- CONFIRM DELETE MODAL -->
+    <dialog-modal :show="state.showDeleteModal" id="delete_modal">
+        <template #title></template>
+
+        <template #content></template>
+
+        <template #footer>
+            <light-button size="text-xs" type="button" @click="closeDeleteModal()">Cancel</light-button>
+            <red-button size="text-xs" type="button" @click="deleteRole()">Delete</red-button>
+        </template>
+    </dialog-modal>
+
 </template>
