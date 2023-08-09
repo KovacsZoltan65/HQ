@@ -10,7 +10,9 @@
 
         <!-- Új elem felvitelle -->
         <div class="py-6" style="padding-bottom: 0px;">
-            <div class="mx-auto sm:px-6 lg:px-8">
+
+            <!-- Új elem -->
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-5">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-4 py-4">
                     <div class="flex justify-between items=center">
 
@@ -22,7 +24,9 @@
 
                         <!-- GOMBOK -->
                         <div class="flex space-x-2 items-center">
-                            <default-button size="text-base" @click="settings_init">Beállítások</default-button>
+                            <default-button size="text-base" 
+                                            @click="settings_init"
+                            >Beállítások</default-button>
                             <green-button @click="newBook_init">Új könyv</green-button>
                         </div>
 
@@ -207,6 +211,7 @@
         <template #content>
             <div class="grid gap-6 mb-6 md:grid-cols-2">
 
+                <!-- hibák -->
                 <div v-if="errors">
                     <div v-for="(v, k) in errors" :key="k" 
                         class="bg-red-500 text-white rounded font-bold mb-4 shadow-lg py-2 px-4 pr-0">
