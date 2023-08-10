@@ -21,7 +21,7 @@ const props = defineProps({
     <AppLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Felhasználók
+                {{ $t('users') }}
             </h2>
         </template>
 
@@ -31,13 +31,12 @@ const props = defineProps({
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="flex bg-gray-800 justify-between items=center p-5">
                         <div class="flex space-x-2 items-center text-white">
-                            Felhasználói beállítások oldala! 
-                            Itt listázhat, létrehozhat, frissíthet vagy törölhet felhasználót!
+                            {{ $t('users_description') }}
                         </div>
                         <div class="flex space-x-2 items-center" v-if="can.create">
                             <a href="#" class="px-4 py-2 bg-green-500 uppercase text-white rounded focus:outline-none flex items-center">
                                 <span class="iconify mr-1" data-icon="gridicons:create" data-inline="false"></span>
-                                + Felhasználó
+                                + {{ $t('user') }}
                             </a>
                         </div>
                     </div>
@@ -50,9 +49,9 @@ const props = defineProps({
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
-                                <th class="py-3 px-6" scope="col">Név</th>
-                                <th class="py-3 px-6" scope="col">Email</th>
-                                <th class="py-3 px-6" scope="col" v-if="can.edit || can.delete">Műveletek</th>
+                                <th class="py-3 px-6" scope="col">{{ $t('name') }}</th>
+                                <th class="py-3 px-6" scope="col">$t('email')</th>
+                                <th class="py-3 px-6" scope="col" v-if="can.edit || can.delete">{{ $t('actions') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -69,11 +68,11 @@ const props = defineProps({
                                     <div type="justify-start lg:justify-end" no-wrap>
                                         <button class="ml-4 bg-green-500 px-2 py-1 rounded text-white cursor-pointer" 
                                                 v-if="can.edit">
-                                            Szerkesztés
+                                            {{ $t('edit') }}
                                         </button>
                                         <button class="ml-4 bg-red-500 px-2 py-1 rounded text-white cursor-pointer" 
                                                 v-if="can.delete">
-                                            Törlés
+                                            {{ $t('delete') }}
                                         </button>
                                     </div>
                                 </td>

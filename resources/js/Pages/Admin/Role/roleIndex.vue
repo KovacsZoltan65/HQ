@@ -329,13 +329,14 @@
                 <div>
                     <label for="title" 
                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >Name</label>
+                    >{{ $t('name') }}</label>
                     <input type="text" id="name" 
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                                 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
                                 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                            placeholder="name" v-model="state.Role.name" required>
+                            :placeholder="$t('name')" 
+                            v-model="state.Role.name" required>
                             <span></span>
                 </div>
 
@@ -343,8 +344,8 @@
         </template>
 
         <template #footer>
-            <light-button size="text-xs" type="button" @click="closeEditModal()">Cancel</light-button>
-            <green-button size="text-xs" type="button" @click="storeRole()">{{ state.isEdit ? 'Edit Role' : 'Create Role' }}</green-button>
+            <light-button size="text-xs" type="button" @click="closeEditModal()">{{ $t('cancel') }}</light-button>
+            <green-button size="text-xs" type="button" @click="storeRole()">{{ state.isEdit ? $t('update') : $t('create') }}</green-button>
         </template>
     </dialog-modal>
 
@@ -355,19 +356,23 @@
         <template #content></template>
 
         <template #footer>
-            <light-button size="text-xs" type="button" @click="closeSettingsModal()">Cancel</light-button>
+            <light-button size="text-xs" type="button" @click="closeSettingsModal()">{{ $t('cancel') }}</light-button>
         </template>
     </dialog-modal>
 
     <!-- CONFIRM DELETE MODAL -->
     <dialog-modal :show="state.showDeleteModal" id="delete_modal">
-        <template #title></template>
+        <template #title>
+            {{ $t('delete_role') }}
+        </template>
 
-        <template #content></template>
+        <template #content>
+            {{ $t('role_delete_confirmation') }}
+        </template>
 
         <template #footer>
-            <light-button size="text-xs" type="button" @click="closeDeleteModal()">Cancel</light-button>
-            <red-button size="text-xs" type="button" @click="deleteRole()">Delete</red-button>
+            <light-button size="text-xs" type="button" @click="closeDeleteModal()">{{ $t('cancel') }}</light-button>
+            <red-button size="text-xs" type="button" @click="deleteRole()">{{ $t('delete') }}</red-button>
         </template>
     </dialog-modal>
 

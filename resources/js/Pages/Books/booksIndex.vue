@@ -281,8 +281,8 @@
             <secondary-button @click="closeDeleteModal()">Cancel</secondary-button>
             <primary-button type="button" class="ml-3" @click="deleteBook()">Delete</primary-button>
         -->
-            <light-button size="text-xs" type="button" @click="closeDeleteModal()">Cancel</light-button>
-            <red-button size="text-xs" type="button" @click="deleteBook()">Delete</red-button>
+            <light-button size="text-xs" type="button" @click="closeDeleteModal()">{{ $t('cancel') }}</light-button>
+            <red-button size="text-xs" type="button" @click="deleteBook()">{{ $t('delete') }}</red-button>
         </template>
     </dialog-modal>
 

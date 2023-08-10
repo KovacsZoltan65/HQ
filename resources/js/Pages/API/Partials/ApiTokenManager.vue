@@ -220,14 +220,14 @@ const deleteApiToken = () => {
                     :class="{ 'opacity-25': updateApiTokenForm.processing }"
                     :disabled="updateApiTokenForm.processing"
                     @click="updateApiToken"
-                >
-                    {{ $t('save') }}
+                >{{ $t('save') }}
                 </PrimaryButton>
             </template>
         </DialogModal>
 
         <!-- Delete Token Confirmation Modal -->
-        <ConfirmationModal :show="apiTokenBeingDeleted != null" @close="apiTokenBeingDeleted = null">
+        <ConfirmationModal :show="apiTokenBeingDeleted != null" 
+                           @close="apiTokenBeingDeleted = null">
             <template #title>
                 {{ $t('api_token_delete') }}
             </template>
@@ -246,8 +246,7 @@ const deleteApiToken = () => {
                     :class="{ 'opacity-25': deleteApiTokenForm.processing }"
                     :disabled="deleteApiTokenForm.processing"
                     @click="deleteApiToken"
-                >
-                    {{ $d('delete') }}
+                >{{ $t('delete') }}
                 </DangerButton>
             </template>
         </ConfirmationModal>

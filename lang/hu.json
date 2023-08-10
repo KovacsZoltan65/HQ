@@ -1,4 +1,6 @@
 {
+    "welcome": "Üdvözlet",
+    "dashboard": "Műszerfal",
     "register": "Regisztráció",
     "login": "Belépés",
     "logout": "Kilépés",
@@ -7,6 +9,17 @@
     "close": "Bezárás",
     "cancel": "Mégsem",
     "save": "Mentés",
+    "edit": "Szerkesztés",
+    "update": "Frissítés",
+    "actions": "Műveletek",
+    "title": "Cím",
+    "description": "Leírás",
+
+    "back": "Vissza",
+    "back_to_home": "Vissza a fő oldalra",
+
+    "created": "Elkészült",
+    "create": "Létrehoz",
 
     "name": "Név",
     "email": "Email cím",
@@ -34,9 +47,17 @@
     "api_token_delete_confirmation": "Biztos benne, hogy törölni szeretné ezt az API tokent?",
     "api_token_create": "API-token létrehozása",
     "api_token_create_description": "Az API tokenek lehetővé teszik, hogy harmadik fél szolgáltatásai hitelesítsék az alkalmazásunkat az Ön nevében.",
+    
     "permissions": "Engedélyek",
-    "created": "Elkészült",
-    "create": "Létrehoz",
+    "permission": "Engedély",
+    "permissions_description": "Engedélybeállítások oldala! Itt listázhatja, létrehozhatja, frissítheti vagy törölheti az engedélyeket!",
+
+    "roles": "Szerepkörök",
+    "roles_description": "Szerepbeállítások oldala! Itt listázhatja, létrehozhatja, frissítheti vagy törölheti a szerepkört!",
+    "role": "Szerepkör",
+    "role_delete": "Szerepkör törlése",
+    "role_delete_confirmation": "Biztosan törli ezt a szerepkört?",
+
     "manage_api_token": "API-tokenek kezelése",
     "manage_api_token_description": "Bármelyik meglévő tokenjét törölheti, ha már nincs rájuk szükség.",
     "last_used": "Utoljára használva",
@@ -45,14 +66,33 @@
     "email_verification_description": "Mielőtt folytatná, ellenőrizné e-mail címét az imént e-mailben elküldött linkre kattintva? Ha nem kapta meg az e-mailt, szívesen küldünk egy másikat.",
     "email_verification_description2": "Új ellenőrző linket küldtünk a profilbeállításokban megadott e-mail címre.",
     "email_verification_resend": "Igazoló e-mail újraküldése",
+    "profile": "Profil",
     "edit_profile": "Profil szerkesztése",
+
+    "manage_account": "Fiók kezelése",
     "delete_account": "Fiók törlése",
     "delete_account_description": "Fiókjának végleges törlése.",
     "delete_account_description1": "A fiók törlését követően az összes erőforrás és adat véglegesen törlődik. Fiókja törlése előtt kérjük, töltsön le minden olyan adatot vagy információt, amelyet meg szeretne őrizni.",
     "delete_account_confirm": "Biztosan törölni szeretné fiókját? A fiók törlését követően az összes erőforrás és adat véglegesen törlődik. Kérjük, adja meg jelszavát annak megerősítéséhez, hogy véglegesen törölni szeretné fiókját.",
+    
     "browser_sessions": "Böngésző munkamenetek",
     "browser_sessions_description": "Kezelje és jelentkezzen ki aktív munkamenetei más böngészőkön és eszközökön.",
     "browser_sessions_description1": "Ha szükséges, minden eszközén kijelentkezhet az összes többi böngészőmunkamenetből. Az alábbiakban felsorolunk néhány legutóbbi munkamenetét; ez a lista azonban nem feltétlenül teljes. Ha úgy érzi, hogy fiókját feltörték, frissítse jelszavát is.",
     "log_out_other_session": "Kijelentkezés Egyéb böngésző-munkamenetekből",
-    "done": "Kész"
+    "done": "Kész",
+    
+    "posts": "Posztok",
+    "posts_description": "Hozzászólás beállításai oldal! Itt listázhatja, létrehozhatja, frissítheti vagy törölheti a bejegyzést!",
+    "post": "Poszt",
+
+    "users": "Felhasználók",
+    "users_description": "Felhasználói beállítások oldala! Itt listázhat, létrehozhat, frissíthet vagy törölhet felhasználót!",
+    "user": "Felhasználó",
+
+    "team": "Csoport",
+    "team_manage": "Csoport kezelése",
+    "team_settings": "Csoport beállítások",
+    "team_switch": "Csoport váltás"
+    
+    
 }

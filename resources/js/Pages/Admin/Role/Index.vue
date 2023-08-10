@@ -23,7 +23,7 @@
     <AppLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Szerepkörök
+                {{ $t('roles') }}
             </h2>
         </template>
 
@@ -34,7 +34,7 @@
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="flex bg-gray-800 justify-between items=center p-5">
                         <div class="flex space-x-2 items-center text-white">
-                            Szerepbeállítások oldala! Itt listázhatja, létrehozhatja, frissítheti vagy törölheti a szerepkört!
+                            
                         </div>
 
                         <!-- new item -->
@@ -45,7 +45,7 @@
                                 <span class="iconify mr-1" 
                                       data-icon="gridicons:create" 
                                       data-inline="false"></span>
-                                + Szerepkör
+                                + {{ $t('role') }}
                             </a>
                         </div>
 
@@ -60,8 +60,8 @@
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
-                                <th scope="col" class="py-3 px-6">Név</th>
-                                <th v-if="can.edit || can.delete" scope="col" class="py-3 px-6">Műveletek</th>
+                                <th scope="col" class="py-3 px-6">{{ $t('name') }}</th>
+                                <th v-if="can.edit || can.delete" scope="col" class="py-3 px-6">{{ $t('actions') }}</th>
                             </tr>
                         </thead>
                         <tbody>

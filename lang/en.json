@@ -1,4 +1,6 @@
 {
+    "welcome": "Welcome",
+    "dashboard": "Dashboard",
     "register": "Register",
     "login": "Log in",
     "logout": "Log out",
@@ -7,6 +9,17 @@
     "close": "Close",
     "cancel": "Cancel",
     "save": "Save",
+    "edit": "Edit",
+    "update": "Update",
+    "actions": "Actions",
+    "title": "Title",
+    "description": "Description",
+
+    "back": "Back",
+    "back_to_home": "Back to home",
+
+    "created": "Created",
+    "create": "Create",
 
     "name": "Name",
     "email": "Email address",
@@ -33,9 +46,17 @@
     "api_token_delete_confirmation": "Are you sure you would like to delete this API token?",
     "api_token_create": "Create API Token",
     "api_token_create_description": "API tokens allow third-party services to authenticate with our application on your behalf.",
+    
     "permissions": "Permissions",
-    "created": "Created",
-    "create": "Create",
+    "permission": "Permission",
+    "permissions_description": "Permission settings page! You can list, create, update or delete permissions here!",
+
+    "roles": "Roles",
+    "roles_description": "Role settings page! Here you can list, create, update or delete the role!",
+    "role": "Role",
+    "role_delete": "Delete Role",
+    "role_delete_confirmation": "Are you sure you want to delete this Role?",
+    
     "manage_api_token": "Manage API token",
     "manage_api_token_description": "You may delete any of your existing tokens if they are no longer needed.",
     "last_used": "Last used",
@@ -44,14 +65,31 @@
     "email_verification_description": "Before continuing, could you verify your email address by clicking on the link we just emailed to you? If you didn't receive the email, we will gladly send you another.",
     "email_verification_description2": "A new verification link has been sent to the email address you provided in your profile settings.",
     "email_verification_resend": "Resend Verification Email",
+    "profile": "Profile",
     "edit_profile": "Edit Profile",
+
+    "manage_account": "Manage Account",
     "delete_account": "Delete Account",
     "delete_account_description": "Permanently delete your account.",
     "delete_account_description1": "Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.",
     "delete_account_confirm": "Are you sure you want to delete your account? Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.",
+    
     "browser_sessions": "Browser Sessions",
     "browser_sessions_description": "Manage and log out your active sessions on other browsers and devices.",
     "browser_sessions_description1": "If necessary, you may log out of all of your other browser sessions across all of your devices. Some of your recent sessions are listed below; however, this list may not be exhaustive. If you feel your account has been compromised, you should also update your password.",
     "log_out_other_session": "Log Out Other Browser Sessions",
-    "done": "Done"
+    "done": "Done",
+
+    "posts": "Posts",
+    "posts_description": "Post settings page! Here you can list, create, update or delete the post!",
+    "post": "Post",
+
+    "users": "Users",
+    "users_description": "User settings page! Here you can list, create, update or delete a user!",
+    "user": "User",
+
+    "team": "Team",
+    "team_manage": "Manage Team",
+    "team_settings": "Team Settings",
+    "team_switch": "Team Switch"
 }
