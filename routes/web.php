@@ -16,12 +16,10 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/greeting/{locale}', function(string $locale){
-    if( !in_array($locale, ['en', 'hu']) ){
-        abort(400);
-    }
-
-    App::setlocale($locale);
+Route::get('language/{locale}', function ($locale) {
+    app()->setLocale($locale);
+    session()->put('locale', $locale);
+    return redirect()->back();
 });
 
 Route::get('/', function () {
