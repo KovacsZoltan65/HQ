@@ -3,32 +3,41 @@
 </script>
 <template>
     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+
+        <!-- dashboard menu -->
         <NavLink :href="route('dashboard')" 
                  :active="route().current('dashboard')">
-            Dashboard
+            {{ $t('dashboard') }}
         </NavLink>
+
+        <!-- books menu -->
         <NavLink :href="route('books')" 
                  :active="route().current('books')">
-            Books
+            {{ $t('books') }}
         </NavLink>
+
+        <!-- users menu -->
         <NavLink :href="route('user.index')" 
                  :active="route().current('user.index')">
-            Users
+            {{ $t('users') }}
         </NavLink>
 
+        <!-- permissions menu -->
         <NavLink :href="route('permission.index')" 
                  :active="route().current('permission.index')">
-            Permission
+            {{ $t('permissions') }}
         </NavLink>
 
+        <!-- roles menu -->
         <NavLink :href="route('role.index')" 
                  :active="route().current('role.index')">
-            Role
+            {{ $t('roles') }}
         </NavLink>
 
+        <!-- posts menu -->
         <NavLink :href="route('post.index')" 
                  :active="route().current('post.index')">
-            Post
+            {{ $t('posts') }}
         </NavLink>
     </div>
 </template>

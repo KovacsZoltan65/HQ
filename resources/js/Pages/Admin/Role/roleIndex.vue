@@ -64,7 +64,13 @@
                 is_visible: true,
                 is_sortable: true,
                 is_filterable: true,
-            }
+            },
+            action: {
+                label: 'Action',
+                is_visible: true,
+                is_sortable: false,
+                is_filterable: false,
+            },
         },
         // Oldaltörés
         pagination: {
@@ -221,12 +227,12 @@
 </script>
 
 <template>
-    <app-layout title="Szerepkörök">
+    <app-layout :title="$t('roles')">
 
         <!-- header -->
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Szerepkörök
+                {{ $t('roles') }}
             </h2>
         </template>
 
@@ -282,12 +288,13 @@
                                     </div>
                                 </th>
                                 <th scope="col" class="py-3 px-6">#</th>
-                                <th scope="col" class="py-3 px-6">Név</th>
-                                <th scope="col" class="py-3 px-6">Műveletek</th>
+                                <th scope="col" class="py-3 px-6">{{ $t('name') }}</th>
+                                <th scope="col" class="py-3 px-6">{{ $t('actions') }}</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="role in state.Roles" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <tr v-for="role in state.Roles" 
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                 <td class="px-6 py-3 border">
                                     <div>
                                         <input :id="role.id" type="checkbox" :value="role.id" :key="role.id" v-model="state.selected" 
@@ -297,9 +304,23 @@
                                         <label class="sr-only" :for="role.id">checkbox</label>
                                     </div>
                                 </td>
-                                <td class="px-4 py-2 border">{{ role.id }}</td>
-                                <td class="px-4 py-2 border">{{ role.name }}</td>
-                                <td class="px-6 py-3 border">BTN</td>
+
+                                <!-- ID -->
+                                <td class="px-4 py-2 border" 
+                                    v-show="state.columns.id.is_visible">{{ role.id }}</td>
+
+                                <!-- NAME -->
+                                <td class="px-4 py-2 border"
+                                v-show="state.columns.name.is_visible">{{ role.name }}</td>
+
+                                <!-- ACTIONS -->
+                                <td class="px-6 py-3 border"
+                                    v-show="state.columns.action.is_visible">
+                                    <div type="justify-start lg:justify-end" no-wrap>
+                                        <green-button class="mt-1" size="text-xs" @click="editRole(role)">{{ $t('edit') }}</green-button>
+                                        <red-button class="mt-1" size="text-xs" @click="deleteRole_init(role)">{{ $t('delete') }}</red-button>
+                                    </div>
+                                </td>
                             </tr>
                         </tbody>
                     </table>

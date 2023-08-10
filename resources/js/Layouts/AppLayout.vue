@@ -152,6 +152,7 @@ onMounted(async () => {
                                             {{ $t('manage_account') }}
                                         </div>
 
+                                        <!-- profil -->
                                         <DropdownLink :href="route('profile.show')">
                                             {{ $t('profile') }}
                                         </DropdownLink>
@@ -162,12 +163,13 @@ onMounted(async () => {
 
                                         <div class="border-t border-gray-200" />
 
-                                        <!-- Authentication -->
+                                        <!-- logout -->
                                         <form @submit.prevent="logout">
                                             <DropdownLink as="button">
                                                 {{ $t('logout') }}
                                             </DropdownLink>
                                         </form>
+                                        
                                     </template>
                                 </Dropdown>
                             </div>
