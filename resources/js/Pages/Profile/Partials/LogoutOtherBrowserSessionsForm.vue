@@ -45,16 +45,16 @@ const closeModal = () => {
 <template>
     <ActionSection>
         <template #title>
-            Browser Sessions
+            {{ $t('browser_sessions') }}
         </template>
 
         <template #description>
-            Manage and log out your active sessions on other browsers and devices.
+            {{ $t('browser_sessions_description') }}
         </template>
 
         <template #content>
             <div class="max-w-xl text-sm text-gray-600">
-                If necessary, you may log out of all of your other browser sessions across all of your devices. Some of your recent sessions are listed below; however, this list may not be exhaustive. If you feel your account has been compromised, you should also update your password.
+                {{ $t('browser_sessions_description1') }}
             </div>
 
             <!-- Other Browser Sessions -->
@@ -89,18 +89,18 @@ const closeModal = () => {
 
             <div class="flex items-center mt-5">
                 <PrimaryButton @click="confirmLogout">
-                    Log Out Other Browser Sessions
+                    {{ $t('log_out_other_session') }}
                 </PrimaryButton>
 
                 <ActionMessage :on="form.recentlySuccessful" class="ml-3">
-                    Done.
+                    {{ $t('done') }}.
                 </ActionMessage>
             </div>
 
             <!-- Log Out Other Devices Confirmation Modal -->
             <DialogModal :show="confirmingLogout" @close="closeModal">
                 <template #title>
-                    Log Out Other Browser Sessions
+                    {{ $t('log_out_other_session') }}
                 </template>
 
                 <template #content>
