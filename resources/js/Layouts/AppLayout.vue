@@ -14,6 +14,8 @@ import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 
+import language_switcher from '../Components/LanguageSwitcher.vue';
+
 defineProps({
     title: String,
 });
@@ -62,6 +64,11 @@ onMounted(async () => {
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ml-6">
+
+                            <div class="ml-3 relative">
+                                <language_switcher></language_switcher>
+                            </div>
+
                             <div class="ml-3 relative">
                                 <!-- Teams Dropdown -->
                                 <Dropdown v-if="$page.props.jetstream.hasTeamFeatures" align="right" width="60">
@@ -132,7 +139,9 @@ onMounted(async () => {
                                 <Dropdown align="right" width="48">
                                     <template #trigger>
                                         <button v-if="$page.props.jetstream.managesProfilePhotos" class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
-                                            <img class="h-8 w-8 rounded-full object-cover" :src="$page.props.auth.user.profile_photo_url" :alt="$page.props.auth.user.name">
+                                            <img class="h-8 w-8 rounded-full object-cover" 
+                                                 :src="$page.props.auth.user.profile_photo_url" 
+                                                 :alt="$page.props.auth.user.name">
                                         </button>
 
                                         <span v-else class="inline-flex rounded-md">

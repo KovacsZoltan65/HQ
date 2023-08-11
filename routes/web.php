@@ -16,11 +16,7 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('language/{locale}', function ($locale) {
-    app()->setLocale($locale);
-    session()->put('locale', $locale);
-    return redirect()->back();
-});
+Route::post('/language', [App\Http\Controllers\LanguageController::class, 'index'])->name('language');
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [

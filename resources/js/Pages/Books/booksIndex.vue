@@ -458,10 +458,7 @@
     };
 
     // Táblázat adatainak lekérése
-    function 
-    
-    // Könyvek lekérése
-    getBooks(page = state.pagination.current_page) {
+    function getBooks(page = state.pagination.current_page) {
         axios.post(route('getBooks', {
             filters: state.filters,
             config: {

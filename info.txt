@@ -80,3 +80,6 @@ web.php módosítása a nyelv váltáshoz:
 
         App::setlocale($locale);
     });
+Aktuális nyelv lekérése:
+    import { getActiveLanguage } from 'laravel-vue-i18n';
+    const lang = getActiveLanguage(); // en
