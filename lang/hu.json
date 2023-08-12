@@ -14,12 +14,17 @@
     "actions": "Műveletek",
     "title": "Cím",
     "description": "Leírás",
+    "search": "Keresés",
+
+    "languages": "Nyelvek",
 
     "back": "Vissza",
     "back_to_home": "Vissza a fő oldalra",
 
     "created": "Elkészült",
     "create": "Létrehoz",
+
+    "setup": "Beállítások",
 
     "name": "Név",
     "email": "Email cím",
@@ -94,5 +99,15 @@
     "team_settings": "Csoport beállítások",
     "team_switch": "Csoport váltás",
     
-    "books": "Könyvek"
+    "books": "Könyvek",
+    "books_description": "Nyílvántartott könyvek oldala! Itt listázhat, létrehozhat, frissíthet vagy törölhet könyvet!",
+    "books_new": "Új könyv",
+    "books_edit": "Könyv szerkesztése",
+    "books_create": "Könyv létrehozása",
+    "books_update": "Könyv frissítése",
+    "books_delete": "Könyv törlése",
+    "books_delete_confirmation": "Biztosan törli ezt a könyvet?",
+
+    "author": "Szerző",
+    "image": "Kép"
 }

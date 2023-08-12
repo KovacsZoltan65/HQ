@@ -29,12 +29,14 @@
     <!-- Locale Selector -->
     <div class="space-y-1">
         <button @click="responsiveSettingsLanguage = !responsiveSettingsLanguage">
-            {{ $t("nav.language_full") }}
+            {{ $t("languages") }}
         </button>
-        <button v-if="responsiveSettingsLanguage" @click="setLocale('en')">
+        <button v-if="responsiveSettingsLanguage" 
+                @click="setLocale('en')">
             <p class="ml-4">English</p>
         </button>
-        <button v-if="responsiveSettingsLanguage" @click="setLocale('hu')">
+        <button v-if="responsiveSettingsLanguage" 
+                @click="setLocale('hu')">
             <p class="ml-4">Hungarian</p>
         </button>
     </div>

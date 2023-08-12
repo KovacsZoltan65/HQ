@@ -18,16 +18,15 @@
 
                         <!-- FELIRAT -->
                         <div class="flex space-x-2 items-center">
-                            Nyílvántartott könyvek oldala!<br/>
-                            Itt listázhat, létrehozhat, frissíthet vagy törölhet könyvet!
+                            {{ $t('books_description') }}
                         </div>
 
                         <!-- GOMBOK -->
                         <div class="flex space-x-2 items-center">
                             <default-button size="text-base" 
                                             @click="settings_init"
-                            >Beállítások</default-button>
-                            <green-button @click="newBook_init">Új könyv</green-button>
+                            >{{ $t('setup') }}</default-button>
+                            <green-button @click="newBook_init">+ {{ $t('books_new') }}</green-button>
                         </div>
 
                     </div>
@@ -85,7 +84,7 @@
                                         font-medium rounded-lg text-sm px-4 py-2 
                                         dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                                     @click="getBooks()"
-                                >Keresés</button>
+                                >{{ $t('search') }}</button>
                             </div>
                         </div>
 
@@ -121,7 +120,7 @@
                                     <!-- TITLE -->
                                     <th scope="col" class="px-6 py-3" v-show="state.columns.title.is_visible">
                                         <div class="flex items-center">
-                                            {{ state.columns.title.label }}
+                                            {{ $t(state.columns.title.label) }}
                                             <a href="#" v-show="state.columns.title.is_sortable">
                                                 <SorterIcon/>
                                             </a>
@@ -130,7 +129,7 @@
                                     <!-- AUTHOR -->
                                     <th scope="col" class="px-6 py-3" v-show="state.columns.author.is_visible">
                                         <div class="flex items-center">
-                                            {{ state.columns.author.label }}
+                                            {{ $t(state.columns.author.label) }}
                                             <a href="#" v-show="state.columns.author.is_sortable">
                                                 <SorterIcon/>
                                             </a>
@@ -139,7 +138,7 @@
                                     <!-- IMAGE -->
                                     <th scope="col" class="px-6 py-3" v-show="state.columns.image.is_visible">
                                         <div class="flex items-center">
-                                            {{ state.columns.image.label }}
+                                            {{ $t(state.columns.image.label) }}
                                             <a href="#" v-show="state.columns.image.is_sortable">
                                                 <SorterIcon/>
                                             </a>
@@ -148,7 +147,7 @@
                                     <!-- ACTION -->
                                     <th scope="col" class="px-6 py-3" width="250px" v-show="state.columns.action.is_visible">
                                         <div class="flex items-center">
-                                            {{ state.columns.action.label }}
+                                            {{ $t(state.columns.action.label) }}
                                             <a href="#" v-show="state.columns.action.is_sortable">
                                                 <SorterIcon/>
                                             </a>
@@ -205,7 +204,7 @@
         <template #title>
             <!--<span v-if="state.editingBook && state.editingBook.id">Edit Book</span>
             <span v-else>Create Book</span>-->
-            {{ state.isEdit ? 'Edit Book' : 'Create Book' }}
+            {{ state.isEdit ? $t('books_edit') : $t('books_new') }}
         </template>
 
         <template #content>
@@ -225,13 +224,14 @@
                 <div>
                     <label for="title" 
                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >Title</label>
+                    >{{ $t('title') }}</label>
                     <input type="text" id="title" 
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                                 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
                                 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                            placeholder="title" v-model="state.Book.title" required>
+                            :placeholder="$t('title')" 
+                            v-model="state.Book.title" required>
                             <span></span>
                 </div>
 
@@ -239,31 +239,36 @@
                 <div>
                     <label for="author" 
                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >Author</label>
+                    >{{ $t('author') }}</label>
                     <input type="text" id="author" 
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                                 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
                                 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                            placeholder="Author" v-model="state.Book.author" required>
+                            :placeholder="$t('author')" 
+                            v-model="state.Book.author" required>
                 </div>
 
                 <!-- IMAGE -->
                 <div>
                     <label for="image" 
                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >Image</label>
+                    >{{ $t('image') }}</label>
                     <input type="text" id="image" 
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                            placeholder="Image" v-model="state.Book.image" required>
+                            :placeholder="$t('image')" 
+                            v-model="state.Book.image" required>
                 </div>
 
             </div>
         </template>
 
         <template #footer>
-            <light-button size="text-xs" type="button" @click="closeEditModal()">Cancel</light-button>
-            <green-button size="text-xs" type="button" @click="storeBook()">{{ state.isEdit ? 'Edit Book' : 'Create Book' }}</green-button>
+            <light-button size="text-xs" type="button" @click="closeEditModal()"
+            >{{ $t('cancel') }}</light-button>
+            <green-button size="text-xs" type="button" 
+                          @click="storeBook()"
+            >{{ state.isEdit ? $t('books_update') : $t('books_create') }}</green-button>
         </template>
 
     </dialog-modal>
@@ -271,10 +276,10 @@
     <!-- CONFIRM DELETE MODAL -->
     <dialog-modal :show="state.showDeleteModal" id="delete_modal">
         <template #title>
-            Delete Book
+            {{ $t('books_delete') }}
         </template>
         <template #content>
-            Are you sure you want to delete this Book?
+            {{ $t('books_delete_confirmation') }}
         </template>
         <template #footer>
         <!--
@@ -288,17 +293,18 @@
 
     <!-- SETTINGS MODAL -->
     <dialog-modal :show="state.showSettingsModal" id="settings_modal">
-        <template #title>Settings</template>
+        <template #title>{{ $t('setup') }}</template>
         <template #content>
             <div v-for="(config, column) in state.columns" 
                 :key="column" class="d-flex align-items-center">
                 <input v-model="config.is_visible" 
                     :id="column" class="me-3" type="checkbox" />
-                <label :for="column">{{ config.label }}</label>
+                <label :for="column">{{ $t(config.label) }}</label>
             </div>
         </template>
         <template #footer>
-            <light-button size="text-xs" type="button" @click="closeSettingsModal()">Cancel</light-button>
+            <light-button size="text-xs" type="button" 
+                          @click="closeSettingsModal()">{{ $t('back') }}</light-button>
         </template>
     </dialog-modal>
 
@@ -307,6 +313,7 @@
 <script setup>
     import {reactive, onMounted, watch, computed, ref} from 'vue';
     import axios from 'axios';
+    
     //import { initFlowbite } from 'flowbite';
 
     import AppLayout from '../../Layouts/AppLayout.vue';
@@ -316,8 +323,8 @@
     import VPagination from '@hennge/vue3-pagination';
     import '@hennge/vue3-pagination/dist/vue3-pagination.css';
 
-    import SecondaryButton from '@/Components/SecondaryButton.vue';
-    import PrimaryButton from '@/Components/PrimaryButton.vue';
+    //import SecondaryButton from '@/Components/SecondaryButton.vue';
+    //import PrimaryButton from '@/Components/PrimaryButton.vue';
     import DefaultButton from '../../Components/buttons/DefaultButton.vue';
     import GreenButton from '../../Components/buttons/GreenButton.vue';
     import RedButton from '../../Components/buttons/RedButton.vue';
@@ -373,25 +380,25 @@
                 is_filterable: true,
             },
             title: {
-                label: 'Title',
+                label: 'title',
                 is_visible: true,
                 is_sortable: true,
                 is_filterable: true,
             },
             author: {
-                label: 'Author',
+                label: 'author',
                 is_visible: true,
                 is_sortable: true,
                 is_filterable: true,
             },
             image: {
-                label: 'Image',
+                label: 'image',
                 is_visible: true,
                 is_sortable: true,
                 is_filterable: true,
             },
             action: {
-                label: 'Action',
+                label: 'actions',
                 is_visible: true,
                 is_sortable: false,
                 is_filterable: false,
