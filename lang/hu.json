@@ -15,6 +15,7 @@
     "title": "Cím",
     "description": "Leírás",
     "search": "Keresés",
+    "books_search_placeholder": "Keress a könyvek között cím vagy szerző szerint...",
 
     "languages": "Nyelvek",
 

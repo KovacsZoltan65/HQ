@@ -15,6 +15,7 @@
     "title": "Title",
     "description": "Description",
     "search": "Search",
+    "books_search_placeholder": "Search the books by title or author...",
 
     "languages": "Languages",
 
