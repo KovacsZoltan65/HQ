@@ -50,7 +50,7 @@ const props = defineProps({
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
                                 <th class="py-3 px-6" scope="col">{{ $t('name') }}</th>
-                                <th class="py-3 px-6" scope="col">$t('email')</th>
+                                <th class="py-3 px-6" scope="col">{{ $t('email') }}</th>
                                 <th class="py-3 px-6" scope="col" v-if="can.edit || can.delete">{{ $t('actions') }}</th>
                             </tr>
                         </thead>
