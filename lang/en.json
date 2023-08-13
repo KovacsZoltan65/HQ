@@ -60,6 +60,10 @@
     "roles": "Roles",
     "roles_description": "Role settings page! Here you can list, create, update or delete the role!",
     "role": "Role",
+    "roles_new": "New Roles",
+    "roles_edit": "Edit Role",
+    "roles_create": "Create Role",
+    "roles_update": "Update Role",
     "role_delete": "Delete Role",
     "role_delete_confirmation": "Are you sure you want to delete this Role?",
     

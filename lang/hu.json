@@ -61,8 +61,12 @@
     "roles": "Szerepkörök",
     "roles_description": "Szerepbeállítások oldala! Itt listázhatja, létrehozhatja, frissítheti vagy törölheti a szerepkört!",
     "role": "Szerepkör",
+    "roles_new": "Új szerepkör",
     "role_delete": "Szerepkör törlése",
     "role_delete_confirmation": "Biztosan törli ezt a szerepkört?",
+    "roles_edit": "Szerepkör szerkesztése",
+    "roles_create": "Szerepkör létrehozása",
+    "roles_update": "Szerepkör frissítése",
 
     "manage_api_token": "API-tokenek kezelése",
     "manage_api_token_description": "Bármelyik meglévő tokenjét törölheti, ha már nincs rájuk szükség.",

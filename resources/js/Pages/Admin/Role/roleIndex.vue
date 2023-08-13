@@ -246,14 +246,14 @@
 
                         <!-- FELIRAT -->
                         <div class="flex space-x-2 items-center">
-                            Szerepbeállítások oldala! Itt listázhatja, létrehozhatja, frissítheti vagy törölheti a szerepkört!
+                            {{ $t('roles_description') }}
                         </div>
 
                         <!-- new item -->
                         <div class="flex space-x-2 items-center" 
                              v-if="can.create">
-                            <default-button size="text-base" @click="settings_init">Beállítások</default-button>
-                            <green-button @click="newRole_init">Új szerepkör</green-button>
+                            <default-button size="text-base" @click="settings_init">{{ $t('setup') }}</default-button>
+                            <green-button @click="newRole_init">+ {{ $t('roles_new') }}</green-button>
                             <!--<a href="#" 
                                class="px-4 py-2 bg-green-500 uppercase 
                                     text-white rounded focus:outline-none flex items-center">
@@ -288,8 +288,8 @@
                                     </div>
                                 </th>
                                 <th scope="col" class="py-3 px-6">#</th>
-                                <th scope="col" class="py-3 px-6">{{ $t('name') }}</th>
-                                <th scope="col" class="py-3 px-6">{{ $t('actions') }}</th>
+                                <th scope="col" class="py-3 px-6">{{ $t(state.columns.name.label) }}</th>
+                                <th scope="col" class="py-3 px-6">{{ $t(state.columns.action.label) }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -366,18 +366,26 @@
 
         <template #footer>
             <light-button size="text-xs" type="button" @click="closeEditModal()">{{ $t('cancel') }}</light-button>
-            <green-button size="text-xs" type="button" @click="storeRole()">{{ state.isEdit ? $t('update') : $t('create') }}</green-button>
+            <green-button size="text-xs" type="button" @click="storeRole()">{{ state.isEdit ? $t('roles_update') : $t('roles_create') }}</green-button>
         </template>
     </dialog-modal>
 
     <!-- SETTINGS MODAL -->
     <dialog-modal :show="state.showSettingsModal" id="settings_modal">
-        <template #title></template>
+        <template #title>{{ $t('setup') }}</template>
 
-        <template #content></template>
+        <template #content>
+            <div v-for="(config, column) in state.columns" 
+                :key="column" class="d-flex align-items-center">
+                <input v-model="config.is_visible" 
+                    :id="column" class="me-3" type="checkbox" />
+                <label :for="column">{{ $t(config.label) }}</label>
+            </div>
+        </template>
 
         <template #footer>
-            <light-button size="text-xs" type="button" @click="closeSettingsModal()">{{ $t('cancel') }}</light-button>
+            <light-button size="text-xs" type="button" 
+                          @click="closeSettingsModal()">{{ $t('cancel') }}</light-button>
         </template>
     </dialog-modal>
 
