@@ -26,6 +26,7 @@ class RoleController extends Controller
     {
         return Inertia::render('Admin/Role/roleIndex', [
             'can' => [
+                'list' => Auth::user()->can('role list'),
                 'create' => Auth::user()->can('role create'),
                 'edit' => Auth::user()->can('role edit'),
                 'delete' => Auth::user()->can('role delete'),

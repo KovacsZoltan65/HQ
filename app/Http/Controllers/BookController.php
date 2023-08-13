@@ -14,10 +14,10 @@ class BookController extends Controller
 {
     public function __construct()
     {
-        //$this->middleware('can:book list', ['only' => ['index', 'show']]);
-        //$this->middleware('can:book create', ['only' => ['create', 'store']]);
-        //$this->middleware('can:book edit', ['only' => ['edit', 'update']]);
-        //$this->middleware('can:book delete', ['only' => ['destroy']]);
+        $this->middleware('can:book list', ['only' => ['index', 'show']]);
+        $this->middleware('can:book create', ['only' => ['create', 'store']]);
+        $this->middleware('can:book edit', ['only' => ['edit', 'update']]);
+        $this->middleware('can:book delete', ['only' => ['destroy']]);
     }
     
     /**
@@ -30,7 +30,14 @@ class BookController extends Controller
         //return Inertia::render('Books/booksIndex', [
         //    'data' => $data
         //]);
-        return Inertia::render('Books/booksIndex');
+        return Inertia::render('Books/booksIndex', [
+            'can' => [
+                'list' => Auth::user()->can('book list'),
+                'create' => Auth::user()->can('book create'),
+                'edit' => Auth::user()->can('book edit'),
+                'delete' => Auth::user()->can('book delete'),
+            ]
+        ]);
     }
 
     public function getBooks(Request $request)

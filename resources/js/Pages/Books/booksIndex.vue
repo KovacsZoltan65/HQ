@@ -336,7 +336,12 @@
 
     const errors = ref('');
 
-    const props = defineProps({});
+    const props = defineProps({
+        can: {
+            type: Object,
+            default: () => ({}),
+        }
+    });
 
     const defaultFormObject = {
         title: null,
