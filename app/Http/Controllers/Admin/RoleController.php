@@ -9,6 +9,9 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
+/**
+ * @assert (0, 0) == 0
+ */
 class RoleController extends Controller
 {
     public function __create()
@@ -50,6 +53,11 @@ class RoleController extends Controller
         */
     }
 
+    /**
+     * @assert testGetRoles()
+     * @param Request $request
+     * @return type
+     */
     public function getRoles(Request $request){
         // Beállítások
         $config = $request->get('config', []);
