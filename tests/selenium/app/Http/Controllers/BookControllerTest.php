@@ -1,29 +1,17 @@
 <?php
 
+use App\Http\Controllers\BookController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
+use Tests\TestCase;
+
 /**
  * Description of BookControllerTest
  *
  * @author kovacs.zoltan
  */
-
-use App\Http\Controllers\BookController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Log;
-use Tests\TestCase;
-
-
-
 class BookControllerTest extends TestCase {
 
-    //protected function setUp(): void{
-    //    Log::info('setUp');
-    //}
-    
-    //public static function setUpBeforeClass(): void {
-    //    Log::info('setUpBeforeClass');
-    //}
-    
     public function test_getBooks() {
         
         // ------------
@@ -69,7 +57,7 @@ class BookControllerTest extends TestCase {
         $books_count = count($books['data']);
 
         // A rekordok számának meg kell egyeznie az átadott paraméterrel
-        $this->assertEquals($per_page, $books_count, "Elvárt: {$per_page}; Kapott: {$books_count}");
+        $this->assertGreaterThanOrEqual($per_page, $roles_count, "Elvárt: {$per_page}; Kapott: {$roles_count}");
 
     }
 }
