@@ -54,15 +54,34 @@
     "api_token_create": "API-token létrehozása",
     "api_token_create_description": "Az API tokenek lehetővé teszik, hogy harmadik fél szolgáltatásai hitelesítsék az alkalmazásunkat az Ön nevében.",
     
-    "permissions": "Engedélyek",
-    "permission": "Engedély",
-    "permissions_description": "Engedélybeállítások oldala! Itt listázhatja, létrehozhatja, frissítheti vagy törölheti az engedélyeket!",
-
     "roles": "Szerepkörök",
     "roles_description": "Szerepbeállítások oldala! Itt listázhatja, létrehozhatja, frissítheti vagy törölheti a szerepkört!",
     "role": "Szerepkör",
+    "roles_new": "Új szerepkör",
+    "roles_edit": "",
+    "roles_create": "",
+    "roles_update": "",
     "role_delete": "Szerepkör törlése",
     "role_delete_confirmation": "Biztosan törli ezt a szerepkört?",
+
+    "permissions": "Engedélyek",
+    "permission": "Engedély",
+    "permissions_description": "Engedélybeállítások oldala! Itt listázhatja, létrehozhatja, frissítheti vagy törölheti az engedélyeket!",
+    "permissions_new": "Új engedély",
+    "permissions_edit": "Engedély szerkesztése",
+    "permissions_create": "Engedély létrehozása",
+    "permissions_update": "Engedély frissítése",
+    "permissions_delete": "Engedély törlése",
+    "permissions_delete_confirmation": "Biztosan törli ezt a szerepkört?",
+
+    "books": "Könyvek",
+    "books_description": "Nyílvántartott könyvek oldala! Itt listázhat, létrehozhat, frissíthet vagy törölhet könyvet!",
+    "books_new": "Új könyv",
+    "books_edit": "Könyv szerkesztése",
+    "books_create": "Könyv létrehozása",
+    "books_update": "Könyv frissítése",
+    "books_delete": "Könyv törlése",
+    "books_delete_confirmation": "Biztosan törli ezt a könyvet?",
 
     "manage_api_token": "API-tokenek kezelése",
     "manage_api_token_description": "Bármelyik meglévő tokenjét törölheti, ha már nincs rájuk szükség.",
@@ -100,15 +119,6 @@
     "team_settings": "Csoport beállítások",
     "team_switch": "Csoport váltás",
     
-    "books": "Könyvek",
-    "books_description": "Nyílvántartott könyvek oldala! Itt listázhat, létrehozhat, frissíthet vagy törölhet könyvet!",
-    "books_new": "Új könyv",
-    "books_edit": "Könyv szerkesztése",
-    "books_create": "Könyv létrehozása",
-    "books_update": "Könyv frissítése",
-    "books_delete": "Könyv törlése",
-    "books_delete_confirmation": "Biztosan törli ezt a könyvet?",
-
     "author": "Szerző",
     "image": "Kép"
 }
