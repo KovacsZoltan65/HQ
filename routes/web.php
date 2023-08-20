@@ -56,6 +56,31 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
             'update' => 'roles_update',
             'delete' => 'roles_delete',
         ]);
+    
+    // ------------
+    // PERMISSIONS
+    // ------------
+    Route::post('/getPermissions', [\App\Http\Controllers\Admin\PermissionController::class, 'getPermissions'])->name('getPermissions');
+    Route::resource('permissions', \App\Http\Controllers\Admin\PermissionController::class)
+        ->names([
+            'index' => 'permissions',
+            'store' => 'permissions_store',
+            'update' => 'permissions_update',
+            'delete' => 'permissions_delete',
+        ]);
+    
+    // ------------
+    // USERS
+    // ------------
+    Route::post('/getUsers', [\App\Http\Controllers\Admin\UserController::class, 'getUsers'])->name('getUsers');
+    Route::resource('users', \App\Http\Controllers\Admin\UserController::class)
+        ->names([
+            'index' => 'users',
+            'store' => 'users_store',
+            'update' => 'users_update',
+            'delete' => 'users_delete',
+        ]);
+    
 });
 
 Route::group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin', 'middleware' => ['auth']],

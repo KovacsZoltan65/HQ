@@ -12,7 +12,21 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $fact = new UserFactory();
-        $fact->create();
+        //$fact = new UserFactory();
+        //$fact->create();
+        $users = [
+            [
+                'id' => 1,
+                'name' => '',
+                'email' => 'superadmin@laraveltuts.com',
+                'password' => '',
+            ],
+            [
+                'id' => 2,
+                'name' => '',
+                'email' => 'admin@laraveltuts.com',
+                'password' => \Illuminate\Support\Facades\Hash::make('password'),
+            ]
+        ];
     }
 }
