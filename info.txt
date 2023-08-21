@@ -83,3 +83,29 @@ web.php módosítása a nyelv váltáshoz:
 Aktuális nyelv lekérése:
     import { getActiveLanguage } from 'laravel-vue-i18n';
     const lang = getActiveLanguage(); // en
+
+// ---------------------------------------
+// MIGRATIONS TO MYSQL
+// ---------------------------------------
+composer require kitloong/laravel-migrations-generator --dev
+php artisan migrate:generate    // OK
+php artisan migrate:generate --tables="table1,table2,table3,table4,table5"
+php artisan migrate:generate --ignore="table3,table4,table5"
+
+// ---------------------------------------
+// MODELS TO MYSQL
+// ---------------------------------------
+composer require reliese/laravel --dev
+php artisan vendor:publish --tag=reliese-models
+php artisan config:clear
+php artisan code:models // OK
+php artisan code:models --table=users
+php artisan code:models --connection=mysql
+php artisan code:models --schema=shop
+
+// ---------------------------------------
+// SEEDS TO MYSQL
+// ---------------------------------------
+composer require schubu/iseed --dev
+composer require cheesegrits/iseed --dev
+php artisan iseed 'books, ...'
