@@ -27,7 +27,7 @@ class UserController extends Controller
         $users->latest();
         $users = $users->paginate(100)->onEachSide(2)->appends(request()->query());
 
-        return Inertia::render('Admin/User/Index', [
+        return Inertia::render('Admin/User/userIndex', [
             'users' => $users,
             'can' => [
                 'list' => Auth::user()->can('user list'),

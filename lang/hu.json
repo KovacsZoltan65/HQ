@@ -15,7 +15,6 @@
     "title": "Cím",
     "description": "Leírás",
     "search": "Keresés",
-    "books_search_placeholder": "Keress a könyvek között cím vagy szerző szerint...",
 
     "languages": "Nyelvek",
 
@@ -91,23 +90,21 @@
     "posts_description": "Hozzászólás beállításai oldal! Itt listázhatja, létrehozhatja, frissítheti vagy törölheti a bejegyzést!",
     "post": "Poszt",
 
-    "users": "Felhasználók",
-    "users_description": "Felhasználói beállítások oldala! Itt listázhat, létrehozhat, frissíthet vagy törölhet felhasználót!",
-    "user": "Felhasználó",
-
     "team": "Csoport",
     "team_manage": "Csoport kezelése",
     "team_settings": "Csoport beállítások",
     "team_switch": "Csoport váltás",
     
-    "books": "Könyvek",
-    "books_description": "Nyílvántartott könyvek oldala! Itt listázhat, létrehozhat, frissíthet vagy törölhet könyvet!",
-    "books_new": "Új könyv",
-    "books_edit": "Könyv szerkesztése",
-    "books_create": "Könyv létrehozása",
-    "books_update": "Könyv frissítése",
-    "books_delete": "Könyv törlése",
-    "books_delete_confirmation": "Biztosan törli ezt a könyvet?",
+    "users": "Felhasználók",
+    "users_description": "Felhasználói beállítások oldala! Itt listázhat, létrehozhat, frissíthet vagy törölhet felhasználót!",
+    "user": "Felhasználó",
+    "users_new": "Új felhasználó",
+    "users_edit": "Felhasználó szerkesztése",
+    "users_create": "Felhasználó létrehozása",
+    "users_update": "Felhasználó frissítése",
+    "users_delete": "Felhasználó törlése",
+    "users_delete_confirmation": "Biztosan törli ezt a felhasználót?",
+    "users_search_placeholder": "Keress a felhasználók között név vagy email cím szerint...",
 
     "author": "Szerző",
     "image": "Kép"
