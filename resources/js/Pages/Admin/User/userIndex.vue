@@ -28,6 +28,7 @@
         name: null,
         email: null,
         password: null,
+        language: null,
     };
 
     const state = reactive({
@@ -66,8 +67,15 @@
                 is_visible: true,
                 is_sortable: true,
                 is_filterable: true,
-            },email: {
+            },
+            email: {
                 label: 'email',
+                is_visible: true,
+                is_sortable: true,
+                is_filterable: true,
+            },
+            language: {
+                label: 'language',
                 is_visible: true,
                 is_sortable: true,
                 is_filterable: true,
@@ -120,7 +128,7 @@
         };
     }
 
-    // Szerepkörök lekérése
+    // Felhasználók lekérése
     function getUsers(page = state.pagination.current_page) {
         axios.post(route('getUsers', {
             filters: state.filters,
@@ -128,7 +136,7 @@
                 per_page: state.pagination.per_page,
             }, page
         })).then(response => {
-            //console.log(response);
+            console.log(response);
             state.Users = response.data.users.data;
             
             state.pagination.total_number_of_pages = response.data.users.last_page;

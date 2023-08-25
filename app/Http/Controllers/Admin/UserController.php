@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
@@ -90,11 +91,11 @@ class UserController extends Controller
             : config('app.per_page');
 
         // Adatok lekérése
-        $permissions = $query->paginate($per_page);
+        $users = $query->paginate($per_page);
 
         // Küldendő adatcsomag
         $data = [
-            'permissions' => $permissions,
+            'users' => $users,
             'config' => $config,
             'filters' => $filters,
         ];
