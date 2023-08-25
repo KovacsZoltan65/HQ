@@ -90,6 +90,13 @@
     "posts": "Posztok",
     "posts_description": "Hozzászólás beállításai oldal! Itt listázhatja, létrehozhatja, frissítheti vagy törölheti a bejegyzést!",
     "post": "Poszt",
+    "posts_new": "Új poszt",
+    "posts_edit": "Poszt szerkesztése",
+    "posts_create": "Poszt létrehozása",
+    "posts_update": "Poszt frissítése",
+    "posts_delete": "Poszt törlése",
+    "posts_delete_confirmation": "Bizos, hogy törölni akarod a posztot?",
+    "posts_search_placeholder": "Keress a posztok között frelirat vagy tartalom szerint...",
 
     "users": "Felhasználók",
     "users_description": "Felhasználói beállítások oldala! Itt listázhat, létrehozhat, frissíthet vagy törölhet felhasználót!",

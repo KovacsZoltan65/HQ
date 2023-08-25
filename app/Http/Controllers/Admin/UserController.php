@@ -26,9 +26,9 @@ class UserController extends Controller
     {
         return Inertia::render('Admin/User/userIndex', [
             'can' => [
-                'list' => Auth::user()->can('user list'),
+                'list'   => Auth::user()->can('user list'),
                 'create' => Auth::user()->can('user create'),
-                'edit' => Auth::user()->can('user edit'),
+                'edit'   => Auth::user()->can('user edit'),
                 'delete' => Auth::user()->can('user delete'),
             ]
         ]);

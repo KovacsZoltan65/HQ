@@ -89,6 +89,13 @@
     "posts": "Posts",
     "posts_description": "Post settings page! Here you can list, create, update or delete the post!",
     "post": "Post",
+    "posts_new": "New Post",
+    "posts_edit": "Edit Post",
+    "posts_create": "Create Post",
+    "posts_update": "Update Post",
+    "posts_delete": "Delete Post",
+    "posts_delete_confirmation": "Are you sure you want to delete this Post?",
+    "posts_search_placeholder": "Search the post by title or content...",
 
     "users": "Users",
     "users_description": "User settings page! Here you can list, create, update or delete a user!",

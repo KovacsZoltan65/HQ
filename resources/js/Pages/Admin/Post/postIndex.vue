@@ -1,10 +1,10 @@
 <template>
-    <app-layout :title="$t('books')">
+    <app-layout :title="$t('posts')">
 
         <!-- header -->
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ $t('books') }}
+                {{ $t('posts') }}
             </h2>
         </template>
 
@@ -18,7 +18,7 @@
 
                         <!-- FELIRAT -->
                         <div class="flex space-x-2 items-center">
-                            {{ $t('books_description') }}
+                            {{ $t('posts_description') }}
                         </div>
 
                         <!-- GOMBOK -->
@@ -26,7 +26,7 @@
                             <default-button size="text-base" 
                                             @click="settings_init"
                             >{{ $t('setup') }}</default-button>
-                            <green-button @click="newBook_init">+ {{ $t('books_new') }}</green-button>
+                            <green-button @click="newPost_init">+ {{ $t('posts_new') }}</green-button>
                         </div>
 
                     </div>
@@ -34,7 +34,7 @@
             </div>
         </div>
 
-        <!-- Könyvek listája -->
+        <!-- Posztok listája -->
         <div class="py-6">
             <div class="mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-4 py-4">
@@ -74,7 +74,7 @@
                                         border-gray-300 rounded-lg bg-gray-50 
                                         focus:ring-blue-500 focus:border-blue-500 
                                         dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                    :placeholder="$t('books_search_placeholder')" 
+                                    :placeholder="$t('posts_search_placeholder')" 
                                     v-model="state.filters.search" 
                                     required>
                                 <!-- search button -->
@@ -83,7 +83,7 @@
                                         hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 
                                         font-medium rounded-lg text-sm px-4 py-2 
                                         dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                                    @click="getBooks()"
+                                    @click="getPosts()"
                                 >{{ $t('search') }}</button>
                             </div>
                         </div>
@@ -127,26 +127,18 @@
                                             </a>
                                         </div>
                                     </th>
-                                    <!-- AUTHOR -->
+
+                                    <!-- DESCRIPTION -->
                                     <th scope="col" class="px-6 py-3" 
-                                        v-show="state.columns.author.is_visible">
+                                        v-show="state.columns.description.is_visible">
                                         <div class="flex items-center">
-                                            {{ $t(state.columns.author.label) }}
-                                            <a href="#" v-show="state.columns.author.is_sortable">
+                                            {{ $t(state.columns.description.label) }}
+                                            <a href="#" v-show="state.columns.description.is_sortable">
                                                 <SorterIcon/>
                                             </a>
                                         </div>
                                     </th>
-                                    <!-- IMAGE -->
-                                    <th scope="col" class="px-6 py-3" 
-                                        v-show="state.columns.image.is_visible">
-                                        <div class="flex items-center">
-                                            {{ $t(state.columns.image.label) }}
-                                            <a href="#" v-show="state.columns.image.is_sortable">
-                                                <SorterIcon/>
-                                            </a>
-                                        </div>
-                                    </th>
+                                    
                                     <!-- ACTION -->
                                     <th scope="col" class="px-6 py-3" width="250px" v-show="state.columns.action.is_visible">
                                         <div class="flex items-center">
@@ -160,25 +152,24 @@
                             </thead>
                             <tbody>
                                 
-                                <tr v-for="book in state.Books">
+                                <tr v-for="post in state.Posts">
                                     <td class="px-6 py-3 border">
                                         <div>
-                                            <input :id="book.id" type="checkbox" :value="book.id" :key="book.id" v-model="state.selected" 
+                                            <input :id="post.id" type="checkbox" :value="post.id" :key="post.id" v-model="state.selected" 
                                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 
                                                 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 
                                                 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                                            <label class="sr-only" :for="book.id">checkbox</label>
+                                            <label class="sr-only" :for="post.id">checkbox</label>
                                         </div>
                                     </td>
-                                    <td class="px-4 py-2 border" v-show="state.columns.id.is_visible">{{ book.id }}</td>
-                                    <td class="px-4 py-2 border" v-show="state.columns.title.is_visible">{{ book.title }}</td>
-                                    <td class="px-4 py-2 border" v-show="state.columns.author.is_visible">{{ book.author }}</td>
-                                    <td class="px-4 py-2 border" v-show="state.columns.image.is_visible">{{ book.image }}</td>
+                                    <td class="px-4 py-2 border" v-show="state.columns.id.is_visible">{{ post.id }}</td>
+                                    <td class="px-4 py-2 border" v-show="state.columns.title.is_visible">{{ post.title }}</td>
+                                    <td class="px-4 py-2 border" v-show="state.columns.description.is_visible">{{ post.description }}</td>
                                     <td class="px-4 py-2 w-45 border" width="250px" 
                                         v-show="state.columns.action.is_visible">
                                         <div type="justify-start lg:justify-end" no-wrap>
-                                            <green-button class="mt-1" size="text-xs" @click="editBook(book)">{{ $t('edit') }}</green-button>
-                                            <red-button class="mt-1" size="text-xs" @click="deleteBook_init(book)">{{ $t('delete') }}</red-button>
+                                            <green-button class="mt-1" size="text-xs" @click="editPost(post)">{{ $t('edit') }}</green-button>
+                                            <red-button class="mt-1" size="text-xs" @click="deletePost_init(post)">{{ $t('delete') }}</red-button>
                                         </div>
                                     </td>
                                 </tr>
@@ -193,7 +184,7 @@
                             :pages="state.pagination.total_number_of_pages"  
                             :range-size="state.pagination.range"
                             active-color="#DCEDFF"
-                            @update:modelValue="getBooks"/>
+                            @update:modelValue="getPosts"/>
                     </div>
 
                 </div>
@@ -205,9 +196,9 @@
     <!-- EDIT MODAL -->
     <dialog-modal :show="state.showEditModal" id="edit_modal">
         <template #title>
-            <!--<span v-if="state.editingBook && state.editingBook.id">Edit Book</span>
-            <span v-else>Create Book</span>-->
-            {{ state.isEdit ? $t('books_edit') : $t('books_new') }}
+            <!--<span v-if="state.editingPost && state.editingPost.id">Edit Post</span>
+            <span v-else>Create Post</span>-->
+            {{ state.isEdit ? $t('posts_edit') : $t('posts_new') }}
         </template>
 
         <template #content>
@@ -234,7 +225,7 @@
                                 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
                             :placeholder="$t('title')" 
-                            v-model="state.Book.title" required>
+                            v-model="state.Post.title" required>
                             <span></span>
                 </div>
 
@@ -249,7 +240,7 @@
                                 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
                             :placeholder="$t('author')" 
-                            v-model="state.Book.author" required>
+                            v-model="state.Post.author" required>
                 </div>
 
                 <!-- IMAGE -->
@@ -260,7 +251,7 @@
                     <input type="text" id="image" 
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
                             :placeholder="$t('image')" 
-                            v-model="state.Book.image" required>
+                            v-model="state.Post.image" required>
                 </div>
 
             </div>
@@ -270,8 +261,8 @@
             <light-button size="text-xs" type="button" @click="closeEditModal()"
             >{{ $t('cancel') }}</light-button>
             <green-button size="text-xs" type="button" 
-                          @click="storeBook()"
-            >{{ state.isEdit ? $t('books_update') : $t('books_create') }}</green-button>
+                          @click="storePost()"
+            >{{ state.isEdit ? $t('posts_update') : $t('posts_create') }}</green-button>
         </template>
 
     </dialog-modal>
@@ -279,18 +270,18 @@
     <!-- CONFIRM DELETE MODAL -->
     <dialog-modal :show="state.showDeleteModal" id="delete_modal">
         <template #title>
-            {{ $t('books_delete') }}
+            {{ $t('posts_delete') }}
         </template>
         <template #content>
-            {{ $t('books_delete_confirmation') }}
+            {{ $t('posts_delete_confirmation') }}
         </template>
         <template #footer>
         <!--
             <secondary-button @click="closeDeleteModal()">Cancel</secondary-button>
-            <primary-button type="button" class="ml-3" @click="deleteBook()">Delete</primary-button>
+            <primary-button type="button" class="ml-3" @click="deletePost()">Delete</primary-button>
         -->
             <light-button size="text-xs" type="button" @click="closeDeleteModal()">{{ $t('cancel') }}</light-button>
-            <red-button size="text-xs" type="button" @click="deleteBook()">{{ $t('delete') }}</red-button>
+            <red-button size="text-xs" type="button" @click="deletePost()">{{ $t('delete') }}</red-button>
         </template>
     </dialog-modal>
 
@@ -319,8 +310,8 @@
     
     //import { initFlowbite } from 'flowbite';
 
-    import AppLayout from '../../Layouts/AppLayout.vue';
-    //import BookForm from '../../Components/Book/form.vue';
+    import AppLayout from '@/Layouts/AppLayout.vue';
+
     import DialogModal from '@/Components/DialogModal.vue';
 
     import VPagination from '@hennge/vue3-pagination';
@@ -328,14 +319,14 @@
 
     //import SecondaryButton from '@/Components/SecondaryButton.vue';
     //import PrimaryButton from '@/Components/PrimaryButton.vue';
-    import DefaultButton from '../../Components/buttons/DefaultButton.vue';
-    import GreenButton from '../../Components/buttons/GreenButton.vue';
-    import RedButton from '../../Components/buttons/RedButton.vue';
-    import LightButton from '../../Components/buttons/LightButton.vue';
+    import DefaultButton from '@/Components/buttons/DefaultButton.vue';
+    import GreenButton from '@/Components/buttons/GreenButton.vue';
+    import RedButton from '@/Components/buttons/RedButton.vue';
+    import LightButton from '@/Components/buttons/LightButton.vue';
 
-    import SorterIcon from '../../Components/icons/SorterIcon.vue';
+    import SorterIcon from '@/Components/icons/SorterIcon.vue';
 
-    const local_storage_column_key = 'ln_books_grid_columns';
+    const local_storage_column_key = 'ln_posts_grid_columns';
 
     const errors = ref('');
 
@@ -354,13 +345,13 @@
 
     const state = reactive({
         // Összes rekord
-        Books: [],
+        Posts: [],
         // Kiválasztott rekord
-        Book: newBook(),
+        Post: newPost(),
         // Szerkeszteni kívánt rekord
-        editingBook: null,
+        editingPost: null,
         // Törölni kívánt rekord
-        deletingBook: null,
+        deletingPost: null,
 
         // Van nyitott ablak
         isFormOpen: false,
@@ -393,14 +384,8 @@
                 is_sortable: true,
                 is_filterable: true,
             },
-            author: {
-                label: 'author',
-                is_visible: true,
-                is_sortable: true,
-                is_filterable: true,
-            },
-            image: {
-                label: 'image',
+            description: {
+                label: 'description',
                 is_visible: true,
                 is_sortable: true,
                 is_filterable: true,
@@ -436,7 +421,7 @@
     onMounted(async () => {
         //initFlowbite();
 
-        getBooks();
+        getPosts();
 
         let columns = localStorage.getItem(local_storage_column_key);
         
@@ -450,15 +435,15 @@
         }
     });
     
-    function sordedBook (){
-        return state.Books.sort((a, b) => {
+    function sordedPost (){
+        return state.Posts.sort((a, b) => {
             return a.title.localeCompare(b.title);
         });
     };
 
-    function filteredBooks (){
-        return state.Books.filter((book) => {
-            return book.title.toLowerCase().includes(state.filters.search.toLowerCase());
+    function filteredPosts (){
+        return state.Posts.filter((post) => {
+            return post.title.toLowerCase().includes(state.filters.search.toLowerCase());
         });
     };
 
@@ -466,15 +451,15 @@
     function select(){
         state.selected = [];
         if( !state.selectAll ){
-            state.Books.forEach(book => {
-                state.selected.push(book.id);
+            state.Posts.forEach(post => {
+                state.selected.push(post.id);
             });
         }
     };
 
     // Táblázat adatainak lekérése
-    function getBooks(page = state.pagination.current_page) {
-        axios.post(route('getBooks', {
+    function getPosts(page = state.pagination.current_page) {
+        axios.post(route('getPosts', {
             filters: state.filters,
             config: {
                 per_page: state.pagination.per_page,
@@ -482,24 +467,24 @@
             page
         }))
         .then(response => {
-            state.Books = response.data.books.data;
+            state.Posts = response.data.posts.data;
             
-            state.pagination.total_number_of_pages = response.data.books.last_page;
-            state.pagination.current_page = response.data.books.current_page;
+            state.pagination.total_number_of_pages = response.data.posts.last_page;
+            state.pagination.current_page = response.data.posts.current_page;
         });
     }
 
     // Új könyv előkészítése
-    function newBook_init(){
-        state.Book = newBook();
-        state.editingBook = null;
+    function newPost_init(){
+        state.Post = newPost();
+        state.editingPost = null;
         state.isEdit = false;
 
         openEditModal();
     }
 
     // Új könyv adatai
-    function newBook(){
+    function newPost(){
         return {
             id: null,
             title: null,
@@ -509,22 +494,22 @@
     }
 
     // Szerkesztés
-    function editBook(book){
+    function editPost(post){
         
-        state.editingBook = JSON.parse(JSON.stringify(book));
-        state.Book = state.editingBook;
+        state.editingPost = JSON.parse(JSON.stringify(post));
+        state.Post = state.editingPost;
         state.isEdit = true;
 
         openEditModal();
     }
 
     // Új rekord mentése
-    function storeBook(){
+    function storePost(){
         errors.value = '';
-        axios.post(route('books_store'), state.Book)
+        axios.post(route('posts_store'), state.Post)
         .then(res => {
             console.log('res', res);
-            state.Books.push(res.data.book);
+            state.Posts.push(res.data.post);
 
             closeEditModal();
         })
@@ -537,16 +522,16 @@
     }
 
     // Szerkesztett adatok mentése
-    function updateBook(){
+    function updatePost(){
         //
         errors.value = '';
-        axios.put('books_update', {book: state.editingBook.id})
+        axios.put('posts_update', {post: state.editingPost.id})
         .then(res => {
             //console.log('res', res);
             // 
-            for(let i = 0; i < state.Books.length; i++){
-                if(state.Books[i].id == res.data.id){
-                    state.Books[i] = res.data;
+            for(let i = 0; i < state.Posts.length; i++){
+                if(state.Posts[i].id == res.data.id){
+                    state.Posts[i] = res.data;
                 }
             }
 
@@ -561,43 +546,43 @@
     }
 
     // Régi mentés rutin
-    function saveBook(){
+    function savePost(){
         
-        if(state.editingBook && state.editingBook.id){
+        if(state.editingPost && state.editingPost.id){
             // Rekord frissítése
-            axios.put(route('books_update', {book: state.editingBook.id}), {
-                title: state.editingBook.title,
-                author: state.editingBook.author,
-                image: state.editingBook.image,
+            axios.put(route('posts_update', {post: state.editingPost.id}), {
+                title: state.editingPost.title,
+                author: state.editingPost.author,
+                image: state.editingPost.image,
             })
             .then((res) => {
                 //
-                for(let i = 0; i < state.Books.length; i++){
-                    if(state.Books[i].id === res.data.id){
-                        state.Books[i] = res.data;
+                for(let i = 0; i < state.Posts.length; i++){
+                    if(state.Posts[i].id === res.data.id){
+                        state.Posts[i] = res.data;
                     }
                 }
 
                 closeEditModal();
             })
             .catch((error) => {
-                console.log('updateBook', error);
+                console.log('updatePost', error);
             });
         }else{
             // Rekord mentése
-            axios.post(route('books_store'), {
-                title: state.Book.title,
-                author: state.Book.author,
-                image: state.Book.image,
+            axios.post(route('posts_store'), {
+                title: state.Post.title,
+                author: state.Post.author,
+                image: state.Post.image,
             })
             .then((response) => {
-                //state.Book = newBook();
-                state.Books.push(response.data.book);
+                //state.Post = newPost();
+                state.Posts.push(response.data.post);
 
                 closeEditModal();
             })
             .catch((error) => {
-                console.log('storeBook', error);
+                console.log('storePost', error);
             });
         }
 
@@ -606,32 +591,32 @@
     }
 
     // Törlés előkészítése
-    function deleteBook_init(book){
-        state.editingBook = null;
-        state.deletingBook = book;
+    function deletePost_init(post){
+        state.editingPost = null;
+        state.deletingPost = post;
 
         openDeleteModal();
     }
 
     // Rekord törlése
-    function deleteBook(book){
+    function deletePost(post){
 
-        axios.delete(route('books_delete', {book: state.deletingBook.id}))
+        axios.delete(route('posts_delete', {post: state.deletingPost.id}))
         .then((response) => {
-            state.Books = state.Books.filter(book => book.id !== state.deletingBook.id);
-            state.deletingBook = null;
+            state.Posts = state.Posts.filter(post => post.id !== state.deletingPost.id);
+            state.deletingPost = null;
 
             openDeleteModal();
         })
         .catch((error) => {
-            console.log('deleteBook', error);
+            console.log('deletePost', error);
         });
     }
 
     // Szerkesztés megszakítása
     function cancelEdit(){
-        state.editingBook = null;
-        state.Book = newBook();
+        state.editingPost = null;
+        state.Post = newPost();
     }
 
     // Beállítások előkészítése
