@@ -15,7 +15,6 @@
     "title": "Title",
     "description": "Description",
     "search": "Search",
-    "books_search_placeholder": "Search the books by title or author...",
 
     "languages": "Languages",
     "language": "Language",
@@ -94,6 +93,13 @@
     "users": "Users",
     "users_description": "User settings page! Here you can list, create, update or delete a user!",
     "user": "User",
+    "users_new": "New User",
+    "users_edit": "Edit User",
+    "users_create": "Create User",
+    "users_update": "Update User",
+    "users_delete": "Delete User",
+    "users_delete_confirmation": "Are you sure you want to delete this User?",
+    "users_search_placeholder": "Search the user by name or email...",
 
     "team": "Team",
     "team_manage": "Manage Team",
@@ -108,6 +114,7 @@
     "books_update": "Update Book",
     "books_delete": "Delete Book",
     "books_delete_confirmation": "Are you sure you want to delete this Book?",
+    "books_search_placeholder": "Search the books by title or author...",
 
     "author": "Author",
     "image": "Image"

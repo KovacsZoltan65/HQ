@@ -15,7 +15,6 @@
     "title": "Cím",
     "description": "Leírás",
     "search": "Keresés",
-    "books_search_placeholder": "Keress a könyvek között cím vagy szerző szerint...",
 
     "languages": "Nyelvek",
     "language": "Nyelv",
@@ -95,6 +94,13 @@
     "users": "Felhasználók",
     "users_description": "Felhasználói beállítások oldala! Itt listázhat, létrehozhat, frissíthet vagy törölhet felhasználót!",
     "user": "Felhasználó",
+    "users_new": "Új felhasználó",
+    "users_edit": "Felhasználó sterkesztése",
+    "users_create": "Felhasználó létrehozása",
+    "users_update": "Felhasználó frissítése",
+    "users_delete": "Felhasználó törlése",
+    "users_delete_confirmation": "Bizos, hogy törölni akarod a felhasználót?",
+    "users_search_placeholder": "Keress a felhasználók között név vagy email cím szerint...",
 
     "team": "Csoport",
     "team_manage": "Csoport kezelése",
@@ -109,6 +115,7 @@
     "books_update": "Könyv frissítése",
     "books_delete": "Könyv törlése",
     "books_delete_confirmation": "Biztosan törli ezt a könyvet?",
+    "books_search_placeholder": "Keress a könyvek között cím vagy szerző szerint...",
 
     "author": "Szerző",
     "image": "Kép"
