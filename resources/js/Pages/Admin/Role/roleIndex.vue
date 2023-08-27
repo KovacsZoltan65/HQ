@@ -388,7 +388,7 @@
         </template>
 
         <template #content>
-            {{ $t('role_delete_confirmation') }}
+            {{ $t('roles_delete_confirmation') }}
         </template>
 
         <template #footer>

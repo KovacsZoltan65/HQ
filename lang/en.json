@@ -15,7 +15,6 @@
     "title": "Title",
     "description": "Description",
     "search": "Search",
-    "books_search_placeholder": "Search the books by title or author...",
 
     "languages": "Languages",
 
@@ -58,10 +57,18 @@
     "permissions_description": "Permission settings page! You can list, create, update or delete permissions here!",
 
     "roles": "Roles",
-    "roles_description": "Role settings page! Here you can list, create, update or delete the role!",
     "role": "Role",
-    "role_delete": "Delete Role",
-    "role_delete_confirmation": "Are you sure you want to delete this Role?",
+    "roles_description": "Role settings page! Here you can list, create, update or delete the role!",
+    "roles_new": "New Role",
+    "roles_edit": "Edit Role",
+    "roles_create": "Create Role",
+    "roles_created": "Role Created",
+    "roles_update": "Update Role",
+    "roles_updated": "Role Updated",
+    "roles_delete": "Delete Role",
+    "roles_deleted": "Role Deleted",
+    "roles_delete_confirmation": "Are you sure you want to delete this Role?",
+    "roles_search_placeholder": "Search the role by name...",
     
     "manage_api_token": "Manage API token",
     "manage_api_token_description": "You may delete any of your existing tokens if they are no longer needed.",
@@ -87,12 +94,22 @@
     "done": "Done",
 
     "posts": "Posts",
-    "posts_description": "Post settings page! Here you can list, create, update or delete the post!",
     "post": "Post",
+    "posts_description": "Post settings page! Here you can list, create, update or delete the post!",
 
     "users": "Users",
-    "users_description": "User settings page! Here you can list, create, update or delete a user!",
     "user": "User",
+    "users_description": "User settings page! Here you can list, create, update or delete a user!",
+    "users_new": "New User",
+    "users_edit": "Edit User",
+    "users_create": "Create User",
+    "users_created": "User Created",
+    "users_update": "Update User",
+    "users_updated": "User Updated",
+    "users_delete": "Delete User",
+    "users_deleted": "User Deleted",
+    "users_delete_confirmation": "Are you sure you want to delete this User?",
+    "users_search_placeholder": "Search the user by name or email...",
 
     "team": "Team",
     "team_manage": "Manage Team",
@@ -100,13 +117,18 @@
     "team_switch": "Team Switch",
     
     "books": "Books",
+    "book": "Book",
     "books_description": "Open books page! Here you can list, create, update or delete a book!",
     "books_new": "New Book",
     "books_edit": "Edit Book",
     "books_create": "Create Book",
+    "books_created": "Book Created",
     "books_update": "Update Book",
+    "books_updated": "Book Updated",
     "books_delete": "Delete Book",
+    "books_deleted": "Book deleted",
     "books_delete_confirmation": "Are you sure you want to delete this Book?",
+    "books_search_placeholder": "Search the books by title or author...",
 
     "author": "Author",
     "image": "Image"

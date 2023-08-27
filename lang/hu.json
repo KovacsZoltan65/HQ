@@ -15,7 +15,6 @@
     "title": "Cím",
     "description": "Leírás",
     "search": "Keresés",
-    "books_search_placeholder": "Keress a könyvek között cím vagy szerző szerint...",
 
     "languages": "Nyelvek",
 
@@ -59,10 +58,18 @@
     "permissions_description": "Engedélybeállítások oldala! Itt listázhatja, létrehozhatja, frissítheti vagy törölheti az engedélyeket!",
 
     "roles": "Szerepkörök",
-    "roles_description": "Szerepbeállítások oldala! Itt listázhatja, létrehozhatja, frissítheti vagy törölheti a szerepkört!",
     "role": "Szerepkör",
-    "role_delete": "Szerepkör törlése",
-    "role_delete_confirmation": "Biztosan törli ezt a szerepkört?",
+    "roles_description": "Szerepbeállítások oldala! Itt listázhatja, létrehozhatja, frissítheti vagy törölheti a szerepkört!",
+    "roles_new": "Új szerepkör",
+    "roles_edit": "Szerepkör szerkesztése",
+    "roles_create": "Szerepkör létrehozása",
+    "roles_created": "Szerepkör létrehozva",
+    "roles_update": "Szerepkör frissítése",
+    "roles_updated": "A szerepkör frissítve",
+    "roles_delete": "Szerepkör törlése",
+    "roles_deleted": "Szerepkör törölve",
+    "roles_delete_confirmation": "Biztosan törli ezt a szerepkört?",
+    "roles_search_placeholder": "Keress a szerepkörök között név szerint...",
 
     "manage_api_token": "API-tokenek kezelése",
     "manage_api_token_description": "Bármelyik meglévő tokenjét törölheti, ha már nincs rájuk szükség.",
@@ -88,12 +95,22 @@
     "done": "Kész",
     
     "posts": "Posztok",
-    "posts_description": "Hozzászólás beállításai oldal! Itt listázhatja, létrehozhatja, frissítheti vagy törölheti a bejegyzést!",
     "post": "Poszt",
+    "posts_description": "Hozzászólás beállításai oldal! Itt listázhatja, létrehozhatja, frissítheti vagy törölheti a bejegyzést!",
 
     "users": "Felhasználók",
-    "users_description": "Felhasználói beállítások oldala! Itt listázhat, létrehozhat, frissíthet vagy törölhet felhasználót!",
     "user": "Felhasználó",
+    "users_description": "Felhasználói beállítások oldala! Itt listázhat, létrehozhat, frissíthet vagy törölhet felhasználót!",
+    "users_new": "Új felhasználó",
+    "users_edit": "Felhasználó szerkesztése",
+    "users_create": "Felhasználó létrehozása",
+    "users_created": "Felhasználó létrehozva",
+    "users_update": "Felhasználó frissítése",
+    "users_updated": "Felhasználó frissítve",
+    "users_delete": "Felhasználó törlése",
+    "users_deleted": "Felhasználó törölve",
+    "users__delete_confirmation": "Biztosan törli ezt a felhasználót?",
+    "users_search_placeholder": "Keress a könyvek között név vagy email szerint...",
 
     "team": "Csoport",
     "team_manage": "Csoport kezelése",
@@ -101,13 +118,18 @@
     "team_switch": "Csoport váltás",
     
     "books": "Könyvek",
+    "book": "Könyv",
     "books_description": "Nyílvántartott könyvek oldala! Itt listázhat, létrehozhat, frissíthet vagy törölhet könyvet!",
     "books_new": "Új könyv",
     "books_edit": "Könyv szerkesztése",
     "books_create": "Könyv létrehozása",
+    "books_created": "A könyv létrejött",
     "books_update": "Könyv frissítése",
+    "books_updated": "Könyv frissítve",
     "books_delete": "Könyv törlése",
+    "books_deleted": "A könyv törölve",
     "books_delete_confirmation": "Biztosan törli ezt a könyvet?",
+    "books_search_placeholder": "Keress a könyvek között cím vagy szerző szerint...",
 
     "author": "Szerző",
     "image": "Kép"

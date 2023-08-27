@@ -14,9 +14,9 @@ class BookController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:book list', ['only' => ['index', 'show']]);
+        $this->middleware('can:book list',   ['only' => ['index', 'show']]);
         $this->middleware('can:book create', ['only' => ['create', 'store']]);
-        $this->middleware('can:book edit', ['only' => ['edit', 'update']]);
+        $this->middleware('can:book edit',   ['only' => ['edit', 'update']]);
         $this->middleware('can:book delete', ['only' => ['destroy']]);
     }
     
@@ -32,9 +32,9 @@ class BookController extends Controller
         //]);
         return Inertia::render('Books/booksIndex', [
             'can' => [
-                'list' => Auth::user()->can('book list'),
+                  'list' => Auth::user()->can('book list'),
                 'create' => Auth::user()->can('book create'),
-                'edit' => Auth::user()->can('book edit'),
+                  'edit' => Auth::user()->can('book edit'),
                 'delete' => Auth::user()->can('book delete'),
             ]
         ]);
@@ -89,8 +89,8 @@ class BookController extends Controller
         
         // Küldendő adatcsomag
         $data = [
-            'books' => $books,
-            'config' => $config,
+              'books' => $books,
+             'config' => $config,
             'filters' => $filters,
         ];
 
@@ -101,9 +101,7 @@ class BookController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-    }
+    public function create(){}
 
     /**
      * Store a newly created resource in storage.
@@ -117,22 +115,18 @@ class BookController extends Controller
 
         Book::create($request->all());
 
-        return redirect()->back()->with('message', 'Book created');
+        return redirect()->back()->with('message', __('books_created'));
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Book $book)
-    {
-    }
+    public function show(Book $book){}
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Book $book)
-    {
-    }
+    public function edit(Book $book){}
 
     /**
      * Update the specified resource in storage.
@@ -160,6 +154,6 @@ class BookController extends Controller
         $book->delete();
 
         return redirect()->back()
-            ->with('message', 'Book deleted');
+            ->with('message', __('books_deleted'));
     }
 }

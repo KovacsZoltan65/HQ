@@ -12,9 +12,9 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:user list', ['only' => ['index', 'show']]);
+        $this->middleware('can:user list',   ['only' => ['index', 'show']]);
         $this->middleware('can:user create', ['only' => ['create', 'store']]);
-        $this->middleware('can:user edit', ['only' => ['edit', 'update']]);
+        $this->middleware('can:user edit',   ['only' => ['edit', 'update']]);
         $this->middleware('can:user delete', ['only' => ['destroy']]);
     }
 
@@ -30,9 +30,9 @@ class UserController extends Controller
         return Inertia::render('Admin/User/Index', [
             'users' => $users,
             'can' => [
-                'list' => Auth::user()->can('user list'),
+                  'list' => Auth::user()->can('user list'),
                 'create' => Auth::user()->can('user create'),
-                'edit' => Auth::user()->can('user edit'),
+                  'edit' => Auth::user()->can('user edit'),
                 'delete' => Auth::user()->can('user delete'),
             ],
         ]);
@@ -41,48 +41,46 @@ class UserController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        //
-    }
+    public function create(){}
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        //
+        User::create($request->all());
+
+        return redirec()->back()->with('message', __('users_created'));
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
-    }
+    public function show(string $id){}
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        //
-    }
+    public function edit(string $id){}
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        //
+        $user->update($request->all());
+        
+        return response()->json($user, Response::HTTP_OK);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        //
+        $user->delete();
+
+        return redirect()->back()
+            ->with('message', __('users_deleted'));
     }
 }

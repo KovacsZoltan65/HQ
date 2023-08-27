@@ -49,12 +49,24 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     // ROLES
     // ------------
     Route::post('/getRoles', [\App\Http\Controllers\Admin\RoleController::class, 'getRoles'])->name('getRoles');
-    Route::resource('roles', \App\Http\Controllers\Admin\RoleController::class)
+    Route::resource('/roles', \App\Http\Controllers\Admin\RoleController::class)
         ->names([
-            'index' => 'roles',
-            'store' => 'roles_store',
+             'index' => 'roles',
+             'store' => 'roles_store',
             'update' => 'roles_update',
             'delete' => 'roles_delete',
+        ]);
+
+    // ------------
+    // PERMISSIONS
+    // ------------
+    Route::post('/getPermissions', [\App\Http\Controllers\Admin\PermissionController::class, 'getPermissions'])->name('getPermissions');
+    Route::resource('/permissions', \App\Http\Controllers\Admin\PermissionController::class)
+        ->names([
+             'index' => 'permissions',
+             'store' => 'permissions_store',
+            'update' => 'permissions_update',
+            'delete' => 'permissions_delete',
         ]);
 });
 

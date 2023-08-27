@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StorePermissionRequest;
+use App\Http\Requests\UpdateRoleRequest;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -13,9 +15,9 @@ class RoleController extends Controller
 {
     public function __create()
     {
-        $this->middleware('can:role list', ['only' => ['index', 'show']]);
+        $this->middleware('can:role list',   ['only' => ['index', 'show']]);
         $this->middleware('can:role create', ['only' => ['create', 'store']]);
-        $this->middleware('can:role edit', ['only' => ['edit', 'update']]);
+        $this->middleware('can:role edit',   ['only' => ['edit', 'update']]);
         $this->middleware('can:role delete', ['only' => ['destroy']]);
     }
 
@@ -26,9 +28,9 @@ class RoleController extends Controller
     {
         return Inertia::render('Admin/Role/roleIndex', [
             'can' => [
-                'list' => Auth::user()->can('role list'),
+                  'list' => Auth::user()->can('role list'),
                 'create' => Auth::user()->can('role create'),
-                'edit' => Auth::user()->can('role edit'),
+                  'edit' => Auth::user()->can('role edit'),
                 'delete' => Auth::user()->can('role delete'),
             ]
         ]);
@@ -80,6 +82,8 @@ class RoleController extends Controller
                         $whereType = 'where';
                         foreach( $terms as $term ){
                             $q->{$whereType}('name', 'LIKE', "%{$term}%");
+                            $whereType = 'orWhere';
+                            $q->{$whereType}('guard_name', 'LIKE', "%{$term}%");
                         }
                     });
                 }
@@ -96,8 +100,8 @@ class RoleController extends Controller
 
         // Küldendő adatcsomag
         $data = [
-            'roles' => $roles,
-            'config' => $config,
+              'roles' => $roles,
+             'config' => $config,
             'filters' => $filters,
         ];
 
@@ -107,48 +111,46 @@ class RoleController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        //
-    }
+    public function create(){}
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StorePermissionRequest $request)
     {
-        //
+        Role::create($request->all());
+
+        return redirec()->back()->with('message', __('roles_created'));
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
-    }
+    public function show(string $id){}
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        //
-    }
+    public function edit(string $id){}
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateRoleRequest $request, Role $role)
     {
-        //
+        $role->update($request->all());
+
+        return response()->json($role, Response::HTTP_OK);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Role $role)
     {
-        //
+        $role->delete();
+
+        return redirect()->back()
+            ->with('message', __('roles_deleted'));
     }
 }
