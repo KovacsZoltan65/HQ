@@ -64,6 +64,12 @@ https://laraveldaily.com/post/laravel-8-vue-3-crud-composition-api
 https://github.com/LaravelDaily/Laravel-Vue-3-Composition-API-CRUD
 
 // ---------------------------------------
+// Repository
+// ---------------------------------------
+composer require prettus/l5-repository
+
+
+// ---------------------------------------
 // Localization
 // ---------------------------------------
 https://lokalise.com/blog/laravel-localization-step-by-step/
