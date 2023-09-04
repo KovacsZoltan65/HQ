@@ -43,5 +43,44 @@ class BookController extends Controller
         $config = $request->get('config', []);
         // Szűrők és keresések
         $filters = $request->get('filters', []);
+        
+        if( count($filters) > 0 )
+        {
+            if( $search = ($filters['search'] ?? null) )
+            {
+                $search_cleaned = preg_replace("/[^a-zA-Z0-9\(\)\-\+\_@\.]+/", " ", $search);
+                
+                $terms = array_reduce(
+                    explode(' ', $search_cleaned),
+                    function($carry, $term){
+                        $term = trim($term);
+                        if(!empty($term)){
+                            $carry[] = strtolower($term);
+                        }
+                        return $carry;
+                    }, 
+                    []
+                );
+            }
+            
+            if( count($terms) > 0 )
+            {
+                //
+            }
+        }
+        
+        $per_page = count($config) != 0 && isset($config['per_page']) 
+            ? $config['per_page'] 
+            : config('app.per_page');
+        
+        $books = $this->repository->paginate($per_page);
+        
+        $data = [
+              'books' => $books,
+             'config' => $config,
+            'filters' => $filters,
+        ];
+        
+        return response()->json($data, Response::HTTP_OK);
     }
 }
