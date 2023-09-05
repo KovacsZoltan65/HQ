@@ -420,7 +420,9 @@
         // Szűrés és keresés
         filters: {
             tags: [],
-            search: null
+            search: null,
+            column: null,
+            direction: null,
         },
     });
 

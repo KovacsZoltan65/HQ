@@ -134,7 +134,20 @@ abstract class BaseRepository extends \Prettus\Repository\Eloquent\BaseRepositor
         $this->applyScope();
 
         $results = $this->model->where($column, $operator, $value);
+        
+        $this->resetModel();
+        $this->resetScope();
 
+        return $this->parserResult($results);
+    }
+    
+    public function orWhere($column, $operator, $value)
+    {
+        $this->applyCriteria();
+        $this->applyScope();
+        
+        $results = $this->model->orWhere($column, $operator, $value);
+        
         $this->resetModel();
         $this->resetScope();
 
