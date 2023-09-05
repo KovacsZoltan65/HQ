@@ -41,8 +41,10 @@ class BookController extends Controller
     {
         // Beállítások
         $config = $request->get('config', []);
+        \Log::info('config: ' . print_r($config, true));
         // Szűrők és keresések
         $filters = $request->get('filters', []);
+        \Log::info('filters: ' . print_r($filters, true));
         
         if( count($filters) > 0 )
         {
@@ -74,6 +76,7 @@ class BookController extends Controller
             : config('app.per_page');
         
         $books = $this->repository->paginate($per_page);
+        \Log::info('books: ' . print_r($books, true));
         
         $data = [
               'books' => $books,
