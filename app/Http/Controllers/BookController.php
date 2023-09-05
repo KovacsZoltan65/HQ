@@ -54,11 +54,13 @@ class BookController extends Controller
         // Szűrés kezelése
         if( count($filters) > 0 )
         {
+            // Ha van keresési paraméter, akkor...
             if( isset($filters['search']) )
             {
+                // A keresési paramétert átteszem egy változóba
                 $value = $filters['search'];
-                $this->repository
-                ->findWhere([
+                // Keresési paraméter érvégyesítése az 'author' és 'title' mezőkre
+                $this->repository->findWhere([
                     ['author', 'LIKE', "%$value%"],
                     ['title', 'LIKE', "%$value%"]
                 ]);
@@ -68,17 +70,23 @@ class BookController extends Controller
         // Rendezés kezelése
         if( count($filters) > 0 )
         {
+            // Rendezés a 'name' oszlop szerint
             $column = 'name';
+            // Ha van más beállítás, akkor...
             if( isset($filters['column']) )
             {
+                // azt állítom be
                 $column = $filters['column'];
             }
             
+            // Alap rendezési irány
             $direction = 'asc';
+            // Ha van más beállítás, akkor...
             if( isset($filters['direction']) ){
+                // azt állítom be
                 $direction = $filters['direction'];
             }
-            
+            // Rendezés érvényesítése
             $this->repository->orderBy($column, $direction);
         }
         
@@ -97,94 +105,44 @@ class BookController extends Controller
             'filters' => $filters,
         ];
         
+        // Adatcsomag visszaküldése
         return response()->json($data, Response::HTTP_OK);
     }
-            
-    public function getBooks_old(Request $request)
+
+    public function create(){}
+
+    public function store(StoreBookRequest $request)
     {
-        // Beállítások
-        $config = $request->get('config', []);
-        \Log::info('config: ' . print_r($config, true));
-        // Szűrők és keresések
-        $filters = $request->get('filters', []);
-        \Log::info('filters: ' . print_r($filters, true));
-        
-        if( count($filters) > 0 )
-        {
-            if( $search = ($filters['search'] ?? null) )
-            {
-                $terms = array_reduce(
-                    ex,
-                    '',
-                    []
-                );
-                /*
-                $search_cleaned = preg_replace("/[^a-zA-Z0-9\(\)\-\+\_@\.]+/", " ", $search);
-                
-                $terms = array_reduce(
-                    explode(' ', $search_cleaned),
-                    function($carry, $term){
-                        $term = trim($term);
-                        if(!empty($term)){
-                            $carry[] = strtolower($term);
-                        }
-                        return $carry;
-                    }, 
-                    []
-                );
-                */
-            }
-            \Log::info('terms: ' . print_r($terms, true));
-            if( count($terms) > 0 )
-            {
-                $books = $this->repository->findWhere([
-                    // Default Condition =
-                    'title' => '10',
-                    'author' => '15',
-                    
-                    // Custom Condition
-                    ['title', '>', '10'],
-                    
-                    // DATE, DAY, MONTH, YEAR
-                    ['columnName2', 'DATE', '2023-01-01'],          //whereDate
-                    ['columnName3', 'DATE >=', '2023-01-01'],       //whereDate with operator
-                    
-                    ['columnName4','IN',['value1','value2']],       //whereIn
-                    ['columnName5','NOTIN',['value1','value2']],    //whereNotIn
-                    ['columnName6','EXIST',''],                     //whereExists
-                    
-                    //HAS, HASMORPH, DOESNTHAVE, DOESNTHAVEMORPH
-                    ['columnName7','HAS',function($query){}],       //whereHas
-                            
-                    //BETWEEN, BETWEENCOLUMNS, NOTBETWEEN, NOTBETWEENCOLUMNS
-                    ['columnName8','BETWEEN',[10, 100]],            //whereBetween
-                    
-                ]);
-                //foreach ( $terms as $value )
-                //{
-                //    \Log::info('$value: ' . print_r($value, true));
-                    //$this->repository->where('title', 'LIKE', "%$value%");
-                    //$a = $this->repository->orWhere('title', 'LIKE', "%$value%");
-                    //\Log::info('$this->repository: ' . print_r($this->repository, true));
-                    //$this->repository->where('author', 'LIKE', "%$value%");
-                //}
-            }
-        }
-        
-        $per_page = count($config) != 0 && isset($config['per_page']) 
-            ? $config['per_page'] 
-            : config('app.per_page');
-        
-        $books = $this->repository->paginate($per_page)->toArray();
-        \Log::info('books: ' . print_r($books, true));
-        //dd($books);
-        
-        $data = [
-              'books' => $books,
-             'config' => $config,
-            'filters' => $filters,
-        ];
-        
-        return response()->json($data, Response::HTTP_OK);
+        // 
+        $book = $this->repository->create($request->all());
+
+        return redirect()->back()->with('message', __('books_created'));
+    }
+
+    public function show(){}
+
+    public function edit(){}
+
+    public function update(UpdateBookRequest $request, int $id)
+    {
+        $book = $this->repository->update($request->all(), $id);
+
+        return response()->json($book, Response::HTTP_OK);
+    }
+
+    public function destroy(int $id)
+    {
+        $this->repository->delete($id);
+
+        return redirect()->back()->with('message', __('books_deleted'));
+    }
+
+    public function restore(int $id)
+    {
+        $book = Book::onlyTrashed()->find($id);
+
+        $res = $book->restore();
+
+        return redirect()->back()->with('message', __('books_restored'));
     }
 }
