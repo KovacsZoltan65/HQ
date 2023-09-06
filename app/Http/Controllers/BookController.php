@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
 use App\Models\Book;
+use App\Repositories\BookRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +16,7 @@ class BookController extends Controller
     //
     private $repository;
     
-    public function __construct(\App\Repositories\BookRepository $repo)
+    public function __construct(BookRepository $repo)
     {
         $this->repository = $repo;
         
