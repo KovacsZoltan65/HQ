@@ -48,7 +48,30 @@ class PermissionController extends Controller
 
     public function getPermissions (Request $request)
     {
-        //
+        // Beállítások
+        $config = $request->get('config', []);
+        // Szűrők és keresések
+        $filters = $request->get('filters', []);
+        
+        $query = Permission::query();
+        
+        // Sorok a táblázat egy lapján
+        $per_page = count($config) != 0 && isset($config['per_page'])
+            ? $config['per_page']
+            : config('app.per_page');
+        
+        // Adatok lekérése
+        $permissions = $query->paginate($per_page);
+        
+        // Küldendő adatcsomag
+        $data = [
+            'permissions' => $permissions,
+                 'config' => $config,
+                'filters' => $filters,
+        ];
+        
+        // Adatok visszaküldése
+        return response()->json($data, Response::HTTP_OK);
     }
 
     /**

@@ -117,36 +117,29 @@
                                             </a>
                                         </div>
                                     </th>
-                                    <!-- TITLE -->
+                                    
+                                    <!-- NAME -->
                                     <th scope="col" class="px-6 py-3" 
-                                        v-show="state.columns.title.is_visible">
+                                        v-show="state.columns.name.is_visible">
                                         <div class="flex items-center">
-                                            {{ $t(state.columns.title.label) }}
-                                            <a href="#" v-show="state.columns.title.is_sortable">
+                                            {{ $t(state.columns.name.label) }}
+                                            <a href="#" v-show="state.columns.name.is_sortable">
                                                 <SorterIcon/>
                                             </a>
                                         </div>
                                     </th>
-                                    <!-- AUTHOR -->
+                                    
+                                    <!-- GUARD NAME -->
                                     <th scope="col" class="px-6 py-3" 
-                                        v-show="state.columns.author.is_visible">
+                                        v-show="state.columns.guard_name.is_visible">
                                         <div class="flex items-center">
-                                            {{ $t(state.columns.author.label) }}
-                                            <a href="#" v-show="state.columns.author.is_sortable">
+                                            {{ $t(state.columns.guard_name.label) }}
+                                            <a href="#" v-show="state.columns.guard_name.is_sortable">
                                                 <SorterIcon/>
                                             </a>
                                         </div>
                                     </th>
-                                    <!-- IMAGE -->
-                                    <th scope="col" class="px-6 py-3" 
-                                        v-show="state.columns.image.is_visible">
-                                        <div class="flex items-center">
-                                            {{ $t(state.columns.image.label) }}
-                                            <a href="#" v-show="state.columns.image.is_sortable">
-                                                <SorterIcon/>
-                                            </a>
-                                        </div>
-                                    </th>
+                                    
                                     <!-- ACTION -->
                                     <th scope="col" class="px-6 py-3" width="250px" v-show="state.columns.action.is_visible">
                                         <div class="flex items-center">
@@ -171,9 +164,8 @@
                                         </div>
                                     </td>
                                     <td class="px-4 py-2 border" v-show="state.columns.id.is_visible">{{ permission.id }}</td>
-                                    <td class="px-4 py-2 border" v-show="state.columns.title.is_visible">{{ permission.title }}</td>
-                                    <td class="px-4 py-2 border" v-show="state.columns.author.is_visible">{{ permission.author }}</td>
-                                    <td class="px-4 py-2 border" v-show="state.columns.image.is_visible">{{ permission.image }}</td>
+                                    <td class="px-4 py-2 border" v-show="state.columns.name.is_visible">{{ permission.name }}</td>
+                                    <td class="px-4 py-2 border" v-show="state.columns.guard_name.is_visible">{{ permission.guard_name }}</td>
                                     <td class="px-4 py-2 w-45 border" width="250px" 
                                         v-show="state.columns.action.is_visible">
                                         <div type="justify-start lg:justify-end" no-wrap>
@@ -319,7 +311,7 @@
     
     //import { initFlowbite } from 'flowbite';
 
-    import AppLayout from '../../Layouts/AppLayout.vue';
+    import AppLayout from '@/Layouts/AppLayout.vue';
     //import PermissionForm from '../../Components/Permission/form.vue';
     import DialogModal from '@/Components/DialogModal.vue';
 
@@ -328,12 +320,12 @@
 
     //import SecondaryButton from '@/Components/SecondaryButton.vue';
     //import PrimaryButton from '@/Components/PrimaryButton.vue';
-    import DefaultButton from '../../Components/buttons/DefaultButton.vue';
-    import GreenButton from '../../Components/buttons/GreenButton.vue';
-    import RedButton from '../../Components/buttons/RedButton.vue';
-    import LightButton from '../../Components/buttons/LightButton.vue';
+    import DefaultButton from '@/Components/buttons/DefaultButton.vue';
+    import GreenButton from '@/Components/buttons/GreenButton.vue';
+    import RedButton from '@/Components/buttons/RedButton.vue';
+    import LightButton from '@/Components/buttons/LightButton.vue';
 
-    import SorterIcon from '../../Components/icons/SorterIcon.vue';
+    import SorterIcon from '@/Components/icons/SorterIcon.vue';
 
     const local_storage_column_key = 'ln_permissions_grid_columns';
 
@@ -347,9 +339,8 @@
     });
 
     const defaultFormObject = {
-        title: null,
-        author: null,
-        image: null,
+        name: null,
+        guard_name: null,
     };
 
     const state = reactive({
@@ -387,20 +378,14 @@
                 is_sortable: true,
                 is_filterable: true,
             },
-            title: {
-                label: 'title',
+            name: {
+                label: 'name',
                 is_visible: true,
                 is_sortable: true,
                 is_filterable: true,
             },
-            author: {
-                label: 'author',
-                is_visible: true,
-                is_sortable: true,
-                is_filterable: true,
-            },
-            image: {
-                label: 'image',
+            guard_name: {
+                label: 'guard_name',
                 is_visible: true,
                 is_sortable: true,
                 is_filterable: true,
@@ -482,10 +467,11 @@
             page
         }))
         .then(response => {
+            //console.log(response);
             state.Permissions = response.data.permissions.data;
-            
-            state.pagination.total_number_of_pages = response.data.permissions.last_page;
-            state.pagination.current_page = response.data.permissions.current_page;
+            console.log(state.Permissions);
+            //state.pagination.total_number_of_pages = response.data.permissions.last_page;
+            //state.pagination.current_page = response.data.permissions.current_page;
         });
     }
 
