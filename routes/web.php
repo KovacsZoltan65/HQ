@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\BookController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -36,13 +35,25 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     // ------------
     // BOOKS
     // ------------
-    Route::post('/getBooks', [BookController::class, 'getBooks'])->name('getBooks');
+    Route::post('/getBooks', [App\Http\Controllers\BookController::class, 'getBooks'])->name('getBooks');
     Route::resource('books', App\Http\Controllers\BookController::class)
         ->names([
             'index' => 'books',
             'store' => 'books_store',
             'update' => 'books_update',
             'delete' => 'books_delete',
+        ]);
+    
+    // ------------
+    // USERS
+    // ------------
+    Route::post('/getUsers', [App\Http\Controllers\Admin\UserController::class, 'getUsers'])->name('getUsers');
+    Route::resource('users', App\Http\Controllers\Admin\UserController::class)
+        ->names([
+            'index' => 'users',
+            'store' => 'users_store',
+            'update' => 'users_update',
+            'delete' => 'users_delete',
         ]);
     
     // ------------
