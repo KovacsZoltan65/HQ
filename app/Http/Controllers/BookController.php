@@ -66,11 +66,11 @@ class BookController extends Controller
                     ['title', 'LIKE', "%$value%"]
                 ]);
             }
-        }
-        
-        // Rendezés kezelése
-        if( count($filters) > 0 )
-        {
+            
+            // ----------------
+            // RENDEZÉS
+            // ----------------
+            
             // Rendezés a 'name' oszlop szerint
             $column = 'name';
             // Ha van más beállítás, akkor...
@@ -112,6 +112,9 @@ class BookController extends Controller
 
     public function create(){}
 
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(StoreBookRequest $request)
     {
         // 
@@ -120,10 +123,19 @@ class BookController extends Controller
         return redirect()->back()->with('message', __('books_created'));
     }
 
+    /**
+     * Display the specified resource.
+     */
     public function show(){}
 
+    /**
+     * Show the form for editing the specified resource.
+     */
     public function edit(){}
 
+    /**
+     * Update the specified resource in storage.
+     */
     public function update(UpdateBookRequest $request, int $id)
     {
         $book = $this->repository->update($request->all(), $id);
@@ -131,6 +143,9 @@ class BookController extends Controller
         return response()->json($book, Response::HTTP_OK);
     }
 
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(int $id)
     {
         $this->repository->delete($id);
