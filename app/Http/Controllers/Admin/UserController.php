@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\User;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class UserController extends Controller
 {
@@ -29,7 +32,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return Itertia::render('Admin/User/userIndex', [
+        return Inertia::render('Admin/User/usersIndex', [
             'can' => [
                   'list' => Auth::user()->can('user list'),
                 'create' => Auth::user()->can('user create'),
@@ -48,17 +51,47 @@ class UserController extends Controller
         // Szűrők és keresések
         $filters = $request->get('filters', []);
         
+        //\Log::info('config: ' . print_r($config, true));
+        \Log::info('filters: ' . print_r($filters, true));
+        
         if( count($filters) > 0 )
         {
-            if( isset($filters['column']) )
+            // Ha van keresési paraméter, akkor...
+            if( isset($filters['search']) )
             {
-                //
+                \Log::info('filters');
+                // A keresési paramétert átteszem egy változóba
+                $value = $filters['search'];
+                \Log::info('value: ' . print_r($value, true));
+                // Keresési paraméter érvégyesítése az 'author' és 'title' mezőkre
+                $this->repository->findWhere([
+                    ['name', 'LIKE', "%$value%"],
+                    ['email', 'LIKE', "%$value%"]
+                ]);
             }
             
-            if( isset($filters['direction']) )
+            // ----------------
+            // RENDEZÉS
+            // ----------------
+            
+            // Rendezés a 'name' oszlop szerint
+            $column = 'name';
+            // Ha van más beállítás, akkor...
+            if( isset($filters['column']) )
             {
-                //
+                // azt állítom be
+                $column = $filters['column'];
             }
+            
+            // Alap rendezési irány
+            $direction = 'asc';
+            // Ha van más beállítás, akkor...
+            if( isset($filters['direction']) ){
+                // azt állítom be
+                $direction = $filters['direction'];
+            }
+            // Rendezés érvényesítése
+            $this->repository->orderBy($column, $direction);
         }
         
         // Oldaltörés értékének kezelése
@@ -66,8 +99,8 @@ class UserController extends Controller
             ? $config['per_page'] 
             : config('app.per_page');
         
-        $users = $this->repository;
-        
+        $users = $this->repository->paginate($per_page)->toArray();
+        \Log::info('users: ' . print_r($users, true));
         // Adatcsomag összeállítása
         $data = [
               'users' => $users,
@@ -82,17 +115,16 @@ class UserController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        //
-    }
+    public function create(){}
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(StoreUserRequest $request)
     {
-        //$user = $this->repository
+        $user = $this->repository->create($request->all());
+        
+        return redirect()->back()->with('message', __('users_created'));
     }
 
     /**
@@ -110,7 +142,9 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, int $id)
     {
-        //
+        $user = $this->repository->update($request->all(), $id);
+        
+        return response()->json($user, Response::HTTP_OK);
     }
 
     /**
@@ -118,11 +152,17 @@ class UserController extends Controller
      */
     public function destroy(int $id)
     {
-        //
+        $this->repository->delete($id);
+        
+        return redirect()->back()->with('message', __('userss_deleted'));
     }
     
     public function restore(int $id)
     {
-        //
+        $user = User::onlyTrashed()->find($id);
+        
+        $res = $user->restore();
+        
+        return redirect()->back()->with('message', __('users_restored'));
     }
 }

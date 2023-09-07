@@ -4,8 +4,6 @@ namespace App\Repositories;
 
 use App\Criteria\UserCriteria;
 use App\Models\User;
-use Prettus\Repository\Eloquent\BaseRepository;
-use function app;
 
 /**
  * Class UserRepositoryRepositoryEloquent.
@@ -31,7 +29,7 @@ class UserRepository extends BaseRepository
      */
     public function boot()
     {
-        $this->pushCriteria(app(UserCriteria::class));
+        $this->pushCriteria( UserCriteria::class );
     }
     
 }
