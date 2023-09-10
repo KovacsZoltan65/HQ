@@ -50,27 +50,71 @@ class PermissionController extends Controller
     {
         // Beállítások
         $config = $request->get('config', []);
+        //$config = ['per_page' => 10];
+        
         // Szűrők és keresések
         $filters = $request->get('filters', []);
+        //$filters = [
+        //    'search' => 're',
+        //    'column' => 'title',
+        //    'direction' => 'desc',
+        //];
         
-        $query = Permission::query();
+        // Szűrés kezelése
+        if( count($filters) > 0 )
+        {
+            // Ha van keresési paraméter, akkor...
+            if( isset($filters['search']) )
+            {
+                // A keresési paramétert átteszem egy változóba
+                $value = $filters['search'];
+                // Keresési paraméter érvégyesítése az 'author' és 'title' mezőkre
+                $this->repository->findWhere([
+                    ['author', 'LIKE', "%$value%"],
+                    ['title', 'LIKE', "%$value%"]
+                ]);
+            }
+            
+            // ----------------
+            // RENDEZÉS
+            // ----------------
+            
+            // Rendezés a 'name' oszlop szerint
+            $column = 'name';
+            // Ha van más beállítás, akkor...
+            if( isset($filters['column']) )
+            {
+                // azt állítom be
+                $column = $filters['column'];
+            }
+            
+            // Alap rendezési irány
+            $direction = 'asc';
+            // Ha van más beállítás, akkor...
+            if( isset($filters['direction']) ){
+                // azt állítom be
+                $direction = $filters['direction'];
+            }
+            // Rendezés érvényesítése
+            $this->repository->orderBy($column, $direction);
+        }
         
-        // Sorok a táblázat egy lapján
-        $per_page = count($config) != 0 && isset($config['per_page'])
-            ? $config['per_page']
+        // Oldaltörés értékének kezelése
+        $per_page = count($config) != 0 && isset($config['per_page']) 
+            ? $config['per_page'] 
             : config('app.per_page');
         
         // Adatok lekérése
-        $permissions = $query->paginate($per_page);
+        $books = $this->repository->paginate($per_page);
         
-        // Küldendő adatcsomag
+        // Adatcsomag összeállítása
         $data = [
-            'permissions' => $permissions,
-                 'config' => $config,
-                'filters' => $filters,
+              'books' => $books,
+             'config' => $config,
+            'filters' => $filters,
         ];
         
-        // Adatok visszaküldése
+        // Adatcsomag visszaküldése
         return response()->json($data, Response::HTTP_OK);
     }
 
@@ -79,60 +123,7 @@ class PermissionController extends Controller
      */
     public function create()
     {
-        // Beállítások
-        $config = $request->get('config', []);
-        // Szűrők és keresések
-        $filters = $request->get('filters', []);
-
-        // Lekérdezés előkészítése
-        $query = Permission::query();
-        
-        if( count($filters) > 0 ){
-            if( $search = ($filters['search'] ?? null) ){
-                $search_cleaned = preg_replace("/[^a-zA-Z0-9\(\)\-\+\_@\.]+/", " ", $search);
-                
-                $terms = array_reduce(
-                    explode(' ', $search_cleaned),
-                    function($carry, $term){
-                        $term = trim($term);
-                        if(!empty($term)){
-                            $carry[] = strtolower($term);
-                        }
-                        return $carry;
-                    }, 
-                    []
-                );
-                    
-                if( count($terms) > 0 ){
-                    $query->where(function($q) use($terms) {
-                        $whereType = 'where';
-                        foreach( $terms as $term ){
-                            $q->{$whereType}('name', 'LIKE', "%{$term}%");
-                            $whereType = 'orWhere';
-                            $q->{$whereType}('guard_name', 'LIKE', "%{$term}%");
-                        }
-                    });
-                }
-            }
-        }
-        
-        // Sorok a táblázat egy lapján
-        $per_page = count($config) != 0 && isset($config['per_page'])
-            ? $config['per_page']
-            : config('app.per_page');
-
-        // Adatok lekérése
-        $roles = $query->paginate($per_page);
-        
-        // Küldendő adatcsomag
-        $data = [
-              'roles' => $roles,
-             'config' => $config,
-            'filters' => $filters,
-        ];
-
-        // Adatok visszaküldése
-        return response()->json($data, Response::HTTP_OK);
+        //
     }
 
     /**
