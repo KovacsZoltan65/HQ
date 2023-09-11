@@ -3,24 +3,29 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StorePermissionRequest;
-use App\Http\Requests\UpdateRoleRequest;
 use App\Models\Role;
+use App\Repositories\RoleRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use App\Http\Requests\StoreRoleRequest;
+use App\Http\Requests\UpdateRoleRequest;
 
 class RoleController extends Controller
 {
-    public function __create()
+    private $repository;
+    
+    public function __construct(RoleRepository $repository)
     {
+        $this->repository = $repository;
+        
         $this->middleware('can:role list',   ['only' => ['index', 'show']]);
         $this->middleware('can:role create', ['only' => ['create', 'store']]);
         $this->middleware('can:role edit',   ['only' => ['edit', 'update']]);
         $this->middleware('can:role delete', ['only' => ['destroy']]);
     }
-
+    
     /**
      * Display a listing of the resource.
      */
@@ -32,97 +37,93 @@ class RoleController extends Controller
                 'create' => Auth::user()->can('role create'),
                   'edit' => Auth::user()->can('role edit'),
                 'delete' => Auth::user()->can('role delete'),
+                //'restore' => Auth::user()->can('role restore'),
             ]
         ]);
-        /* EREDETI! MÉG NE TÖRÖLD KI!!
-        $roles = (new Role)->newQuery();
-        $roles->latest();
-        $roles = $roles->paginate(100)->onEachSide(2)->appends(request()->query());
-
-        return Inertia::render('Admin/Role/Index', [
-            // szerepkörök
-            'roles' => $roles,
-            // jogosultságok
-            'can' => [
-                'create' => Auth::user()->can('role create'),
-                'edit' => Auth::user()->can('role edit'),
-                'delete' => Auth::user()->can('role delete'),
-            ],
-        ]);
-        */
     }
-
-    public function getRoles(Request $request){
+    
+    public function getRoles (Request $request)
+    {
         // Beállítások
         $config = $request->get('config', []);
+        //$config = ['per_page' => 10];
+        
         // Szűrők és keresések
         $filters = $request->get('filters', []);
-
-        // Lekérdezés előkészítése
-        $query = Role::query();
-
-        if( count($filters) > 0 ){
-            if( $search = ($filters['search'] ?? null) ){
-                $search_cleaned = preg_replace("/[^a-zA-Z0-9\(\)\-\+\_@\.]+/", " ", $search);
-                
-                $terms = array_reduce(
-                    explode(' ', $search_cleaned),
-                    function($carry, $term){
-                        $term = trim($term);
-                        if(!empty($term)){
-                            $carry[] = strtolower($term);
-                        }
-                        return $carry;
-                    }, 
-                    []
-                );
-                    
-                if( count($terms) > 0 ){
-                    $query->where(function($q) use($terms) {
-                        $whereType = 'where';
-                        foreach( $terms as $term ){
-                            $q->{$whereType}('name', 'LIKE', "%{$term}%");
-                            $whereType = 'orWhere';
-                            $q->{$whereType}('guard_name', 'LIKE', "%{$term}%");
-                        }
-                    });
-                }
+        //$filters = [
+        //    'search' => 're',
+        //    'column' => 'title',
+        //    'direction' => 'desc',
+        //];
+        
+        // Szűrés kezelése
+        if( count($filters) > 0 )
+        {
+            // Ha van keresési paraméter, akkor...
+            if( isset($filters['search']) )
+            {
+                // A keresési paramétert átteszem egy változóba
+                $value = $filters['search'];
+                // Keresési paraméter érvégyesítése az 'author' és 'title' mezőkre
+                $this->repository->findWhere([
+                    ['author', 'LIKE', "%$value%"],
+                    ['title', 'LIKE', "%$value%"]
+                ]);
             }
+            
+            // ----------------
+            // RENDEZÉS
+            // ----------------
+            
+            // Rendezés a 'name' oszlop szerint
+            $column = 'name';
+            // Ha van más beállítás, akkor...
+            if( isset($filters['column']) )
+            {
+                // azt állítom be
+                $column = $filters['column'];
+            }
+            
+            // Alap rendezési irány
+            $direction = 'asc';
+            // Ha van más beállítás, akkor...
+            if( isset($filters['direction']) ){
+                // azt állítom be
+                $direction = $filters['direction'];
+            }
+            // Rendezés érvényesítése
+            $this->repository->orderBy($column, $direction);
         }
-
-        // Sorok a táblázat egy lapján
-        $per_page = count($config) != 0 && isset($config['per_page'])
-            ? $config['per_page']
+        
+        // Oldaltörés értékének kezelése
+        $per_page = count($config) != 0 && isset($config['per_page']) 
+            ? $config['per_page'] 
             : config('app.per_page');
-
+        
         // Adatok lekérése
-        $roles = $query->paginate($per_page);
-
-        // Küldendő adatcsomag
+        $books = $this->repository->paginate($per_page);
+        
+        // Adatcsomag összeállítása
         $data = [
-              'roles' => $roles,
+              'books' => $books,
              'config' => $config,
             'filters' => $filters,
         ];
-
-        // Adatok visszaküldése
+        
+        // Adatcsomag visszaküldése
         return response()->json($data, Response::HTTP_OK);
     }
+    
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new resourOce.
      */
     public function create(){}
-
+    
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePermissionRequest $request)
-    {
-        Role::create($request->all());
-
-        return redirec()->back()->with('message', __('roles_created'));
-    }
-
+    public function store(StoreRoleRequest $request){}
+    
     /**
      * Display the specified resource.
      */
@@ -132,25 +133,16 @@ class RoleController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(string $id){}
-
+    
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRoleRequest $request, Role $role)
-    {
-        $role->update($request->all());
-
-        return response()->json($role, Response::HTTP_OK);
-    }
-
+    public function update(UpdateRoleRequest $request, int $id){}
+    
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Role $role)
-    {
-        $role->delete();
-
-        return redirect()->back()
-            ->with('message', __('roles_deleted'));
-    }
+    public function destroy(int $id){}
+        
+    public function restore(int $id){}
 }

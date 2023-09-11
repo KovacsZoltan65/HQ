@@ -43,23 +43,24 @@ class PermissionController extends Controller
         
         // Szűrők és keresések
         $filters = $request->get('filters', []);
+        //$filters = [
+        //    'search' => 're',
+        //    'column' => 'title',
+        //    'direction' => 'desc',
+        //];
         
-        //\Log::info('config: ' . print_r($config, true));
-        \Log::info('filters: ' . print_r($filters, true));
-        
+        // Szűrés kezelése
         if( count($filters) > 0 )
         {
             // Ha van keresési paraméter, akkor...
             if( isset($filters['search']) )
             {
-                \Log::info('filters');
                 // A keresési paramétert átteszem egy változóba
                 $value = $filters['search'];
-                \Log::info('value: ' . print_r($value, true));
                 // Keresési paraméter érvégyesítése az 'author' és 'title' mezőkre
                 $this->repository->findWhere([
-                    ['name', 'LIKE', "%$value%"],
-                    ['guard_name', 'LIKE', "%$value%"]
+                    ['author', 'LIKE', "%$value%"],
+                    ['title', 'LIKE', "%$value%"]
                 ]);
             }
             
@@ -92,13 +93,14 @@ class PermissionController extends Controller
             ? $config['per_page'] 
             : config('app.per_page');
         
-        $permissions = $this->repository->paginate($per_page)->toArray();
-        \Log::info('users: ' . print_r($permissions, true));
+        // Adatok lekérése
+        $books = $this->repository->paginate($per_page);
+        
         // Adatcsomag összeállítása
         $data = [
-            'permissions' => $permissions,
-                 'config' => $config,
-                'filters' => $filters,
+              'books' => $books,
+             'config' => $config,
+            'filters' => $filters,
         ];
         
         // Adatcsomag visszaküldése
@@ -108,8 +110,11 @@ class PermissionController extends Controller
     /**
      * Show the form for creating a new resourOce.
      */
-    public function create(){}
-    
+    public function create()
+    {
+        //
+    }
+
     /**
      * Store a newly created resource in storage.
      */
