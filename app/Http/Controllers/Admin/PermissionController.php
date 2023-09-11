@@ -14,10 +14,11 @@ class PermissionController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:permission list',   ['only' => ['index', 'show']]);
-        $this->middleware('can:permission create', ['only' => ['create', 'store']]);
-        $this->middleware('can:permission edit',   ['only' => ['edit', 'update']]);
-        $this->middleware('can:permission delete', ['only' => ['destroy']]);
+        $this->middleware('can:permission list',    ['only' => ['index', 'show']]);
+        $this->middleware('can:permission create',  ['only' => ['create', 'store']]);
+        $this->middleware('can:permission edit',    ['only' => ['edit', 'update']]);
+        $this->middleware('can:permission delete',  ['only' => ['destroy']]);
+        $this->middleware('can:permission restore', ['only' => ['restore']]);
     }
     
     /**
@@ -31,6 +32,7 @@ class PermissionController extends Controller
                 'create' => Auth::user()->can('permission create'),
                   'edit' => Auth::user()->can('permission edit'),
                 'delete' => Auth::user()->can('permission delete'),
+               'restore' => Auth::user()->can('permission restore'),
             ]
         ]);
     }
@@ -39,15 +41,9 @@ class PermissionController extends Controller
     {
         // Beállítások
         $config = $request->get('config', []);
-        //$config = ['per_page' => 10];
         
         // Szűrők és keresések
         $filters = $request->get('filters', []);
-        //$filters = [
-        //    'search' => 're',
-        //    'column' => 'title',
-        //    'direction' => 'desc',
-        //];
         
         // Szűrés kezelése
         if( count($filters) > 0 )
