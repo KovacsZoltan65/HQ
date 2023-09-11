@@ -52,17 +52,17 @@ class UserController extends Controller
         $filters = $request->get('filters', []);
         
         //\Log::info('config: ' . print_r($config, true));
-        \Log::info('filters: ' . print_r($filters, true));
+        //\Log::info('filters: ' . print_r($filters, true));
         
         if( count($filters) > 0 )
         {
             // Ha van keresési paraméter, akkor...
             if( isset($filters['search']) )
             {
-                \Log::info('filters');
+                //\Log::info('filters');
                 // A keresési paramétert átteszem egy változóba
                 $value = $filters['search'];
-                \Log::info('value: ' . print_r($value, true));
+                //\Log::info('value: ' . print_r($value, true));
                 // Keresési paraméter érvégyesítése az 'author' és 'title' mezőkre
                 $this->repository->findWhere([
                     ['name', 'LIKE', "%$value%"],
@@ -130,12 +130,12 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id){}
+    public function show(int $id){}
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id){}
+    public function edit(int $id){}
 
     /**
      * Update the specified resource in storage.

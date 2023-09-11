@@ -22,8 +22,6 @@ class UserRepository extends BaseRepository
         return User::class;
     }
 
-    
-
     /**
      * Boot up the repository, pushing criteria
      */
