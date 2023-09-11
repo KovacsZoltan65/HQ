@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StorePermissionRequest;
+use App\Http\Requests\UpdatePermissionRequest;
 use App\Models\Permission;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
@@ -18,7 +19,7 @@ class PermissionController extends Controller
         $this->middleware('can:permission edit',   ['only' => ['edit', 'update']]);
         $this->middleware('can:permission delete', ['only' => ['destroy']]);
     }
-
+    
     /**
      * Display a listing of the resource.
      */
@@ -32,119 +33,93 @@ class PermissionController extends Controller
                 'delete' => Auth::user()->can('permission delete'),
             ]
         ]);
-        //$permissions = (new Permission)->newQuery();
-        //$permissions->latest();
-        //$permissions = $permissions->paginate(100)->onEachSide(2)->appends(request()->query());
-
-        //return Inertia::render('Admin/Permission/Index', [
-        //    'permissions' => $permissions,
-        //    'can' => [
-        //        'create' => Auth::user()->can('permission create'),
-        //        'edit' => Auth::user()->can('permission edit'),
-        //        'delete' => Auth::user()->can('permission delete'),
-        //    ],
-        //]);
     }
-
+    
     public function getPermissions (Request $request)
     {
         // Beállítások
         $config = $request->get('config', []);
+        //$config = ['per_page' => 10];
+        
         // Szűrők és keresések
         $filters = $request->get('filters', []);
         
-        $query = Permission::query();
+        //\Log::info('config: ' . print_r($config, true));
+        \Log::info('filters: ' . print_r($filters, true));
         
-        // Sorok a táblázat egy lapján
-        $per_page = count($config) != 0 && isset($config['per_page'])
-            ? $config['per_page']
+        if( count($filters) > 0 )
+        {
+            // Ha van keresési paraméter, akkor...
+            if( isset($filters['search']) )
+            {
+                \Log::info('filters');
+                // A keresési paramétert átteszem egy változóba
+                $value = $filters['search'];
+                \Log::info('value: ' . print_r($value, true));
+                // Keresési paraméter érvégyesítése az 'author' és 'title' mezőkre
+                $this->repository->findWhere([
+                    ['name', 'LIKE', "%$value%"],
+                    ['guard_name', 'LIKE', "%$value%"]
+                ]);
+            }
+            
+            // ----------------
+            // RENDEZÉS
+            // ----------------
+            
+            // Rendezés a 'name' oszlop szerint
+            $column = 'name';
+            // Ha van más beállítás, akkor...
+            if( isset($filters['column']) )
+            {
+                // azt állítom be
+                $column = $filters['column'];
+            }
+            
+            // Alap rendezési irány
+            $direction = 'asc';
+            // Ha van más beállítás, akkor...
+            if( isset($filters['direction']) ){
+                // azt állítom be
+                $direction = $filters['direction'];
+            }
+            // Rendezés érvényesítése
+            $this->repository->orderBy($column, $direction);
+        }
+        
+        // Oldaltörés értékének kezelése
+        $per_page = count($config) != 0 && isset($config['per_page']) 
+            ? $config['per_page'] 
             : config('app.per_page');
         
-        // Adatok lekérése
-        $permissions = $query->paginate($per_page);
-        
-        // Küldendő adatcsomag
+        $permissions = $this->repository->paginate($per_page)->toArray();
+        \Log::info('users: ' . print_r($permissions, true));
+        // Adatcsomag összeállítása
         $data = [
             'permissions' => $permissions,
                  'config' => $config,
                 'filters' => $filters,
         ];
         
-        // Adatok visszaküldése
+        // Adatcsomag visszaküldése
         return response()->json($data, Response::HTTP_OK);
     }
-
+    
     /**
      * Show the form for creating a new resourOce.
      */
-    public function create()
-    {
-        // Beállítások
-        $config = $request->get('config', []);
-        // Szűrők és keresések
-        $filters = $request->get('filters', []);
-
-        // Lekérdezés előkészítése
-        $query = Permission::query();
-        
-        if( count($filters) > 0 ){
-            if( $search = ($filters['search'] ?? null) ){
-                $search_cleaned = preg_replace("/[^a-zA-Z0-9\(\)\-\+\_@\.]+/", " ", $search);
-                
-                $terms = array_reduce(
-                    explode(' ', $search_cleaned),
-                    function($carry, $term){
-                        $term = trim($term);
-                        if(!empty($term)){
-                            $carry[] = strtolower($term);
-                        }
-                        return $carry;
-                    }, 
-                    []
-                );
-                    
-                if( count($terms) > 0 ){
-                    $query->where(function($q) use($terms) {
-                        $whereType = 'where';
-                        foreach( $terms as $term ){
-                            $q->{$whereType}('name', 'LIKE', "%{$term}%");
-                            $whereType = 'orWhere';
-                            $q->{$whereType}('guard_name', 'LIKE', "%{$term}%");
-                        }
-                    });
-                }
-            }
-        }
-        
-        // Sorok a táblázat egy lapján
-        $per_page = count($config) != 0 && isset($config['per_page'])
-            ? $config['per_page']
-            : config('app.per_page');
-
-        // Adatok lekérése
-        $roles = $query->paginate($per_page);
-        
-        // Küldendő adatcsomag
-        $data = [
-              'roles' => $roles,
-             'config' => $config,
-            'filters' => $filters,
-        ];
-
-        // Adatok visszaküldése
-        return response()->json($data, Response::HTTP_OK);
-    }
-
+    public function create(){}
+    
     /**
      * Store a newly created resource in storage.
      */
     public function store(StorePermissionRequest $request)
     {
-        Permission::create($request->all());
-
-        return redirect()->back()->with('message', 'Permission created');
+        $permission = $this->repository->create($request->all());
+        
+        return redirect()->back()->with('message', __('permissions_created'));
     }
-
+    
     /**
      * Display the specified resource.
      */
@@ -154,25 +129,33 @@ class PermissionController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(string $id){}
-
+    
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePermissionRequest $request, Permission $permission)
+    public function update(UpdatePermissionRequest $request, int $id)
     {
-        $permission->update($request->all());
-
+        $permission = $this->repository->update($request->all(), $id);
+        
         return response()->json($permission, Response::HTTP_OK);
     }
-
+    
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Permission $permission)
+    public function destroy(int $id)
     {
-        $permission->delete();
-
-        return redirect()->back()
-            ->with('message', 'Permission deleted');
+        $this->repository->delete($id);
+        
+        return redirect()->back()->with('message', __('permissions_deleted'));
+    }
+    
+    public function response(int $id)
+    {
+        $permission = Permission::onlyTrashed()->find($id);
+        
+        $res = $permission->restore();
+        
+        return redirect()->back()->with('message', __('permissions_restored'));
     }
 }
