@@ -122,7 +122,11 @@ class RoleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreRoleRequest $request){}
+    public function store(StoreRoleRequest $request){
+        $role = $this->repository->create($request->all());
+        
+        return redirect()->back()->with('message', __('roles_created'));
+    }
     
     /**
      * Display the specified resource.
@@ -137,12 +141,28 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRoleRequest $request, int $id){}
+    public function update(UpdateRoleRequest $request, int $id)
+    {
+        $role = $this->repository->update($request->all(), $id);
+        
+        return response()->json($role, Response::HTTP_OK);
+    }
     
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(int $id){}
+    public function destroy(int $id)
+    {
+        $this->repository->delete($id);
         
-    public function restore(int $id){}
+        return redirect()->back()->with('message', __('role_deleted'));
+    }
+        
+    public function restore(int $id)
+    {
+        $role = Role::onlyTrashed()->find($id);
+        $res = $role->restore();
+        
+        return redirect()->back()->with('message', __('roles_restored'));
+    }
 }
