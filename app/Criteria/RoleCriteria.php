@@ -7,10 +7,10 @@ use Prettus\Repository\Contracts\RepositoryInterface;
 
 
 /**
- * Class BookCriteria
+ * Class RoleCriteria
  * @package namespace App\Criteria;
  */
-class BookCriteria implements CriteriaInterface
+class RoleCriteria implements CriteriaInterface
 {
     /**
      * Apply criteria in query repository
