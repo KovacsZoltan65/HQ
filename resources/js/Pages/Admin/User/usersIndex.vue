@@ -1,10 +1,10 @@
 <template>
-    <app-layout title="Felhasználók">
+    <app-layout :title="$t('users')">
 
         <!-- header -->
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Felhasználók
+                {{ $t('users') }}
             </h2>
         </template>
 
