@@ -7,7 +7,7 @@ use Prettus\Repository\Contracts\RepositoryInterface;
 
 
 /**
- * Class BookCriteria
+ * Class PermissionCriteria
  * @package namespace App\Criteria;
  */
 class PermissionCriteria implements CriteriaInterface
