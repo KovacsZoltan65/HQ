@@ -23,6 +23,12 @@
             {{ $t('users') }}
         </ResponsiveNavLink>
 
+        <!-- subdomains menu -->
+        <ResponsiveNavLink :href="route('subdomains')" 
+                           :active="route().current('subdomains')">
+            {{ $t('subdomains') }}
+        </ResponsiveNavLink>
+
         <!-- permissions menu -->
         <ResponsiveNavLink :href="route('permission.index')" 
                            :active="route().current('permissions')">

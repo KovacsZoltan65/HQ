@@ -22,6 +22,12 @@
             {{ $t('users') }}
         </NavLink>
 
+        <!-- subdomains menu -->
+        <NavLink :href="route('subdomains')" 
+                 :active="route().current('subdomains')">
+            {{ $t('subdomains') }}
+        </NavLink>
+
         <!-- permissions menu -->
         <NavLink :href="route('permission.index')" 
                  :active="route().current('permission.index')">
