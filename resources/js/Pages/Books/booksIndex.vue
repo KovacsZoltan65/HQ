@@ -1,10 +1,10 @@
 <template>
-    <app-layout title="Könyvek">
+    <app-layout :title="$t('books')">
 
         <!-- header -->
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Könyvek
+                {{ $t('books') }}
             </h2>
         </template>
 
