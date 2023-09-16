@@ -20,10 +20,11 @@ class BookController extends Controller
     {
         $this->repository = $repo;
         
-        $this->middleware('can:book list',   ['only' => ['index', 'show']]);
-        $this->middleware('can:book create', ['only' => ['create', 'store']]);
-        $this->middleware('can:book edit',   ['only' => ['edit', 'update']]);
-        $this->middleware('can:book delete', ['only' => ['destroy']]);
+        $this->middleware('can:book list',    ['only' => ['index', 'show']]);
+        $this->middleware('can:book create',  ['only' => ['create', 'store']]);
+        $this->middleware('can:book edit',    ['only' => ['edit', 'update']]);
+        $this->middleware('can:book delete',  ['only' => ['destroy']]);
+        $this->middleware('can:book restore', ['only' => ['restore']]);
     }
     
     public function index()
