@@ -22,6 +22,7 @@ class BookCriteria implements CriteriaInterface
      */
     public function apply($model, RepositoryInterface $repository)
     {
+        /*
         $rels = [
             0 => '=',
             1 => '<>',
@@ -42,11 +43,11 @@ class BookCriteria implements CriteriaInterface
         if( $title_rel != '' && $title != '' )
         {
             $model = $model->where('title', $rels[$title_rel], '%' . $title . '%');
-            /*
-            $model = $model->where('dolgozo_nev',
-                ($rels[$nev_rel] == '<>' ? 'not ' : '') . 'like',
-                '%' . $nev . '%');
-            */
+            
+            //$model = $model->where('dolgozo_nev',
+            //    ($rels[$nev_rel] == '<>' ? 'not ' : '') . 'like',
+            //    '%' . $nev . '%');
+            
         }
 
         //if( $munkahely_id_rel != '' && $munkahely_id != '' )
@@ -61,7 +62,7 @@ class BookCriteria implements CriteriaInterface
         {
             $model = $model->orderBy($orderBy, $sortedBy);
         }
-
+        */
         return $model;
     }
 }
