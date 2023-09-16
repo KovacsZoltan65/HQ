@@ -78,6 +78,20 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
              'store' => 'permissions_store',
             'update' => 'permissions_update',
             'delete' => 'permissions_delete',
+            'restore' => 'permissions_restore',
+        ]);
+    
+    // ------------
+    // SUBDOMAINS
+    // ------------
+    Route::post('/getSubdomains', [\App\Http\Controllers\SubdomainController::class, 'getSubdomains'])->name('getSubdomains');
+    Route::resource('/subdomains', \App\Http\Controllers\SubdomainController::class)
+        ->names([
+             'index' => 'subdomains',
+             'store' => 'subdomains_store',
+             'update' => 'subdomains_update',
+             'delete' => 'subdomains_delete',
+            'restore' => 'subdomains_restore',
         ]);
 });
 
