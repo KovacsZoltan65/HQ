@@ -10,7 +10,7 @@ use Prettus\Repository\Contracts\RepositoryInterface;
  *
  * @package namespace App\Criteria;
  */
-class SubdomaiCriteria implements CriteriaInterface
+class SubdomainCriteria implements CriteriaInterface
 {
     /**
      * Apply criteria in query repository

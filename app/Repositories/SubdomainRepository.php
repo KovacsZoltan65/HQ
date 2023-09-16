@@ -2,10 +2,8 @@
 
 namespace App\Repositories;
 
-use Prettus\Repository\Criteria\SubdomainCriteria;
-use App\Repositories\SubdomainRepository;
-use App\Entities\Subdomain;
-use App\Validators\SubdomainValidator;
+use App\Models\Subdomain;
+use App\Criteria\SubdomainCriteria;
 
 /**
  * Class SubdomainRepositoryEloquent.
