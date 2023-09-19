@@ -34,6 +34,14 @@ class ComponentsTableSeeder extends Seeder
             ),
         ));
 
+        //\App\Models\Component::create([
+        //    'id' => 1,
+        //    'name' => 'Központi komponens',
+        //]);
         
+        //\App\Models\Component::create([
+        //    'id' => 2,
+        //    'name' => 'Központi komponens',
+        //]);
     }
 }

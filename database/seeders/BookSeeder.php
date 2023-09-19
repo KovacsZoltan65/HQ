@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 //use Database\Factories\BookFactory;
+// php artisan migrate:fresh --seed
 
 
 use Database\Factories\BookFactory;
