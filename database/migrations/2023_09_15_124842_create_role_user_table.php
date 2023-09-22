@@ -13,12 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('components', function (Blueprint $table) {
-            $table->increments('id')->comment('rekord azonosító');
-            $table->string('name')->comment('Komponens neve');
-            
-            $table->datetimes();
-            $table->softDeletes();
+        Schema::create('role_user', function (Blueprint $table) {
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('role_id')->index('role_user_role_id_foreign');
+
+            $table->primary(['user_id', 'role_id']);
         });
     }
 
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('components');
+        Schema::dropIfExists('role_user');
     }
 };

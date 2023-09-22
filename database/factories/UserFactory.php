@@ -24,6 +24,41 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $password = 'password';
+        return[
+            [
+                'id' => 1,
+                'name' => 'Admin',
+                'email' => 'admin@admin.com',
+                'password' => Hash::make($password),
+                'verified_at' => '2023-01-01 00:00:00',
+            ],
+            [
+                'id' => 2,
+                'name' => 'Super Admin',
+                'email' => 'superadmin@laraveltuts.com',
+                'password' => Hash::make($password),
+                'verified_at' => '2023-01-01 00:00:00',
+            ],
+            [
+                'id' => 3,
+                'name' => 'Admin User',
+                'email' => 'admin@laraveltuts.com',
+                'password' => Hash::make($password),
+                'verified_at' => '2023-01-01 00:00:00',
+            ],
+            [
+                'id' => 4,
+                'name' => 'Example User',
+                'email' => 'test@laraveltuts.com',
+                'password' => Hash::make($password),
+                'verified_at' => '2023-01-01 00:00:00',
+            ]
+        ];
+    }
+    /*
+    public function definition(): array
+    {
         return [
             'name' => 'Admin', //$this->faker->name(),
             'email' => 'admin@admin.com', //$this->faker->unique()->safeEmail(),
@@ -36,10 +71,11 @@ class UserFactory extends Factory
             'current_team_id' => null,
         ];
     }
-
+    */
     /**
      * Indicate that the model's email address should be unverified.
      */
+    /*
     public function unverified(): static
     {
         return $this->state(function (array $attributes) {
@@ -48,10 +84,11 @@ class UserFactory extends Factory
             ];
         });
     }
-
+    */
     /**
      * Indicate that the user should have a personal team.
      */
+    /*
     public function withPersonalTeam(callable $callback = null): static
     {
         if (! Features::hasTeamFeatures()) {
@@ -69,4 +106,5 @@ class UserFactory extends Factory
             'ownedTeams'
         );
     }
+    */
 }

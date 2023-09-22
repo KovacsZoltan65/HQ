@@ -6,24 +6,25 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Component
  * 
  * @property int $id
  * @property string $name
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
  *
  * @package App\Models
  */
 class Component extends Model
 {
-	protected $table = 'components';
+    use HasFactory, SoftDeletes;
+    
+    //protected $table = 'components';
 
-	protected $fillable = [
-		'name'
-	];
+    protected $fillable = [
+            'name'
+    ];
 }
