@@ -16,18 +16,19 @@ class DatabaseSeeder extends Seeder
         $this->call([
             //UserSeeder::class,
             //BasicAdminPermissionSeeder::class,
-            //BookSeeder::class, // OK
+            BookSeeder::class,              // OK
             //ComponentsTableSeeder::class,
             //HqSettingsTableSeeder::class,
-            //LogsTableSeeder::class,
+            LogsTableSeeder::class,
+            ModelHasRolesTableSeeder::class,
             //MirrorStatusesTableSeeder::class,
-            //PostSeeder::class,
+            PostSeeder::class,
             //ScheduledShutdownsTableSeeder::class,
             //SeedsTableSeeder::class,
-            //RoleSeeder::class,  // OK
-            //PermissionSeeder::class,    // OK
+            RoleSeeder::class,              // OK
+            PermissionSeeder::class,        // OK
             ComponentsTableSeeder::class,
-            //SubdomainsTableSeeder::class, // OK
+            SubdomainsTableSeeder::class,   // OK
             //SubdomainStatesTableSeeder::class,
             //VersionInformationEmailAddressesTableSeeder::class,
         ]);

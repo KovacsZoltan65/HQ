@@ -13,11 +13,6 @@ class HqSettingsTableSeeder extends Seeder
      */
     public function run()
     {
-        
-
-        \DB::table('hq_settings')->truncate();
-        
-
-        
+        //\DB::table('hq_settings')->truncate();
     }
 }

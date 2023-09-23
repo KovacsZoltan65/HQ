@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Database\Factories\UserFactory;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -12,40 +12,27 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $fact = new UserFactory();
-        $fact->create();
-        /*
+        \DB::table('users')->truncate();
+        
         $password = 'password';
-        $users = [
-            [
-                'id' => 1,
-                'name' => 'Admin',
-                'email' => 'admin@admin.com',
-                'password' => Hash::make($password),
-                'verified_at' => '2023-01-01 00:00:00',
-            ],
-            [
-                'id' => 2,
-                'name' => 'Super Admin',
-                'email' => 'superadmin@laraveltuts.com',
-                'password' => Hash::make($password),
-                'verified_at' => '2023-01-01 00:00:00',
-            ],
-            [
-                'id' => 3,
-                'name' => 'Admin User',
-                'email' => 'admin@laraveltuts.com',
-                'password' => Hash::make($password),
-                'verified_at' => '2023-01-01 00:00:00',
-            ],
-            [
-                'id' => 4,
-                'name' => 'Example User',
-                'email' => 'test@laraveltuts.com',
-                'password' => Hash::make($password),
-                'verified_at' => '2023-01-01 00:00:00',
-            ]
+        $arr_users = [
+            ['id' => 1, 'name' => 'Admin',        'email' => 'admin@admin.com',            'password' => Hash::make($password), 'verified_at' => '2023-01-01 00:00:00',],
+            ['id' => 2, 'name' => 'Super Admin',  'email' => 'superadmin@laraveltuts.com', 'password' => Hash::make($password), 'verified_at' => '2023-01-01 00:00:00',],
+            ['id' => 3, 'name' => 'Admin User',   'email' => 'admin@laraveltuts.com',      'password' => Hash::make($password), 'verified_at' => '2023-01-01 00:00:00',],
+            ['id' => 4, 'name' => 'Example User', 'email' => 'test@laraveltuts.com',       'password' => Hash::make($password), 'verified_at' => '2023-01-01 00:00:00',]
         ];
-        */
+        $count = count($arr_users);
+        
+        $this->command->warn(PHP_EOL . 'Creating users...');
+        
+        $this->command->getOutput()->progressStart($count);
+        foreach($arr_users as $user)
+        {
+            User::factory()->create($user);
+            $this->command->getOutput()->progressAdvance();
+        }
+        $this->command->getOutput()->progressFinish();
+        
+        $this->command->info(PHP_EOL . 'Users created');
     }
 }

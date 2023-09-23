@@ -28,6 +28,7 @@ class ComponentsTableSeeder extends Seeder
         foreach($arr_components as $component)
         {
             Component::factory()->create($component);
+            $this->command->getOutput()->progressAdvance();
         }
         $this->command->getOutput()->progressFinish();
         
