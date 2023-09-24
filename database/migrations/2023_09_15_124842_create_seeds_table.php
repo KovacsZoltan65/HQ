@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('seeds', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('id')->comment('Rekord azonosító');
             $table->string('seed')->default('');
             $table->integer('batch')->default(1);
         });

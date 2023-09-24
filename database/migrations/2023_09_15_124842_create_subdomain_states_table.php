@@ -14,10 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('subdomain_states', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->dateTime('created_at')->nullable()->default('1000-01-01 00:00:00');
-            $table->dateTime('updated_at')->nullable()->default('1000-01-01 00:00:00');
+            $table->increments('id')->comment('Rekord azonosító');
+            $table->string('name')->comment('Komponens neve');
+            
+            $table->timestamps();
         });
     }
 

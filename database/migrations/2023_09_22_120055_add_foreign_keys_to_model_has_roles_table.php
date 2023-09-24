@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('model_has_roles', function (Blueprint $table) {
-            $table->foreign(['role_id'])->references(['id'])->on('roles')->onUpdate('NO ACTION')->onDelete('CASCADE');
-        });
+        //Schema::table('model_has_roles', function (Blueprint $table) {
+        //    $table->foreign(['role_id'])->references(['id'])->on('roles')->onUpdate('NO ACTION')->onDelete('CASCADE');
+        //});
     }
 
     /**
@@ -25,8 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('model_has_roles', function (Blueprint $table) {
-            $table->dropForeign('model_has_roles_role_id_foreign');
-        });
+        //Schema::table('model_has_roles', function (Blueprint $table) {
+        //    $table->dropForeign('model_has_roles_role_id_foreign');
+        //});
     }
 };

@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('role_has_permissions', function (Blueprint $table) {
-            $table->foreign(['permission_id'])->references(['id'])->on('permissions')->onUpdate('NO ACTION')->onDelete('CASCADE');
-            $table->foreign(['role_id'])->references(['id'])->on('roles')->onUpdate('NO ACTION')->onDelete('CASCADE');
-        });
+        //Schema::table('role_has_permissions', function (Blueprint $table) {
+        //    $table->foreign(['permission_id'])->references(['id'])->on('permissions')->onUpdate('NO ACTION')->onDelete('CASCADE');
+        //    $table->foreign(['role_id'])->references(['id'])->on('roles')->onUpdate('NO ACTION')->onDelete('CASCADE');
+        //});
     }
 
     /**
@@ -26,9 +26,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('role_has_permissions', function (Blueprint $table) {
-            $table->dropForeign('role_has_permissions_permission_id_foreign');
-            $table->dropForeign('role_has_permissions_role_id_foreign');
-        });
+        //Schema::table('role_has_permissions', function (Blueprint $table) {
+        //    $table->dropForeign('role_has_permissions_permission_id_foreign');
+        //    $table->dropForeign('role_has_permissions_role_id_foreign');
+        //});
     }
 };

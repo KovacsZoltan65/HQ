@@ -14,9 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('hq_settings', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('key')->default('');
-            $table->string('value')->default('');
+            $table->increments('id')->comment('Rekord azonosító');
+            $table->string('key')->default('')->comment('Kulcs');
+            $table->string('value')->default('')->comment('Érték');
         });
     }
 

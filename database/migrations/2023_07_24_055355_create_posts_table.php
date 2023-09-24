@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('posts', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->longText('description');
+            $table->id()->comment('Rekord azonosító');
+            $table->string('title')->comment('Felirat');
+            $table->longText('description')->comment('Leírás');
             
             $table->timestamps();
             $table->softDeletes();
