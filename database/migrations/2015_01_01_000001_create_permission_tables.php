@@ -25,6 +25,7 @@ class CreatePermissionTables extends Migration
             throw new \Exception('Error: team_foreign_key on config/permission.php not loaded. Run [php artisan config:clear] and try again.');
         }
 
+        // PERMISSIONS
         Schema::create($tableNames['permissions'], function (Blueprint $table) {
             $table->bigIncrements('id'); // permission id
             //$table->id(); // permission id
@@ -36,6 +37,7 @@ class CreatePermissionTables extends Migration
             $table->unique(['name', 'guard_name']);
         });
 
+        // ROLES
         Schema::create($tableNames['roles'], function (Blueprint $table) use ($teams, $columnNames) {
             $table->bigIncrements('id'); // role id
             //$table->id(); // role id
@@ -54,6 +56,7 @@ class CreatePermissionTables extends Migration
             }
         });
 
+        // MODEL PERMISSION kapcsolat
         Schema::create($tableNames['model_has_permissions'], function (Blueprint $table) use ($tableNames, $columnNames, $teams) {
             $table->unsignedBigInteger(PermissionRegistrar::$pivotPermission);
 
@@ -78,6 +81,7 @@ class CreatePermissionTables extends Migration
 
         });
 
+        // MODEL ROLE kapcsolat
         Schema::create($tableNames['model_has_roles'], function (Blueprint $table) use ($tableNames, $columnNames, $teams) {
             $table->unsignedBigInteger(PermissionRegistrar::$pivotRole);
 
@@ -101,6 +105,7 @@ class CreatePermissionTables extends Migration
             }
         });
 
+        // ROLE PERMISSION kapcsolat
         Schema::create($tableNames['role_has_permissions'], function (Blueprint $table) use ($tableNames) {
             $table->unsignedBigInteger(PermissionRegistrar::$pivotPermission);
             $table->unsignedBigInteger(PermissionRegistrar::$pivotRole);

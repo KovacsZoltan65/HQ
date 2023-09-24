@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('books', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->string('author');
-            $table->string('image');
+            $table->id()->comment('Rekord azonosító');
+            $table->string('title')->comment('Cím');
+            $table->string('author')->comment('Szerző');
+            $table->string('image')->comment('Borítókép');
             
             $table->timestamps();
             $table->softDeletes();
