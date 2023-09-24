@@ -13,11 +13,6 @@ class SubdomainComponentsTableSeeder extends Seeder
      */
     public function run()
     {
-        
-
-        \DB::table('subdomain_components')->truncate();
-        
-
-        
+        //
     }
 }

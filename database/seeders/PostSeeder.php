@@ -27,15 +27,5 @@ class PostSeeder extends Seeder
         
         $this->command->getOutput()->progressFinish();
         $this->command->info(PHP_EOL . 'Posts created');
-        /*
-        $faker = \Faker\Factory::create();
-
-        for ($count = 0; $count < 10; $count++) {
-            DB::table('posts')->insert([
-                'title' => $faker->text($maxNbChars = 50),
-                'description' => $faker->text($maxNbChars = 200),
-            ]);
-        }
-        */
     }
 }

@@ -13,10 +13,8 @@ class RoleSeeder extends Seeder
     public function run(): void
     {
         \DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        //\DB::table('model_has_roles')->truncate();
         \DB::table('roles')->truncate();
         \DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-        
         
         $arr_roles = [
             ['id' => 1,'name' => 'writer',      'guard_name' => 'web',],
@@ -25,12 +23,13 @@ class RoleSeeder extends Seeder
         ];
         $count = count($arr_roles);
         
-        $this->command->warn(PHP_EOL . 'Creating roles...');
+        $this->command->warn(PHP_EOL . 'Creating Roles...');
         
         $this->command->getOutput()->progressStart($count);
         foreach($arr_roles as $role)
         {
             Role::factory()->create($role);
+            $this->command->getOutput()->progressAdvance();
         }
         $this->command->getOutput()->progressFinish();
         

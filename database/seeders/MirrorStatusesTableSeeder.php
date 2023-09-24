@@ -13,11 +13,6 @@ class MirrorStatusesTableSeeder extends Seeder
      */
     public function run()
     {
-        
-
-        \DB::table('mirror_statuses')->truncate();
-        
-
-        
+        //
     }
 }

@@ -14,23 +14,24 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            //UserSeeder::class,
-            //BasicAdminPermissionSeeder::class,
+            UserSeeder::class,              // OK
             BookSeeder::class,              // OK
-            //ComponentsTableSeeder::class,
-            //HqSettingsTableSeeder::class,
-            LogsTableSeeder::class,
-            ModelHasRolesTableSeeder::class,
-            //MirrorStatusesTableSeeder::class,
-            PostSeeder::class,
-            //ScheduledShutdownsTableSeeder::class,
-            //SeedsTableSeeder::class,
+            PostSeeder::class,              // OK
+            
             RoleSeeder::class,              // OK
             PermissionSeeder::class,        // OK
-            ComponentsTableSeeder::class,
+            ModelHasRolesTableSeeder::class,
+            ModelHasPermissionTableSeeder::class,   // OK
+            RoleHasPermissionsTableSeeder::class,   // OK
+            
+            ComponentsTableSeeder::class,   // OK
+            HqSettingsTableSeeder::class,   // OK
+            LogsTableSeeder::class,
+            MirrorStatusesTableSeeder::class,
+            ScheduledShutdownsTableSeeder::class,
+            SeedsTableSeeder::class,
+            SubdomainComponentsTableSeeder::class,
             SubdomainsTableSeeder::class,   // OK
-            //SubdomainStatesTableSeeder::class,
-            //VersionInformationEmailAddressesTableSeeder::class,
         ]);
     }
 }

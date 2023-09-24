@@ -13,11 +13,6 @@ class ScheduledShutdownsTableSeeder extends Seeder
      */
     public function run()
     {
-        
-
-        \DB::table('scheduled_shutdowns')->truncate();
-        
-
-        
+        //
     }
 }

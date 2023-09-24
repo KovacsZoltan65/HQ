@@ -46,9 +46,10 @@ class RoleHasPermissionsTableSeeder extends Seeder
         $this->command->warn(PHP_EOL . 'Creating Role has Permission...');
         
         $this->command->getOutput()->progressStart($count);
-        foreach($arr_roles as $role)
+        foreach($arr_role_has_permission as $role_has_permission)
         {
-            RoleHasPermission::factory()->create($role);
+            RoleHasPermission::factory()->create($role_has_permission);
+            $this->command->getOutput()->progressAdvance();
         }
         $this->command->getOutput()->progressFinish();
         

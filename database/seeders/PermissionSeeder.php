@@ -37,7 +37,7 @@ class PermissionSeeder extends Seeder
         ];
         $count = count($arr_permissions);
         
-        $this->command->warn(PHP_EOL . 'Creating roles...');
+        $this->command->warn(PHP_EOL . 'Creating Permissions...');
         $this->command->getOutput()->progressStart($count);
         foreach($arr_permissions as $permission)
         {
@@ -45,6 +45,6 @@ class PermissionSeeder extends Seeder
             $this->command->getOutput()->progressAdvance();
         }
         $this->command->getOutput()->progressFinish();
-        $this->command->info(PHP_EOL . 'Roles created');
+        $this->command->info(PHP_EOL . 'Permissions created');
     }
 }
