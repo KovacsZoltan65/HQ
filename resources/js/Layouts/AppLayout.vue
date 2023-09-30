@@ -1,42 +1,42 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import { Head, Link, router } from '@inertiajs/vue3';
-import { initFlowbite } from 'flowbite';
+    import { ref, onMounted } from 'vue';
+    import { Head, Link, router } from '@inertiajs/vue3';
+    import { initFlowbite } from 'flowbite';
 
-import Menu from '../Components/menu/Menu.vue';
-import ResponsiveMenu from '../Components/menu/ResponsiveMenu.vue';
+    import Menu from '../Components/menu/Menu.vue';
+    import ResponsiveMenu from '../Components/menu/ResponsiveMenu.vue';
 
-import ApplicationMark from '@/Components/ApplicationMark.vue';
-import Banner from '@/Components/Banner.vue';
-import Footer from '@/Components/footer/Footer.vue';
-import Dropdown from '@/Components/Dropdown.vue';
-import DropdownLink from '@/Components/DropdownLink.vue';
-import NavLink from '@/Components/NavLink.vue';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
+    import ApplicationMark from '@/Components/ApplicationMark.vue';
+    import Banner from '@/Components/Banner.vue';
+    import Footer from '@/Components/footer/Footer.vue';
+    import Dropdown from '@/Components/Dropdown.vue';
+    import DropdownLink from '@/Components/DropdownLink.vue';
+    import NavLink from '@/Components/NavLink.vue';
+    import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 
-import language_switcher from '../Components/LanguageSwitcher.vue';
+    import language_switcher from '../Components/LanguageSwitcher.vue';
 
-defineProps({
-    title: String,
-});
-
-const showingNavigationDropdown = ref(false);
-
-const switchToTeam = (team) => {
-    router.put(route('current-team.update'), {
-        team_id: team.id,
-    }, {
-        preserveState: false,
+    defineProps({
+        title: String,
     });
-};
 
-const logout = () => {
-    router.post(route('logout'));
-};
+    const showingNavigationDropdown = ref(false);
 
-onMounted(async () => {
-    initFlowbite();
-});
+    const switchToTeam = (team) => {
+        router.put(route('current-team.update'), {
+            team_id: team.id,
+        }, {
+            preserveState: false,
+        });
+    };
+
+    const logout = () => {
+        router.post(route('logout'));
+    };
+
+    onMounted(async () => {
+        initFlowbite();
+    });
 
 </script>
 
