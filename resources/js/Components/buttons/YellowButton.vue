@@ -26,7 +26,3 @@
         <slot/>
     </button>
 </template>
-
-
-
-
