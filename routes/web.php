@@ -74,10 +74,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     Route::post('/getPermissions', [\App\Http\Controllers\Admin\PermissionController::class, 'getPermissions'])->name('getPermissions');
     Route::resource('/permissions', \App\Http\Controllers\Admin\PermissionController::class)
         ->names([
-             'index' => 'permissions',
-             'store' => 'permissions_store',
-            'update' => 'permissions_update',
-            'delete' => 'permissions_delete',
+              'index' => 'permissions',
+              'store' => 'permissions_store',
+             'update' => 'permissions_update',
+             'delete' => 'permissions_delete',
             'restore' => 'permissions_restore',
         ]);
     
@@ -88,8 +88,13 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     Route::resource('/subdomains', \App\Http\Controllers\SubdomainController::class)
         ->names([
              'index' => 'subdomains',
-             'store' => 'subdomains_store',
+            
+             'create' => 'subdomains_create',
+              'store' => 'subdomains_store',
+            
+               'edit' => 'subdomains_edit',
              'update' => 'subdomains_update',
+            
              'delete' => 'subdomains_delete',
             'restore' => 'subdomains_restore',
         ]);
