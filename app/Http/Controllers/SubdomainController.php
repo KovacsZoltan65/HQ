@@ -119,7 +119,20 @@ class SubdomainController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(){}
+    public function create(Request $request)
+    {
+        $subdomain = new Subdomain();
+        return Inertia::render('Subdomains/subdomainsForm', [
+            'subdomain' => $subdomain,
+            'can' => [
+                   'list' => Auth::user()->can('subdomain list'),
+                 'create' => Auth::user()->can('subdomain create'),
+                   'edit' => Auth::user()->can('subdomain edit'),
+                 'delete' => Auth::user()->can('subdomain delete'),
+                'restore' => Auth::user()->can('subdomain restore'),
+            ]
+        ]);
+    }
 
     /**
      * Store a newly created resource in storage.

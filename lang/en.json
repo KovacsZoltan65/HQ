@@ -141,8 +141,11 @@
     "books_search_placeholder": "Search the books by title or author...",
 
     "subdomains": "Subdomains",
-    "subdomain": "Subdomain",
     "subdomains_description": "Open subdomains page! Here you can list, create, update or delete a subdomains!",
+    
+    "subdomain": "Subdomain",
+    "subdomain_description": "Subdomain Description",
+    
     "subdomains_new": "New Subdomain",
     "subdomains_edit": "Edit Subdomain",
     "subdomains_create": "Create Subdomain",

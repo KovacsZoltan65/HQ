@@ -1,5 +1,5 @@
 <template>
-    <app-layout :subdomain="$t('subdomains')">
+    <app-layout :title="$t('subdomains')">
 
         <!-- header -->
         <template #header>
@@ -24,9 +24,25 @@
                         <!-- GOMBOK -->
                         <div class="flex space-x-2 items-center">
                             <default-button size="text-base" 
-                                            @click="settings_init"
+                                @click="settings_init"
                             >{{ $t('setup') }}</default-button>
+                            
                             <green-button @click="newSubdomain_init">+ {{ $t('subdomains_new') }}</green-button>
+
+                            <!--
+                            <a :href="route('subdomains_create')" 
+                               class="text-white text-sm 
+                                        bg-blue-700 
+                                        hover:bg-blue-800 
+                                        focus:ring-4 focus:ring-blue-300 focus:outline-none
+                                        font-medium rounded-lg  
+                                        px-5 py-2.5 mr-2 mb-2 
+                                        dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            >+ {{ $t('subdomains_new') }}</a>
+                            -->
+                            <green-link :href="route('subdomains_create')" 
+                            >+ {{ $t('subdomains_new') }}</green-link>
+
                         </div>
 
                     </div>
@@ -403,6 +419,9 @@
     import LightButton from '../../Components/buttons/LightButton.vue';
 
     import SorterIcon from '../../Components/icons/SorterIcon.vue';
+
+    //import NavLink from '../../Components/NavLink.vue';
+    import GreenLink from '../../Components/linkbuttons/GreenLink.vue';
 
     const local_storage_column_key = 'ln_subdomains_grid_columns';
 
