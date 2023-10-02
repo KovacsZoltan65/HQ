@@ -21,6 +21,11 @@
     "back": "Back",
     "back_to_home": "Back to home",
 
+    "errors": {
+        "aa": "",
+        "access_denied": "Access denied for user 'root'@'localhost' (using password: YES)"
+    },
+
     "created": "Created",
     "create": "Create",
 
