@@ -21,11 +21,6 @@
     "back": "Vissza",
     "back_to_home": "Vissza a fő oldalra",
 
-    "errors": {
-        "aa": "",
-        "access_denied": "A 'root'@'localhost' felhasználó hozzáférése megtagadva (jelszó használatával: IGEN)"
-    },
-
     "created": "Elkészült",
     "create": "Létrehoz",
 
