@@ -122,7 +122,7 @@ class SubdomainController extends Controller
     public function create(Request $request)
     {
         $subdomain = new Subdomain();
-        return Inertia::render('Subdomains/subdomainsForm', [
+        return Inertia::render('Subdomains/SubdomainsCreate', [
             'subdomain' => $subdomain,
             'can' => [
                    'list' => Auth::user()->can('subdomain list'),
@@ -137,12 +137,15 @@ class SubdomainController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreSubdomainRequest $request)
-    {
-        $subdomain = $this->repository->create($request->all());
-        
-        return redirect()->back()->with('message', __('subdomain_created'));
+    public function store(Request $request){
+        \Log::info('store');
     }
+    //public function store(StoreSubdomainRequest $request)
+    //{
+    //    $subdomain = $this->repository->create($request->all());
+        
+    //    return redirect()->back()->with('message', __('subdomain_created'));
+    //}
 
     /**
      * Display the specified resource.
