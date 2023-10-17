@@ -16,7 +16,7 @@
 </script>
 
 <template>
-    <button type="button" 
+    <button :type="button" 
         :class="size"
         class="focus:outline-none text-white bg-green-700 
             hover:bg-green-800 focus:ring-4 focus:ring-green-300 

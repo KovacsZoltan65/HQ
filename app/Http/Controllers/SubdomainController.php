@@ -138,7 +138,9 @@ class SubdomainController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request){
-        \Log::info('store');
+        //\Log::info('store request: ' . print_r($request, true));
+        //return redirect()->back()->with('message', __('subdomain_created'));
+        dd($request->all());
     }
     //public function store(StoreSubdomainRequest $request)
     //{
