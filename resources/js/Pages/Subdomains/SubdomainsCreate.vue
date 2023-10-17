@@ -11,6 +11,13 @@
     import GreenLink from '@/Components/linkbuttons/GreenLink.vue';
     import DefaultLink from '@/Components/linkbuttons/DefaultLink.vue';
 
+    const props = defineProps({
+        can: {
+            type: Object,
+            required: true,
+        }
+    });
+
     // state_id: 1, Aktív; 2, Felfüggesztve; 3, Leállítva (HQ); 4, Leállítva (példány);
     const states = [
         {id: 1, name: 'Aktív',},
@@ -55,13 +62,6 @@
                         <div class="grid gap-6 mb-6 md:grid-cols-2">
                             <!-- SUBDOMAIN -->
                             <div>
-                                <!--
-                                <label for="first_name" 
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Subdomain</label>
-                                <input type="text" id="subdomain" v-model="form.subdomain"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                    placeholder="Subdomain">
-                                -->
                                 <InputLabel 
                                         for="subdomain" 
                                         class="block mb-2 text-sm font-medium 
@@ -106,13 +106,6 @@
 
                             <!-- NAME -->
                             <div>
-                                <!--
-                                <label for="name" 
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                                <input type="text" id="name" v-model="form.name" 
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                    placeholder="Name">
-                                -->
                                 <InputLabel for="name" 
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</InputLabel>
                                 <TextInput v-model="form.name" type="text" 
@@ -128,15 +121,6 @@
 
                             <!-- DB_HOST -->
                             <div>
-                                <!--
-                                <label for="db_host" 
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                >db_host</label>
-                                <input type="text" 
-                                    id="db_host" 
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                    placeholder="db_host">
-                                -->
                                 <InputLabel for="db_host" 
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                 >db_host</InputLabel>
@@ -153,13 +137,6 @@
 
                             <!-- DB_PORT -->
                             <div>
-                                <!--
-                                <label for="db_port" 
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">db_port</label>
-                                <input type="number" id="db_port" v-model="form.db_port"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                    placeholder="db_port">
-                                -->
                                 <InputLabel for="db_port" 
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                 >db_port</InputLabel>
@@ -176,13 +153,6 @@
                             
                             <!-- DB_NAME -->
                             <div>
-                                <!--
-                                <label for="db_name" 
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">db_name</label>
-                                <input type="text" id="db_name" v-model="form.db_name"  
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                    placeholder="db_name">
-                                -->
                                 <InputLabel for="db_name" 
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                 >db_name</InputLabel>
@@ -199,13 +169,6 @@
 
                             <!-- DB_USER -->
                             <div>
-                                <!--
-                                <label for="db_user" 
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">db_user</label>
-                                <input type="text" id="db_user" v-model="form.db_user"   
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                    placeholder="db_user">
-                                -->
                                 <InputLabel for="db_user" 
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                 >db_user</InputLabel>
@@ -222,17 +185,10 @@
                             
                             <!-- DB_PASSWORD -->
                             <div>
-                                <!--
-                                <label for="db_password" 
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">db_password</label>
-                                <input type="text" id="db_password" v-model="form.db_password"   
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                    placeholder="db_password">
-                                -->
                                 <InputLabel for="db_password" 
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                 >db_password</InputLabel>
-                                <TextInput type="password" v-model="form.db_password" 
+                                <TextInput type="text" v-model="form.db_password" 
                                     id="db_password" name="db_password" 
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                                         focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
@@ -245,25 +201,20 @@
 
                             <!-- state_id (állapot) -->
                             <div>
-                                <InputLabel for="state_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                <InputLabel for="state_id" 
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                 >state_id</InputLabel>
                                 <SelectInput v-model="form.state_id" 
                                     :options="states" 
-                                    id="state_id" name="state_id"
-                                ></SelectInput>
-                                <!--<TextInput type="text" v-model="form.state_id" 
                                     id="state_id" name="state_id" 
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
-                                        focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
-                                        dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
-                                        dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                ></TextInput>-->
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                ></SelectInput>
                                 <InputError :message="form.errors.state_id"></InputError>
                             </div>
 
                             <!-- access_control_system (beléptető rendszer) -->
                             <div>
-                                <InputLabel for="access_control_system" class="">access_controll_system</InputLabel>
+                                <InputLabel for="access_control_system" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">access_controll_system</InputLabel>
                                 <TextInput type="text" v-model="form.access_control_system" 
                                     id="access_control_system" name="access_control_system" 
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
@@ -309,7 +260,7 @@
                         </div>
 
                         <!-- "Submit" button -->
-                        <GreenButton type="submit" size="text-base">MENTÉS</GreenButton>
+                        <GreenButton type="submit" size="text-base">{{ $t('') }}</GreenButton>
 
                         <!-- "Cancel" button -->
                         <DefaultLink type="button" class="float-right" :href="route('subdomains')">VISSZA</DefaultLink>

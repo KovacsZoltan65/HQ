@@ -51,9 +51,9 @@ class Subdomain extends Model
 		          'last_export' => 'datetime'
 	];
 
-	protected $hidden = [
-		'db_password'
-	];
+	//protected $hidden = [
+	//	'db_password'
+	//];
 
 	protected $fillable = [
 		'subdomain',

@@ -137,17 +137,15 @@ class SubdomainController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request){
-        //\Log::info('store request: ' . print_r($request, true));
-        //return redirect()->back()->with('message', __('subdomain_created'));
+    public function store_01(Request $request){
         dd($request->all());
     }
-    //public function store(StoreSubdomainRequest $request)
-    //{
-    //    $subdomain = $this->repository->create($request->all());
+    public function store(StoreSubdomainRequest $request)
+    {
+        $subdomain = $this->repository->create($request->all());
         
-    //    return redirect()->back()->with('message', __('subdomain_created'));
-    //}
+        return redirect()->back()->with('message', __('subdomain_created'));
+    }
 
     /**
      * Display the specified resource.
@@ -157,7 +155,20 @@ class SubdomainController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(){}
+    public function edit(Subdomain $subdomain){
+        return Inertia::render(
+            'Subdomains/SubdomainsEdit', [
+                'subdomain' => $subdomain,
+                'can' => [
+                    'list' => Auth::user()->can('subdomain list'),
+                  'create' => Auth::user()->can('subdomain create'),
+                    'edit' => Auth::user()->can('subdomain edit'),
+                  'delete' => Auth::user()->can('subdomain delete'),
+                 'restore' => Auth::user()->can('subdomain restore'),
+                ]
+            ]
+        );
+    }
 
     /**
      * Update the specified resource in storage.

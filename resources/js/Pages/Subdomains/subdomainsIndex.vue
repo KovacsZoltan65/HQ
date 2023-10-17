@@ -79,34 +79,40 @@ const state = reactive({
 
     // Táblázat oszlopai
     columns: {
-        id: { label: '#', is_visible: true, is_sortable: true, is_filterable: true, },
-        subdomain: { label: 'subdomain', is_visible: true, is_sortable: true, is_filterable: true, },
-        url: { label: 'url', is_visible: true, is_sortable: true, is_filterable: true, },
-        name: { label: 'name', is_visible: true, is_sortable: true, is_filterable: true, },
-        db_host: { label: 'db_host', is_visible: true, is_sortable: true, is_filterable: true, },
-        db_port: { label: 'db_port', is_visible: true, is_sortable: true, is_filterable: true, },
-        db_name: { label: 'db_name', is_visible: true, is_sortable: true, is_filterable: true, },
-        db_user: { label: 'db_user', is_visible: true, is_sortable: true, is_filterable: true, },
-        db_password: { label: 'db_password', is_visible: true, is_sortable: true, is_filterable: true, },
+        id:           { label: '#', is_visible: true, is_sortable: true, is_filterable: true, },
+        subdomain:    { label: 'subdomain', is_visible: true, is_sortable: true, is_filterable: true, },
+        url:          { label: 'url', is_visible: true, is_sortable: true, is_filterable: true, },
+        name:         { label: 'name', is_visible: true, is_sortable: true, is_filterable: true, },
+        db_host:      { label: 'db_host', is_visible: true, is_sortable: true, is_filterable: true, },
+        db_port:      { label: 'db_port', is_visible: true, is_sortable: true, is_filterable: true, },
+        db_name:      { label: 'db_name', is_visible: true, is_sortable: true, is_filterable: true, },
+        db_user:      { label: 'db_user', is_visible: true, is_sortable: true, is_filterable: true, },
+        db_password:  { label: 'db_password', is_visible: true, is_sortable: true, is_filterable: true, },
         notification: { label: 'notification', is_visible: true, is_sortable: true, is_filterable: true, },
-        state_id: { label: 'state_id', is_visible: true, is_sortable: true, is_filterable: true, },
-        is_mirror: { label: 'is_mirror', is_visible: true, is_sortable: true, is_filterable: true, },
-        sso: { label: 'sso', is_visible: true, is_sortable: true, is_filterable: true, },
+        state_id:     { label: 'state_id', is_visible: true, is_sortable: true, is_filterable: true, },
+        is_mirror:    { label: 'is_mirror', is_visible: true, is_sortable: true, is_filterable: true, },
+        sso:          { label: 'sso', is_visible: true, is_sortable: true, is_filterable: true, },
         access_controll_system: { label: 'access_controll_system', is_visible: true, is_sortable: true, is_filterable: true, },
-        last_export: { label: 'last_export', is_visible: true, is_sortable: true, is_filterable: true, },
-        created_at: { label: 'created_at', is_visible: false, is_sortable: false, is_filterable: false, },
-        updated_at: { label: 'updated_at', is_visible: false, is_sortable: false, is_filterable: false, },
-        deleted_at: { label: 'deleted_at', is_visible: false, is_sortable: false, is_filterable: false, },
-        action: { label: 'actions', is_visible: true, is_sortable: false, is_filterable: false, },
+        last_export:  { label: 'last_export', is_visible: true, is_sortable: true, is_filterable: true, },
+        created_at:   { label: 'created_at', is_visible: false, is_sortable: false, is_filterable: false, },
+        updated_at:   { label: 'updated_at', is_visible: false, is_sortable: false, is_filterable: false, },
+        deleted_at:   { label: 'deleted_at', is_visible: false, is_sortable: false, is_filterable: false, },
+        action:       { label: 'actions', is_visible: true, is_sortable: false, is_filterable: false, },
     },
 
     // Oldaltörés
     pagination: {
-        current_page: 1, total_number_of_pages: 0, per_page: 10, range: 5,
+        current_page: 1, 
+        total_number_of_pages: 0, 
+        per_page: 10, 
+        range: 5,
     },
     // Szűrés és keresés
     filters: {
-        tags: [], search: null, column: null, direction: null,
+        tags: [], 
+        search: null, 
+        column: null, 
+        direction: null,
     },
 });
 
@@ -156,14 +162,28 @@ function getSubdomains(page = state.pagination.current_page) {
         filters: state.filters, config: { per_page: state.pagination.per_page, }, page
     }))
         .then(response => {
-            state.Subdomains = response.data.subdomains.data; state.pagination.total_number_of_pages = response.data.subdomains.last_page; state.pagination.current_page = response.data.subdomains.current_page;
+            state.Subdomains = response.data.subdomains.data; 
+            state.pagination.total_number_of_pages = response.data.subdomains.last_page; 
+            state.pagination.current_page = response.data.subdomains.current_page;
         });
 }
 
 function getData() {
     return {
-        subdomain: state.editingSubdomain.subdomain, url: state.editingSubdomain.url, name: state.editingSubdomain.name, db_host: state.editingSubdomain.db_host, db_port: state.editingSubdomain.db_port, db_name: state.editingSubdomain.db_name, db_user: state.editingSubdomain.db_user, db_password: state.editingSubdomain.db_password, notification: state.editingSubdomain.notification, state_id: state.editingSubdomain.state_id, is_mirror: state.editingSubdomain.is_mirror, sso: state.editingSubdomain.sso, access_control_system: state.editingSubdomain.access_control_system, last_export: state.editingSubdomain.last_export
-
+        subdomain: state.editingSubdomain.subdomain, 
+        url: state.editingSubdomain.url, 
+        name: state.editingSubdomain.name, 
+        db_host: state.editingSubdomain.db_host, 
+        db_port: state.editingSubdomain.db_port, 
+        db_name: state.editingSubdomain.db_name, 
+        db_user: state.editingSubdomain.db_user, 
+        db_password: state.editingSubdomain.db_password, 
+        notification: state.editingSubdomain.notification, 
+        state_id: state.editingSubdomain.state_id, 
+        is_mirror: state.editingSubdomain.is_mirror, 
+        sso: state.editingSubdomain.sso, 
+        access_control_system: state.editingSubdomain.access_control_system, 
+        last_export: state.editingSubdomain.last_export
     }
 }
 
@@ -346,8 +366,14 @@ function closeDeleteModal() { state.showDeleteModal = false; }
                                 <td class="px-4 py-2 w-45 border" width="250px"
                                     v-show="state.columns.action.is_visible">
                                     <div type="justify-start lg:justify-end" no-wrap>
+                                        <!--
                                         <GreenButton class="mt-1" size="text-xs" @click="editSubdomain(subdomain)">{{
                                             $t('edit') }}</GreenButton>
+                                        -->
+                                        <GreenLink type="button" 
+                                            :href="route('subdomains_edit', subdomain.id)"
+                                        >{{ $t('edit') }}</GreenLink>
+
                                         <RedButton class="mt-1" size="text-xs" @click="deleteSubdomain_init(subdomain)">
                                             {{ $t('delete') }}</RedButton>
                                     </div>
