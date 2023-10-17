@@ -9,6 +9,7 @@ namespace Database\Seeders;
 use Database\Factories\BookFactory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Book;
 
 class BookSeeder extends Seeder
 {
@@ -24,11 +25,13 @@ class BookSeeder extends Seeder
         $count = 1000;
         
         $this->command->getOutput()->progressStart($count);
+        
         for( $i = 0; $i < $count; $i++ )
         {
-            \App\Models\Book::factory(1)->create();
+            Book::factory(1)->create();
             $this->command->getOutput()->progressAdvance();
         }
+        
         $this->command->getOutput()->progressFinish();
         
         $this->command->info(PHP_EOL . 'Books created');
