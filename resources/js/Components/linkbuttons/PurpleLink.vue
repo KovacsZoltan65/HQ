@@ -4,19 +4,23 @@
             type: String,
             default: 'button',
             validator: (value) => ['button','submit','reset'].includes(value),
-            required: false,
+            required: true
+        },
+        href: {
+            type: String,
+            required: true
         },
         size: {
             type: String,
-            default:'text-base',
-            validator: (value) => ['text-xs', 'text-sm','text-base'].includes(value),
-            required: false,
-        },
+            default:'medium',
+            validator: (value) => ['small','medium', 'large'].includes(value),
+            required: true
+        }
     });
 </script>
 
 <template>
-    <button type="button" 
+    <a :href="href" type="button" 
         :class="size"
         class="focus:outline-none text-white bg-purple-700 
             hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 
@@ -24,5 +28,5 @@
             dark:bg-purple-600 dark:hover:bg-purple-700 
             dark:focus:ring-purple-900">
         <slot/>
-    </button>
+    </a>
 </template>

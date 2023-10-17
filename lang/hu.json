@@ -142,8 +142,11 @@
     "books_search_placeholder": "Keress a könyvek között cím vagy szerző szerint...",
 
     "subdomains": "Aldomainek",
-    "subdomain": "Aldomain",
     "subdomains_description": "Nyílvántartott aldomainek oldala! Itt listázhat, létrehozhat, frissíthet vagy törölhet aldomaineket!",
+    
+    "subdomain": "Aldomain",
+    "subdomain_description": "Aldomain részletei",
+    
     "subdomains_new": "Új aldomain",
     "subdomains_edit": "Aldomain szerkesztése",
     "subdomains_create": "Aldomain létrehozása",
