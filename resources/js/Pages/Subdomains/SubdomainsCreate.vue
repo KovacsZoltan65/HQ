@@ -41,6 +41,15 @@
         access_control_system: '1',
         last_export: '1'
     });
+
+    const submit = () => {
+        form.post(route('subdomains_store'), {
+            onFinish: (values) => { console.log('onFinish'); },
+            onSuccess: (response) => { console.log('onSuccess'); },
+            onError: (errors) => { console.log('onError'); },
+            preserveScroll: true
+        });
+    };
 </script>
 
 <template>
@@ -57,8 +66,8 @@
         <div class="py-6">
             <div class="mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-4 py-4">
-
-                    <form @submit.prevent="$event => form.post(route('subdomains_store'))">
+                    <!-- <form @submit.prevent="$event => form.post(route('subdomains_store'))"> -->
+                    <form @submit.prevent="submit">
                         <div class="grid gap-6 mb-6 md:grid-cols-2">
                             <!-- SUBDOMAIN -->
                             <div>
