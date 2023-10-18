@@ -27,8 +27,7 @@ class SubdomainController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
+    public function index() {
         return Inertia::render('Subdomains/subdomainsIndex', [
             'can' => [
                    'list' => Auth::user()->can('subdomain list'),
@@ -40,19 +39,13 @@ class SubdomainController extends Controller
         ]);
     }
     
-    public function getSubdomains(Request $request)
-    {
+    public function getSubdomains(Request $request) {
         // Beállítások
         $config = $request->get('config', []);
         //$config = ['per_page' => 10];
         
         // Szűrők és keresések
         $filters = $request->get('filters', []);
-        //$filters = [
-        //    'search' => 're',
-        //    'column' => 'title',
-        //    'direction' => 'desc',
-        //];
         
         // Szűrés kezelése
         if( count($filters) > 0 )
