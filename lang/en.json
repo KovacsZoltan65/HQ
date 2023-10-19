@@ -17,6 +17,12 @@
     "search": "Search",
     "yes": "Yes",
     "no": "No",
+    "deny": "Deny",
+    "denied": "Denied",
+    "dismiss": "Dismiss",
+    "dismissed": "Dismissed",
+    "success": "Success",
+    "delete_confirmation": "Confirm deletion",
 
     "languages": "Languages",
 

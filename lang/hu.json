@@ -17,6 +17,12 @@
     "search": "Keresés",
     "yes": "Igen",
     "no": "Nem",
+    "deny": "Megtagad",
+    "denied": "Megtagadva",
+    "dismiss": "Elutasítva",
+    "dismissed": "Elutasítva",
+    "success": "Siker",
+    "delete_confirmation": "Törlés megerősítése",
 
     "languages": "Nyelvek",
 
@@ -159,7 +165,7 @@
     "subdomains_deleted": "Aldomain törölve",
     "subdomains_restore": "Aldomain visszaállítása",
     "subdomains_restored": "Aldomain visszaállítva",
-    "subdomains_delete_confirmation": "Biztosan törli ezt az aldomaint?",
+    "subdomains_delete_confirmation": "Biztosan törli a(z) :name aldomaint?",
     "subdomains_search_placeholder": "Keress az aldomainek között név vagy url szerint...",
 
     "author": "Szerző",

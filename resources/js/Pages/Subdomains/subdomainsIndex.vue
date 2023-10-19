@@ -25,25 +25,11 @@
     //import NavLink from '../../Components/NavLink.vue';
     import GreenLink from '../../Components/linkbuttons/GreenLink.vue';
     
+    import { trans } from 'laravel-vue-i18n';
     import Swal from 'sweetalert2';
-    //import { I18n } from 'laravel-vue-i18n';
-
-
-    //import { getActiveLanguage, loadLanguageAsync } from 'laravel-vue-i18n';
-
-    //const lang = getActiveLanguage();
-    //const resolver = lang => import(`@/../lang/${lang}.json`);
-    //const tr_act = new I18n({
-    //    lang: lang,
-    //    resolve: resolver,
-    //});
-    const aa = () => { $t('yes'); };
-    //console.log( tr_act.trans('yes') );
-    console.log( aa );
+    import 'sweetalert2/dist/sweetalert2.min.css';
 
     const local_storage_column_key = 'ln_subdomains_grid_columns';
-
-    
 
     const errors = ref('');
 
@@ -150,7 +136,10 @@
         let columns = localStorage.getItem(local_storage_column_key);
 
         if (columns) {
-            columns = JSON.parse(columns); for (const column_name in columns) { state.columns[column_name] = columns[column_name]; }
+            columns = JSON.parse(columns); 
+            for (const column_name in columns) { 
+                state.columns[column_name] = columns[column_name]; 
+            }
         }
     });
 
@@ -221,7 +210,7 @@
     // Delete alert
     const delete_alert = Swal.mixin({
         buttonsStyling: true,
-        title: 'Biztosan törölni kívánja?',
+        title: trans('delete_confirmation'),
         icon: 'question',
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
@@ -230,38 +219,38 @@
     // Törlés előkészítése
     function deleteSubdomain_init(subdomain){
         delete_alert.fire({
-            text: "Biztosan törölni kívánja a " + subdomain.subdomain + " elemet?",
+            text: trans('subdomains_delete_confirmation', {name: subdomain.subdomain}),//"Biztosan törölni kívánja a " + subdomain.subdomain + " elemet?",
             showDenyButton: false,
-            denyButtonText: `Don't save`,
+            denyButtonText: trans('deny'),
             showCancelButton: true,
-            confirmButtonText: yes_label,
-            cancelButtonText: 'Mégse'
+            confirmButtonText: trans('yes'),
+            cancelButtonText: trans('cancel')
         }).then((result) => {
             //console.log(result);
             if( result.isConfirmed ){
+                state.deletingSubdomain = subdomain;
                 deleteSubdomain(subdomain);
                 //alerta.fire('Deleted!', '', 'success')
             } else if( result.isDenied ){
-                alerta.fire('Denied', '', 'info');
+                alerta.fire(trans('denied'), '', 'info');
             } else if( result.isDismissed ){
-                alerta.fire('Dismissed', '', 'info');
+                alerta.fire(trans('dismissed'), '', 'info');
             }
         });
     }
-
+    
     // Rekord törlése
     function deleteSubdomain(subdomain) {
-        alerta.fire('Deleted!', '', 'success')
-        /*
         axios.delete(route('subdomains_delete', { subdomain: subdomain }))
             .then((response) => {
-                //state.Subdomains = state.Subdomains.filter(subdomain => subdomain.id !== state.deletingSubdomain.id); state.deletingSubdomain = null;
+                state.Subdomains = state.Subdomains.filter(subdomain => subdomain.id !== state.deletingSubdomain.id); 
+                state.deletingSubdomain = null;
                 //openDeleteModal();
+                alerta.fire(trans('delete'), '', 'success');
             })
             .catch((error) => {
                 console.log('deleteSubdomain', error);
             });
-        */
     }
 
     // Szerkesztés megszakítása
