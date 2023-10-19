@@ -310,6 +310,7 @@ function closeDeleteModal() { state.showDeleteModal = false; }
                                         </a>
                                     </div>
                                 </th> 
+
                                 <!-- TITLE -->
                                 <th scope="col" class="px-6 py-3" v-show="state.columns.subdomain.is_visible">
                                     <div class="flex items-center"> {{ $t(state.columns.subdomain.label) }}
@@ -319,6 +320,7 @@ function closeDeleteModal() { state.showDeleteModal = false; }
                                         </a>
                                     </div>
                                 </th>
+
                                 <!-- AUTHOR -->
                                 <th scope="col" class="px-6 py-3" v-show="state.columns.url.is_visible">
                                     <div class="flex items-center"> {{ $t(state.columns.url.label) }}
@@ -328,6 +330,7 @@ function closeDeleteModal() { state.showDeleteModal = false; }
                                         </a>
                                     </div>
                                 </th>
+
                                 <!-- IMAGE -->
                                 <th scope="col" class="px-6 py-3" v-show="state.columns.name.is_visible">
                                     <div class="flex items-center"> {{ $t(state.columns.name.label) }} <a href="#"
@@ -335,6 +338,7 @@ function closeDeleteModal() { state.showDeleteModal = false; }
                                             <SorterIcon />
                                         </a> </div>
                                 </th>
+
                                 <!-- ACTION -->
                                 <th scope="col" class="px-6 py-3" width="250px"
                                     v-show="state.columns.action.is_visible">
@@ -345,6 +349,7 @@ function closeDeleteModal() { state.showDeleteModal = false; }
                                         </a>
                                     </div>
                                 </th>
+                                
                             </tr>
                         </thead>
                         <tbody>

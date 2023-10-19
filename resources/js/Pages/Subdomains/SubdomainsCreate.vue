@@ -187,7 +187,7 @@
                             <div>
                                 <InputLabel for="db_password" 
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                >db_password</InputLabel>
+                                >{{ $t('db_password') }}</InputLabel>
                                 <TextInput type="text" v-model="form.db_password" 
                                     id="db_password" name="db_password" 
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
@@ -203,7 +203,7 @@
                             <div>
                                 <InputLabel for="state_id" 
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                >state_id</InputLabel>
+                                >{{ $t('state_id') }}</InputLabel>
                                 <SelectInput v-model="form.state_id" 
                                     :options="states" 
                                     id="state_id" name="state_id" 
@@ -214,7 +214,9 @@
 
                             <!-- access_control_system (beléptető rendszer) -->
                             <div>
-                                <InputLabel for="access_control_system" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">access_controll_system</InputLabel>
+                                <InputLabel for="access_control_system" 
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                >{{ $t('access_controll_system') }}</InputLabel>
                                 <TextInput type="text" v-model="form.access_control_system" 
                                     id="access_control_system" name="access_control_system" 
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
@@ -230,16 +232,22 @@
                         <div class="grid gap-6 mb-6 md:grid-cols-2">
 
                             <!-- notification(Értesítés küldése) -->
+                            <!-- is_mirror -->
                             <div class="flex mb-4">
                                 <div class="flex items-center h-5">
                                     <input 
-                                        id="notification" name="notification"  
-                                        aria-describedby="notification" type="checkbox" value="" 
+                                        id="is_mirror" name="is_mirror" type="checkbox"
+                                        v-model="form.is_mirror" 
+                                        :value="form.is_mirror"
                                         class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 </div>
                                 <div class="ml-2 text-sm">
-                                    <label for="notification" class="font-medium text-gray-900 dark:text-gray-300">is mirror</label>
-                                    <p id="helper-notification-text" class="text-xs font-normal text-gray-500 dark:text-gray-400">Értesítés küldése</p>
+                                    <label for="is_mirror" 
+                                        class="font-medium text-gray-900 dark:text-gray-300"
+                                    >{{ $t('is_mirror_title') }}</label>
+                                    <p id="helper-is_mirror-text" 
+                                        class="text-xs font-normal text-gray-500 dark:text-gray-400"
+                                    >{{ $t('is_mirror_desc') }}</p>
                                 </div>
                             </div>
 
@@ -247,23 +255,32 @@
                             <div class="flex mb-4">
                                 <div class="flex items-center h-5">
                                     <input 
-                                        id="sso" name="sso"  
-                                        aria-describedby="sso" type="checkbox" value="" 
+                                        id="sso" name="sso" type="checkbox"
+                                        v-model="form.sso" 
+                                        :value="form.sso"
                                         class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 </div>
                                 <div class="ml-2 text-sm">
-                                    <label for="sso" class="font-medium text-gray-900 dark:text-gray-300">SSO hitelesítés</label>
-                                    <p id="helper-sso-text" class="text-xs font-normal text-gray-500 dark:text-gray-400">SSO hitelesítés</p>
+                                    <label for="sso" 
+                                        class="font-medium text-gray-900 dark:text-gray-300"
+                                    >{{ $t('sso_title') }}</label>
+                                    <p id="helper-sso-text" 
+                                        class="text-xs font-normal text-gray-500 dark:text-gray-400"
+                                    >{{ $t('sso_desc') }}</p>
                                 </div>
                             </div>
 
                         </div>
 
                         <!-- "Submit" button -->
-                        <GreenButton type="submit" size="text-base">{{ $t('') }}</GreenButton>
+                        <GreenButton type="submit" 
+                            size="text-base"
+                        >{{ $t('save') }}</GreenButton>
 
                         <!-- "Cancel" button -->
-                        <DefaultLink type="button" class="float-right" :href="route('subdomains')">VISSZA</DefaultLink>
+                        <DefaultLink type="button" class="float-right" 
+                            :href="route('subdomains')"
+                        >{{ $t('back') }}</DefaultLink>
                     </form>
 
                 </div>

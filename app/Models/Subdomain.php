@@ -45,8 +45,8 @@ class Subdomain extends Model
 		              'db_port' => 'int',
 		         'notification' => 'bool',
 		             'state_id' => 'int',
-		            'is_mirror' => 'int',
-		                  'sso' => 'int',
+		            'is_mirror' => 'bool',
+		                  'sso' => 'bool',
 		'access_control_system' => 'int',
 		          'last_export' => 'datetime'
 	];
