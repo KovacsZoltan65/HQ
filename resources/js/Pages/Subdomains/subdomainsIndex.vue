@@ -1,229 +1,285 @@
 <script setup>
-import { reactive, onMounted, watch, computed, ref } from 'vue';
-import axios from 'axios';
+    import { reactive, onMounted, watch, ref } from 'vue';
+    import axios from 'axios';
 
-//import { initFlowbite } from 'flowbite';
+    //import { initFlowbite } from 'flowbite';
 
-import AppLayout from '../../Layouts/AppLayout.vue';
-//import SubdomainForm from '../../Components/Subdomain/form.vue';
-import DialogModal from '@/Components/DialogModal.vue';
+    import AppLayout from '../../Layouts/AppLayout.vue';
+    //import SubdomainForm from '../../Components/Subdomain/form.vue';
+    import DialogModal from '@/Components/DialogModal.vue';
 
-import VPagination from '@hennge/vue3-pagination';
-import '@hennge/vue3-pagination/dist/vue3-pagination.css';
+    import VPagination from '@hennge/vue3-pagination';
+    import '@hennge/vue3-pagination/dist/vue3-pagination.css';
 
-//import SecondaryButton from '@/Components/SecondaryButton.vue';
-//import PrimaryButton from '@/Components/PrimaryButton.vue';
-import DefaultButton from '../../Components/buttons/DefaultButton.vue';
-import GreenButton from '../../Components/buttons/GreenButton.vue';
-import RedButton from '../../Components/buttons/RedButton.vue';
-import LightButton from '../../Components/buttons/LightButton.vue';
+    //import SecondaryButton from '@/Components/SecondaryButton.vue';
+    //import PrimaryButton from '@/Components/PrimaryButton.vue';
+    import DefaultButton from '../../Components/buttons/DefaultButton.vue';
+    import GreenButton from '../../Components/buttons/GreenButton.vue';
+    import RedButton from '../../Components/buttons/RedButton.vue';
+    import LightButton from '../../Components/buttons/LightButton.vue';
 
-import SorterIcon from '../../Components/icons/SorterIcon.vue';
+    import SorterIcon from '../../Components/icons/SorterIcon.vue';
+    import EditIcon from '../../Components/icons/EditIcon.vue';
+    import DeleteIcon from '../../Components/icons/DeleteIcon.vue';
 
-//import NavLink from '../../Components/NavLink.vue';
-import GreenLink from '../../Components/linkbuttons/GreenLink.vue';
+    //import NavLink from '../../Components/NavLink.vue';
+    import GreenLink from '../../Components/linkbuttons/GreenLink.vue';
+    
+    import Swal from 'sweetalert2';
+    //import { I18n } from 'laravel-vue-i18n';
 
-const local_storage_column_key = 'ln_subdomains_grid_columns';
 
-const errors = ref('');
+    //import { getActiveLanguage, loadLanguageAsync } from 'laravel-vue-i18n';
 
-const props = defineProps({
-    can: {
-        type: Object, default: () => ({}),
-    }
-});
+    //const lang = getActiveLanguage();
+    //const resolver = lang => import(`@/../lang/${lang}.json`);
+    //const tr_act = new I18n({
+    //    lang: lang,
+    //    resolve: resolver,
+    //});
+    const aa = () => { $t('yes'); };
+    //console.log( tr_act.trans('yes') );
+    console.log( aa );
 
-const defaultFormObject = {
-    subdomain: null,
-    url: null,
-    name: null,
-    db_host: null,
-    db_port: null,
-    db_name: null,
-    db_user: null,
-    db_password: null,
-    notification: null,
-    state_id: null,
-    is_mirror: null,
-    sso: null,
-    access_control_system: null,
-    last_export: null
-};
+    const local_storage_column_key = 'ln_subdomains_grid_columns';
 
-const state = reactive({
-    // Összes rekord
-    Subdomains: [],
-    // Kiválasztott rekord
-    //Subdomain: newSubdomain(),
-    // Szerkeszteni kívánt rekord
-    //editingSubdomain: null,
-    // Törölni kívánt rekord
-    deletingSubdomain: null,
+    
 
-    // Van nyitott ablak
-    isFormOpen: false,
-    // A folyamatban levő művelet szerkesztés
-    isEdit: false,
+    const errors = ref('');
 
-    // "settings" modal megnyitása / bezárása
-    showSettingsModal: false,
-    // "edit" modal megnyitása / bezárása
-    showEditModal: false,
-    // "delete" modal megnyitása / bezárása
-    showDeleteModal: false,
-
-    // Kiválasztott rekordok azonosítója
-    selected: [],
-    // Összes elem ki van választva
-    selectAll: false,
-
-    // Táblázat oszlopai
-    columns: {
-        id:           { label: '#', is_visible: true, is_sortable: true, is_filterable: true, },
-        subdomain:    { label: 'subdomain', is_visible: true, is_sortable: true, is_filterable: true, },
-        url:          { label: 'url', is_visible: true, is_sortable: true, is_filterable: true, },
-        name:         { label: 'name', is_visible: true, is_sortable: true, is_filterable: true, },
-        db_host:      { label: 'db_host', is_visible: true, is_sortable: true, is_filterable: true, },
-        db_port:      { label: 'db_port', is_visible: true, is_sortable: true, is_filterable: true, },
-        db_name:      { label: 'db_name', is_visible: true, is_sortable: true, is_filterable: true, },
-        db_user:      { label: 'db_user', is_visible: true, is_sortable: true, is_filterable: true, },
-        db_password:  { label: 'db_password', is_visible: true, is_sortable: true, is_filterable: true, },
-        notification: { label: 'notification', is_visible: true, is_sortable: true, is_filterable: true, },
-        state_id:     { label: 'state_id', is_visible: true, is_sortable: true, is_filterable: true, },
-        is_mirror:    { label: 'is_mirror', is_visible: true, is_sortable: true, is_filterable: true, },
-        sso:          { label: 'sso', is_visible: true, is_sortable: true, is_filterable: true, },
-        access_controll_system: { label: 'access_controll_system', is_visible: true, is_sortable: true, is_filterable: true, },
-        last_export:  { label: 'last_export', is_visible: true, is_sortable: true, is_filterable: true, },
-        created_at:   { label: 'created_at', is_visible: false, is_sortable: false, is_filterable: false, },
-        updated_at:   { label: 'updated_at', is_visible: false, is_sortable: false, is_filterable: false, },
-        deleted_at:   { label: 'deleted_at', is_visible: false, is_sortable: false, is_filterable: false, },
-        action:       { label: 'actions', is_visible: true, is_sortable: false, is_filterable: false, },
-    },
-
-    // Oldaltörés
-    pagination: {
-        current_page: 1, 
-        total_number_of_pages: 0, 
-        per_page: 10, 
-        range: 5,
-    },
-    // Szűrés és keresés
-    filters: {
-        tags: [], 
-        search: null, 
-        column: null, 
-        direction: null,
-    },
-});
-
-// Figyeli az oszlopok változását
-watch(state.columns, (new_value, old_value) => {
-    //console.log(new_value);
-    localStorage.setItem(local_storage_column_key, JSON.stringify(new_value));
-});
-
-onMounted(async () => {
-    //initFlowbite();
-
-    getSubdomains();
-
-    let columns = localStorage.getItem(local_storage_column_key);
-
-    //console.log('columns', columns);
-
-    if (columns) {
-        columns = JSON.parse(columns); for (const column_name in columns) { state.columns[column_name] = columns[column_name]; }
-    }
-});
-
-function sordedSubdomain() {
-    return state.Subdomains.sort((a, b) => {
-        return a.subdomain.localeCompare(b.subdomain);
+    const props = defineProps({
+        can: {
+            type: Object, default: () => ({}),
+        }
     });
-};
 
-function filteredSubdomains() {
-    return state.Subdomains.filter((subdomain) => {
-        return subdomain.subdomain.toLowerCase().includes(state.filters.search.toLowerCase());
+    const defaultFormObject = {
+        subdomain: null,
+        url: null,
+        name: null,
+        db_host: null,
+        db_port: null,
+        db_name: null,
+        db_user: null,
+        db_password: null,
+        notification: null,
+        state_id: null,
+        is_mirror: null,
+        sso: null,
+        access_control_system: null,
+        last_export: null
+    };
+
+    const state = reactive({
+        // Összes rekord
+        Subdomains: [],
+        // Kiválasztott rekord
+        //Subdomain: newSubdomain(),
+        // Szerkeszteni kívánt rekord
+        //editingSubdomain: null,
+        // Törölni kívánt rekord
+        deletingSubdomain: null,
+
+        // Van nyitott ablak
+        isFormOpen: false,
+        // A folyamatban levő művelet szerkesztés
+        isEdit: false,
+
+        // "settings" modal megnyitása / bezárása
+        showSettingsModal: false,
+        // "edit" modal megnyitása / bezárása
+        showEditModal: false,
+        // "delete" modal megnyitása / bezárása
+        showDeleteModal: false,
+
+        // Kiválasztott rekordok azonosítója
+        selected: [],
+        // Összes elem ki van választva
+        selectAll: false,
+
+        // Táblázat oszlopai
+        columns: {
+            id:           { label: '#', is_visible: true, is_sortable: true, is_filterable: true, },
+            subdomain:    { label: 'subdomain', is_visible: true, is_sortable: true, is_filterable: true, },
+            url:          { label: 'url', is_visible: true, is_sortable: true, is_filterable: true, },
+            name:         { label: 'name', is_visible: true, is_sortable: true, is_filterable: true, },
+            db_host:      { label: 'db_host', is_visible: true, is_sortable: true, is_filterable: true, },
+            db_port:      { label: 'db_port', is_visible: true, is_sortable: true, is_filterable: true, },
+            db_name:      { label: 'db_name', is_visible: true, is_sortable: true, is_filterable: true, },
+            db_user:      { label: 'db_user', is_visible: true, is_sortable: true, is_filterable: true, },
+            db_password:  { label: 'db_password', is_visible: true, is_sortable: true, is_filterable: true, },
+            notification: { label: 'notification', is_visible: true, is_sortable: true, is_filterable: true, },
+            state_id:     { label: 'state_id', is_visible: true, is_sortable: true, is_filterable: true, },
+            is_mirror:    { label: 'is_mirror', is_visible: true, is_sortable: true, is_filterable: true, },
+            sso:          { label: 'sso', is_visible: true, is_sortable: true, is_filterable: true, },
+            access_controll_system: { label: 'access_controll_system', is_visible: true, is_sortable: true, is_filterable: true, },
+            last_export:  { label: 'last_export', is_visible: true, is_sortable: true, is_filterable: true, },
+            created_at:   { label: 'created_at', is_visible: false, is_sortable: false, is_filterable: false, },
+            updated_at:   { label: 'updated_at', is_visible: false, is_sortable: false, is_filterable: false, },
+            deleted_at:   { label: 'deleted_at', is_visible: false, is_sortable: false, is_filterable: false, },
+            action:       { label: 'actions', is_visible: true, is_sortable: false, is_filterable: false, },
+        },
+
+        // Oldaltörés
+        pagination: {
+            current_page: 1, 
+            total_number_of_pages: 0, 
+            per_page: 10, 
+            range: 5,
+        },
+        // Szűrés és keresés
+        filters: {
+            tags: [], 
+            search: null, 
+            column: null, 
+            direction: null,
+        },
     });
-};
 
-// Kiválasztás
-function select() {
-    state.selected = [];
-    if (!state.selectAll) {
-        state.Subdomains.forEach(subdomain => { state.selected.push(subdomain.id); });
-    }
-};
+    // Figyeli az oszlopok változását
+    watch(state.columns, (new_value, old_value) => {
+        //console.log(new_value);
+        localStorage.setItem(local_storage_column_key, JSON.stringify(new_value));
+    });
 
-// Táblázat adatainak lekérése
-function getSubdomains(page = state.pagination.current_page) {
-    axios.post(route('getSubdomains', {
-        filters: state.filters, config: { per_page: state.pagination.per_page, }, page
-    }))
+    onMounted(async () => {
+        //initFlowbite();
+
+        getSubdomains();
+
+        let columns = localStorage.getItem(local_storage_column_key);
+
+        if (columns) {
+            columns = JSON.parse(columns); for (const column_name in columns) { state.columns[column_name] = columns[column_name]; }
+        }
+    });
+
+    function sordedSubdomain() {
+        return state.Subdomains.sort((a, b) => {
+            return a.subdomain.localeCompare(b.subdomain);
+        });
+    };
+
+    function filteredSubdomains() {
+        return state.Subdomains.filter((subdomain) => {
+            return subdomain.subdomain.toLowerCase().includes(state.filters.search.toLowerCase());
+        });
+    };
+
+    // Kiválasztás
+    function select() {
+        state.selected = [];
+        if (!state.selectAll) {
+            state.Subdomains.forEach(subdomain => { state.selected.push(subdomain.id); });
+        }
+    };
+
+    // Táblázat adatainak lekérése
+    function getSubdomains(page = state.pagination.current_page) {
+        axios.post(route('getSubdomains', {
+            filters: state.filters, config: { per_page: state.pagination.per_page, }, page
+        }))
         .then(response => {
             state.Subdomains = response.data.subdomains.data; 
             state.pagination.total_number_of_pages = response.data.subdomains.last_page; 
             state.pagination.current_page = response.data.subdomains.current_page;
         });
-}
-
-function getData() {
-    return {
-        subdomain: state.editingSubdomain.subdomain, 
-        url: state.editingSubdomain.url, 
-        name: state.editingSubdomain.name, 
-        db_host: state.editingSubdomain.db_host, 
-        db_port: state.editingSubdomain.db_port, 
-        db_name: state.editingSubdomain.db_name, 
-        db_user: state.editingSubdomain.db_user, 
-        db_password: state.editingSubdomain.db_password, 
-        notification: state.editingSubdomain.notification, 
-        state_id: state.editingSubdomain.state_id, 
-        is_mirror: state.editingSubdomain.is_mirror, 
-        sso: state.editingSubdomain.sso, 
-        access_control_system: state.editingSubdomain.access_control_system, 
-        last_export: state.editingSubdomain.last_export
     }
-}
 
-// Törlés előkészítése
-function deleteSubdomain_init(subdomain) {
-    state.editingSubdomain = null;
-    state.deletingSubdomain = subdomain;
+    //function getData() {
+    //    return {
+    //        subdomain: state.editingSubdomain.subdomain, 
+    //        url: state.editingSubdomain.url, 
+    //        name: state.editingSubdomain.name, 
+    //        db_host: state.editingSubdomain.db_host, 
+    //        db_port: state.editingSubdomain.db_port, 
+    //        db_name: state.editingSubdomain.db_name, 
+    //        db_user: state.editingSubdomain.db_user, 
+    //        db_password: state.editingSubdomain.db_password, 
+    //        notification: state.editingSubdomain.notification, 
+    //        state_id: state.editingSubdomain.state_id, 
+    //        is_mirror: state.editingSubdomain.is_mirror, 
+    //        sso: state.editingSubdomain.sso, 
+    //        access_control_system: state.editingSubdomain.access_control_system, 
+    //        last_export: state.editingSubdomain.last_export
+    //    }
+    //}
 
-    openDeleteModal();
-}
+    // Törlés előkészítése
+    //function deleteSubdomain_init(subdomain) {
+    //    state.editingSubdomain = null;
+    //    state.deletingSubdomain = subdomain;
 
-// Rekord törlése
-function deleteSubdomain(subdomain) {
+    //    openDeleteModal();
+    //}
 
-    axios.delete(route('subdomains_delete', { subdomain: state.deletingSubdomain.id }))
-        .then((response) => {
-            state.Subdomains = state.Subdomains.filter(subdomain => subdomain.id !== state.deletingSubdomain.id); state.deletingSubdomain = null;
-            openDeleteModal();
-        })
-        .catch((error) => {
-            console.log('deleteSubdomain', error);
+    // Általános alert
+    const alerta = Swal.mixin({
+        buttonsStyling: true
+    });
+
+    // Delete alert
+    const delete_alert = Swal.mixin({
+        buttonsStyling: true,
+        title: 'Biztosan törölni kívánja?',
+        icon: 'question',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+    });
+
+    // Törlés előkészítése
+    function deleteSubdomain_init(subdomain){
+        delete_alert.fire({
+            text: "Biztosan törölni kívánja a " + subdomain.subdomain + " elemet?",
+            showDenyButton: false,
+            denyButtonText: `Don't save`,
+            showCancelButton: true,
+            confirmButtonText: yes_label,
+            cancelButtonText: 'Mégse'
+        }).then((result) => {
+            //console.log(result);
+            if( result.isConfirmed ){
+                deleteSubdomain(subdomain);
+                //alerta.fire('Deleted!', '', 'success')
+            } else if( result.isDenied ){
+                alerta.fire('Denied', '', 'info');
+            } else if( result.isDismissed ){
+                alerta.fire('Dismissed', '', 'info');
+            }
         });
-}
+    }
 
-// Szerkesztés megszakítása
-//function cancelEdit(){
-//    state.editingSubdomain = null;
-//    state.Subdomain = newSubdomain();
-//}
+    // Rekord törlése
+    function deleteSubdomain(subdomain) {
+        alerta.fire('Deleted!', '', 'success')
+        /*
+        axios.delete(route('subdomains_delete', { subdomain: subdomain }))
+            .then((response) => {
+                //state.Subdomains = state.Subdomains.filter(subdomain => subdomain.id !== state.deletingSubdomain.id); state.deletingSubdomain = null;
+                //openDeleteModal();
+            })
+            .catch((error) => {
+                console.log('deleteSubdomain', error);
+            });
+        */
+    }
 
-// Beállítások előkészítése
-function settings_init() { openSettingsModal(); }
-// SETTINGS MODAL megnyitása
-function openSettingsModal() { state.showSettingsModal = true; }
-// SETTINGS MODAL bezárása
-function closeSettingsModal() { state.showSettingsModal = false; }
-// DELETE MODAL megnyitása
-function openDeleteModal() { state.showDeleteModal = true; }
-// DELETE MODAL bezárása
-function closeDeleteModal() { state.showDeleteModal = false; }
+    // Szerkesztés megszakítása
+    //function cancelEdit(){
+    //    state.editingSubdomain = null;
+    //    state.Subdomain = newSubdomain();
+    //}
+
+    // Beállítások előkészítése
+    function settings_init() { openSettingsModal(); }
+    // SETTINGS MODAL megnyitása
+    function openSettingsModal() { state.showSettingsModal = true; }
+    // SETTINGS MODAL bezárása
+    function closeSettingsModal() { state.showSettingsModal = false; }
+    // DELETE MODAL megnyitása
+    function openDeleteModal() { state.showDeleteModal = true; }
+    // DELETE MODAL bezárása
+    function closeDeleteModal() { state.showDeleteModal = false; }
 </script>
 
 <template>
@@ -236,19 +292,25 @@ function closeDeleteModal() { state.showDeleteModal = false; }
 
         <!-- Új elem felvitelle -->
         <div class="py-6" style="padding-bottom: 0px;">
+            
             <!-- Új elem -->
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-5">
+
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-4 py-4">
                     <div class="flex justify-between items=center">
+                        
                         <!-- FELIRAT -->
-                        <div class="flex space-x-2 items-center"> {{ $t('subdomains_description') }} </div>
+                        <div class="flex space-x-2 items-center">{{ $t('subdomains_description') }}</div>
+                        
                         <!-- GOMBOK -->
                         <div class="flex space-x-2 items-center">
                             <DefaultButton type="button" size="text-base" @click="settings_init">{{ $t('setup') }}</DefaultButton>
                             <GreenLink type="button" :href="route('subdomains_create')">+ {{ $t('subdomains_new') }}</GreenLink>
                         </div>
+
                     </div>
                 </div>
+
             </div>
         </div>
 
@@ -256,15 +318,19 @@ function closeDeleteModal() { state.showDeleteModal = false; }
         <div class="py-6">
             <div class="mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-4 py-4">
+                    
                     <!-- selected ids -->
                     <div class="text-uppercase text-bold mb-4 mt-4">
                         <div class="relative">id selected: {{ state.selected }}</div>
                     </div>
+
                     <!-- TABLE AND SEARCH -->
                     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+
                         <!-- SEARCH -->
                         <div class="pb-4 bg-white dark:bg-gray-900">
-                            <div class="relative mt-1 ml-10 mr-10">
+                            <div class="relative mt-5 ml-10 mr-10">
+                                
                                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                     <svg
                                         class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
@@ -273,6 +339,7 @@ function closeDeleteModal() { state.showDeleteModal = false; }
                                             stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                                     </svg> 
                                 </div>
+
                                 <!-- search field -->
                                 <input type="search" id="default-search"
                                     class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 
@@ -288,6 +355,7 @@ function closeDeleteModal() { state.showDeleteModal = false; }
                                 @click="getSubdomains()">{{ $t('search') }}</button>
                         </div>
                     </div>
+
                     <!-- TABLE -->
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -302,6 +370,7 @@ function closeDeleteModal() { state.showDeleteModal = false; }
                                         <label for="checkbox-all" class="sr-only">checkbox</label>
                                     </div>
                                 </th>
+
                                 <!-- ID -->
                                 <th scope="col" class="px-6 py-3" v-show="state.columns.id.is_visible">
                                     <div class="flex items-center"> {{ state.columns.id.label }}
@@ -368,19 +437,20 @@ function closeDeleteModal() { state.showDeleteModal = false; }
                                 <td class="px-4 py-2 border" v-show="state.columns.subdomain.is_visible">{{ subdomain.subdomain }}</td>
                                 <td class="px-4 py-2 border" v-show="state.columns.url.is_visible">{{ subdomain.url }}</td>
                                 <td class="px-4 py-2 border" v-show="state.columns.name.is_visible">{{ subdomain.name }}</td>
+
                                 <td class="px-4 py-2 w-45 border" width="250px"
                                     v-show="state.columns.action.is_visible">
                                     <div type="justify-start lg:justify-end" no-wrap>
-                                        <!--
-                                        <GreenButton class="mt-1" size="text-xs" @click="editSubdomain(subdomain)">{{
-                                            $t('edit') }}</GreenButton>
-                                        -->
-                                        <GreenLink type="button" 
+                                        <GreenLink 
+                                            type="button" 
                                             :href="route('subdomains_edit', subdomain.id)"
                                         >{{ $t('edit') }}</GreenLink>
 
-                                        <RedButton class="mt-1" size="text-xs" @click="deleteSubdomain_init(subdomain)">
-                                            {{ $t('delete') }}</RedButton>
+                                        <RedButton 
+                                            class="mt-1" 
+                                            size="text-xs" 
+                                            @click="deleteSubdomain_init(subdomain)"
+                                        >{{ $t('delete') }}</RedButton>
                                     </div>
                                 </td>
                             </tr>
