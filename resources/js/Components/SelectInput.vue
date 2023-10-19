@@ -9,6 +9,10 @@
         options: {
             type: Array,
             required: true,
+        },
+        selected: {
+            type: Number,
+            default: 0,
         }
     });
 
@@ -31,6 +35,7 @@
             v-for="option in options" 
             :key="option.id" 
             :value="option.id"
+            :selected="option.id === selected"
         >{{ option.name }}</option>
     </select>
 </template>
