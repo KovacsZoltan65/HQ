@@ -37,7 +37,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Subdomain extends Model
 {
     use HasFactory, 
-            SoftDeletes;
+        SoftDeletes;
     
 	protected $table = 'subdomains';
 

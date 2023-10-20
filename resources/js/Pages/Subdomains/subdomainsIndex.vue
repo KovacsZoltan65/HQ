@@ -258,16 +258,22 @@
     
     // Rekord törlése
     function deleteSubdomain(subdomain) {
-        axios.delete(route('subdomains_delete', { subdomain: subdomain }))
+        console.log(subdomain);
+        axios.delete(route('subdomains_destroy', { subdomain: subdomain }))
             .then((response) => {
+                
+                console.log(state.Subdomains);
+                console.log(state.deletingSubdomain);
+
                 state.Subdomains = state.Subdomains.filter(subdomain => subdomain.id !== state.deletingSubdomain.id); 
                 state.deletingSubdomain = null;
                 //openDeleteModal();
                 alerta.fire(trans('delete'), '', 'success');
             })
             .catch((error) => {
-                console.log('deleteSubdomain', error);
-                alerta.fire(trans('delete'), '', 'error');
+                console.log('error');
+                console.log(error);
+                //alerta.fire(trans('delete'), '', 'error');
             });
     }
 
@@ -294,7 +300,7 @@
 
         <!-- header -->
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight"> {{ $t('subdomains') }} </h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ $t('subdomains') }}</h2>
         </template>
 
         <!-- Új elem felvitelle -->

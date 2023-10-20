@@ -1,5 +1,6 @@
 <script setup>
-    import { useForm } from '@inertiajs/vue3';
+    import { router, useForm } from '@inertiajs/vue3';
+    import axios from 'axios';
     import AppLayout from '@/Layouts/AppLayout.vue';
     import InputLabel from '@/Components/InputLabel.vue';
     import InputError from '@/Components/InputError.vue';
@@ -11,6 +12,21 @@
     import GreenLink from '@/Components/linkbuttons/GreenLink.vue';
     import DefaultLink from '@/Components/linkbuttons/DefaultLink.vue';
 
+    import { trans } from 'laravel-vue-i18n';
+    import Swal from 'sweetalert2';
+    import 'sweetalert2/dist/sweetalert2.min.css';
+
+    // Általános alert
+    const alerta = Swal.mixin({
+        buttonsStyling: true
+    });
+
+    // Mentés alert
+    const save_alert = Swal.mixin({
+        buttonsStyling: true
+    });
+
+    // Tulajdonságok
     const props = defineProps({
         can: {
             type: Object,
@@ -26,6 +42,7 @@
         {id: 4, name: 'Leállítva (példány)',},
     ];
     
+    // Access Controll Systems
     const acs = [
         {id: 0, name: 'Nincs'}, 
         {id: 1, name: 'WinAccess'}, 
@@ -35,6 +52,7 @@
         {id: 5, name: 'GenerallyACS'}
     ];
 
+    // Form adatai
     const form = useForm({
         subdomain: '',
         url: 'http://127.0.0.1:8000',
@@ -52,13 +70,46 @@
         last_export: ''
     });
 
+    // Mentés
     const submit = () => {
+
         form.post(route('subdomains_store'), {
-            onFinish: (values) => { console.log('onFinish'); },
-            onSuccess: (response) => { console.log('onSuccess'); },
-            onError: (errors) => { console.log('onError'); },
+            onSuccess: (response) => {
+                // Üzenet
+                save_alert.fire({
+                    // Ablak felirata
+                    text: trans('save_success'),
+                    // "Megerősítés" gomb felirata
+                    confirmButtonText: trans('back_to_list'),
+                    // "Elutasítás" gomb megjelenítése
+                    showDenyButton: true,
+                    // "Elutasítás" gomb felirata
+                    denyButtonText: trans('subdomains_new')
+                }).then((result) => {
+                    // Vissza a listához
+                    if( result.isConfirmed ) {
+                        console.log('Listához');
+                        window.location.href = route('subdomains');
+                    }
+                    // Adatrögzítés folytatása
+                    else if( result.isDenied ) {
+                        //console.log('Create new');
+                    } else if( result.isDismissed ) {
+                        //
+                    }
+                });
+                //console.log('onSuccess'); 
+            },
+            onFinish: (values) => {
+                console.log('onFinish');
+                form.reset();
+            },
+            onError: (errors) => {
+                console.log('onError');
+            },
             preserveScroll: true
         });
+        
     };
 </script>
 
@@ -78,6 +129,7 @@
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-4 py-4">
                     <!-- <form @submit.prevent="$event => form.post(route('subdomains_store'))"> -->
                     <form @submit.prevent="submit">
+                        
                         <div class="grid gap-6 mb-6 md:grid-cols-2">
                             <!-- SUBDOMAIN -->
                             <div>
@@ -102,9 +154,9 @@
                                 <InputLabel 
                                     for="url" 
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                >{{ $t('url') }}</InputLabel>
+                                >{{ $t('subd_url') }}</InputLabel>
                                 <TextInput v-model="form.url"
-                                    type="text" id="url" name="url" 
+                                    type="url" id="url" name="url" 
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                                             focus:ring-blue-500 focus:border-blue-500 
                                             block w-full p-2.5 

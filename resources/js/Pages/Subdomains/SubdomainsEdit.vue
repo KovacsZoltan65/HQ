@@ -12,6 +12,20 @@
     import GreenLink from '@/Components/linkbuttons/GreenLink.vue';
     import DefaultLink from '@/Components/linkbuttons/DefaultLink.vue';
 
+    import { trans } from 'laravel-vue-i18n';
+    import Swal from 'sweetalert2';
+    import 'sweetalert2/dist/sweetalert2.min.css';
+
+    // Általános alert
+    const alerta = Swal.mixin({
+        buttonsStyling: true
+    });
+
+    // Mentés alert
+    const save_alert = Swal.mixin({
+        buttonsStyling: true
+    });
+
     const props = defineProps({
         can: {
             type: Object,
@@ -39,7 +53,7 @@
         {id: 4, name: 'WinAccess WC'},
         {id: 5, name: 'GenerallyACS'}
     ];
-
+    
     const form = useForm({
         subdomain: props.subdomain.subdomain,
         url: props.subdomain.url,
@@ -56,7 +70,7 @@
         access_control_system: props.subdomain.access_control_system,
         last_export: props.subdomain.last_export
     });
-
+    
     onMounted(async () => {
         //console.log(props.subdomain);
 
@@ -69,6 +83,59 @@
         //console.log('props.subdomain.access_control_system: ' + props.subdomain.access_control_system);
         //console.log('access_control_system: ' + form.access_control_system);
     });
+
+    const submit = () => {
+        //axios.post(route('subdomains.store'), form.id);
+        //console.log(props.subdomain);
+
+        //console.log(props.subdomain.subdomain);
+        //console.log(form.subdomain);
+        //console.log(form.url);
+        ////console.log(form.name);
+        //console.log(form.db_host);
+        //console.log(form.db_port);
+        //console.log(form.db_name);
+        //console.log(form.db_user);
+        //console.log(form.db_password);
+        //console.log(form.notification);
+        //console.log(form.state_id);
+        //console.log(form.is_mirror);
+        //console.log(form.sso);
+        //console.log(form.access_control_system);
+        //console.log(form.last_export);
+        
+        //props.subdomain.id = form.id;
+        //props.subdomain.subdomain = form.subdomain;
+        //props.subdomain.url = form.url;
+        //props.subdomain.name = form.name;
+        //props.subdomain.db_host = form.db_host;
+        //props.subdomain.db_port = form.db_port;
+        //props.subdomain.db_name = form.db_name;
+        //props.subdomain.db_user = form.db_user;
+        //props.subdomain.db_password = form.db_password;
+        //props.subdomain.state_id = form.state_id;
+        //props.subdomain.access_control_system = form.access_control_system;
+        //props.subdomain.notification = form.notification;
+        //props.subdomain.is_mirror = form.is_mirror;
+        //props.subdomain.sso = form.sso;
+        //props.subdomain.last_export = form.last_export;
+        
+        //axios.put(route('subdomains_update', {subdomain: props.subdomain.id}));
+        
+        form.put(route('subdomains_update', {subdomain: props.subdomain}), {
+            onSuccess: (response) => {
+                console.log(response);
+                console.log(response.props.flash.message);
+            },
+            onFinish: () => {
+                form.reset();
+            },
+            onError: (errors) => {
+                console.log(errors);
+            },
+        });
+        
+    };
 </script>
 
 <template>
@@ -86,7 +153,11 @@
             <div class="mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-4 py-4">
 
-                    <form @submit.prevent="$event => form.post(route('subdomains_update'))">
+                    <form @submit.prevent="submit">
+
+                        <input type="hidden" id="id" name="id" v-model="props.subdomain.id" />
+                        <input type="hidden" id="last_export" name="last_export" v-model="props.subdomain.last_export" />
+
                         <div class="grid gap-6 mb-6 md:grid-cols-2">
                             <!-- SUBDOMAIN -->
                             <div>
@@ -95,7 +166,7 @@
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                 >{{ $t('subdomain') }}</InputLabel>
                                 <TextInput 
-                                    v-model="form.subdomain" type="text" 
+                                    v-model="props.subdomain.subdomain" type="text" 
                                     id="subdomain" name="subdomain" 
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                                             focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 
@@ -104,7 +175,7 @@
                                     placeholder="subdomain" 
                                     required
                                 ></TextInput>
-                                <InputError :message="form.errors.subdomain"></InputError>
+                                
                             </div>
 
                             <!-- URL -->
@@ -112,8 +183,8 @@
                                 <InputLabel 
                                     for="url" 
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                >{{ $t('url') }}</InputLabel>
-                                <TextInput v-model="form.url"
+                                >{{ $t('subd_url') }}</InputLabel>
+                                <TextInput v-model="props.subdomain.url"
                                     type="url" id="url" name="url" 
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                                             focus:ring-blue-500 focus:border-blue-500 
@@ -121,7 +192,6 @@
                                             dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
                                     placeholder="Url" required
                                 ></TextInput>
-                                <InputError :message="form.errors.url"></InputError>
                             </div>
 
                             <!-- NAME -->
@@ -129,7 +199,7 @@
                                 <InputLabel for="name" 
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                 >{{ $t('name') }}</InputLabel>
-                                <TextInput v-model="form.name" type="text" 
+                                <TextInput v-model="props.subdomain.name" type="text" 
                                     id="name" name="name" 
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                                         focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
@@ -137,7 +207,7 @@
                                         dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
                                     placeholder="Name" required
                                 ></TextInput>
-                                <InputError :message="form.errors.name"></InputError>
+                                
                             </div>
 
                             <!-- DB_HOST -->
@@ -145,7 +215,7 @@
                                 <InputLabel for="db_host" 
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                 >{{ $t('db_host') }}</InputLabel>
-                                <TextInput v-model="form.db_host"
+                                <TextInput v-model="props.subdomain.db_host"
                                     type="text" id="db_host" name="db_host" 
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                                         focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
@@ -153,7 +223,7 @@
                                         dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
                                     placeholder="db_host" required
                                 ></TextInput>
-                                <InputError :message="form.errors.db_host"></InputError>
+                                
                             </div>
 
                             <!-- DB_PORT -->
@@ -161,7 +231,7 @@
                                 <InputLabel for="db_port" 
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                 >{{ $t('db_port') }}</InputLabel>
-                                <TextInput type="number" v-model="form.db_port" 
+                                <TextInput type="number" v-model="props.subdomain.db_port" 
                                     id="db_port" name="db_port" 
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                                             focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
@@ -169,7 +239,7 @@
                                             dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
                                     placeholder="db_port" required
                                 ></TextInput>
-                                <InputError :message="form.errors.db_port"></InputError>
+                                
                             </div>
                             
                             <!-- DB_NAME -->
@@ -177,7 +247,7 @@
                                 <InputLabel for="db_name" 
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                 >{{ $t('db_name') }}</InputLabel>
-                                <TextInput type="text" v-model="form.db_name" 
+                                <TextInput type="text" v-model="props.subdomain.db_name" 
                                     id="db_name" name="db_name" 
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                                         focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
@@ -185,7 +255,7 @@
                                         dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
                                     placeholder="db_name" required
                                 ></TextInput>
-                                <InputError :message="form.errors.db_name"></InputError>
+                                
                             </div>
 
                             <!-- DB_USER -->
@@ -193,7 +263,7 @@
                                 <InputLabel for="db_user" 
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                 >{{ $t('db_user') }}</InputLabel>
-                                <TextInput type="text" v-model="form.db_user" 
+                                <TextInput type="text" v-model="props.subdomain.db_user" 
                                     id="db_user" name="db_user" 
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                                             focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
@@ -201,7 +271,7 @@
                                             dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
                                     placeholder="db_user" required
                                 ></TextInput>
-                                <InputError :message="form.errors.db_user"></InputError>
+                                
                             </div>
                             
                             <!-- DB_PASSWORD -->
@@ -209,7 +279,7 @@
                                 <InputLabel for="db_password" 
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                 >{{ $t('db_password') }}</InputLabel>
-                                <TextInput type="text" v-model="form.db_password" 
+                                <TextInput type="text" v-model="props.subdomain.db_password" 
                                     id="db_password" name="db_password" 
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                                         focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
@@ -217,7 +287,7 @@
                                         dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
                                     placeholder="db_password" required
                                 ></TextInput>
-                                <InputError :message="form.errors.db_password"></InputError>
+                                
                             </div>
 
                             <!-- state_id (állapot) -->
@@ -225,17 +295,17 @@
                                 <InputLabel for="state_id" 
                                     class="block mb-2 text-sm font-medium text-gray-900 
                                         dark:text-white"
-                                >{{ $t('state_id') }} {{ form.state_id }}</InputLabel>
-                                <SelectInput v-model="form.state_id" 
+                                >{{ $t('state_id') }}</InputLabel>
+                                <SelectInput v-model="props.subdomain.state_id" 
                                     :options="states"
-                                    :selected="form.state_id" 
+                                    :selected="props.subdomain.state_id" 
                                     id="state_id" name="state_id" 
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                                         focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
                                         dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                         dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 ></SelectInput>
-                                <InputError :message="form.errors.state_id"></InputError>
+                                
                             </div>
 
                             <!-- access_control_system (beléptető rendszer) -->
@@ -243,16 +313,16 @@
                                 <InputLabel for="access_control_system" 
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                 >{{ $t('access_controll_system') }}</InputLabel>
-                                <SelectInput v-model="form.access_control_system" 
+                                <SelectInput v-model="props.subdomain.access_control_system" 
                                     :options="acs"
-                                    :selected="form.access_control_system" 
+                                    :selected="props.subdomain.access_control_system" 
                                     id="access_control_system" name="access_control_system" 
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                                         focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
                                         dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                         dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 ></SelectInput>
-                                <InputError :message="form.errors.access_control_system"></InputError>
+                                
                             </div>
 
                         </div>
@@ -264,8 +334,8 @@
                                 <div class="flex items-center h-5">
                                     <input 
                                         id="notification" name="notification" type="checkbox"
-                                        v-model="form.notification" 
-                                        :value="form.notification"
+                                        v-model="props.subdomain.notification" 
+                                        :value="props.subdomain.notification"
                                         class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 </div>
                                 <div class="ml-2 text-sm">
@@ -283,8 +353,8 @@
                                 <div class="flex items-center h-5">
                                     <input 
                                         id="is_mirror" name="is_mirror" type="checkbox"
-                                        v-model="form.is_mirror" 
-                                        :value="form.is_mirror"
+                                        v-model="props.subdomain.is_mirror" 
+                                        :value="props.subdomain.is_mirror"
                                         class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 </div>
                                 <div class="ml-2 text-sm">
@@ -302,8 +372,8 @@
                                 <div class="flex items-center h-5">
                                     <input 
                                         id="sso" name="sso" type="checkbox"
-                                        v-model="form.sso" 
-                                        :value="form.sso"
+                                        v-model="props.subdomain.sso" 
+                                        :value="props.subdomain.sso"
                                         class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 </div>
                                 <div class="ml-2 text-sm">

@@ -21,7 +21,7 @@ class SubdomainController extends Controller
         //$this->middleware('can:subdomain list',    ['only' => ['index', 'show']]);
         //$this->middleware('can:subdomain create',  ['only' => ['create', 'store']]);
         //$this->middleware('can:subdomain edit',    ['only' => ['edit', 'update']]);
-        //$this->middleware('can:subdomain delete',  ['only' => ['destroy']]);
+        //$this->middleware('can:subdomain destroy', ['only' => ['destroy']]);
         //$this->middleware('can:subdomain restore', ['only' => ['restore']]);
     }
     /**
@@ -33,7 +33,7 @@ class SubdomainController extends Controller
                    'list' => Auth::user()->can('subdomain list'),
                  'create' => Auth::user()->can('subdomain create'),
                    'edit' => Auth::user()->can('subdomain edit'),
-                 'delete' => Auth::user()->can('subdomain delete'),
+                'destroy' => Auth::user()->can('subdomain destroy'),
                 'restore' => Auth::user()->can('subdomain restore'),
             ]
         ]);
@@ -112,8 +112,7 @@ class SubdomainController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request)
-    {
+    public function create(Request $request) {
         $subdomain = new Subdomain();
         return Inertia::render('Subdomains/SubdomainsCreate', [
             'subdomain' => $subdomain,
@@ -135,7 +134,7 @@ class SubdomainController extends Controller
     }
     public function store(StoreSubdomainRequest $request)
     {
-        dd($request);
+        //dd($request);
         $subdomain = $this->repository->create($request->all());
         
         return redirect()->back()->with('message', __('subdomain_created'));
@@ -167,25 +166,28 @@ class SubdomainController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSubdomainRequest $request, int $id)
-    {
-        $subdomain = $this->repository->update($request->all(), $id);
+    public function update(Request $request, $id) {
         
-        return response()->json($subdomain, Response::HTTP_OK);
+        \Log::info(print_r($request->all(), true));
+        \Log::info(print_r($id, true));
+        
+        $this->repository->update($request->all(), $id);
+        
+        //return response()->json($subdomain, Response::HTTP_OK);
+        return redirect()->back()->with('message', __('subdomains_updated'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(int $id)
-    {
-        $this->repository->delete($id);
+    public function destroy(Subdomain $subdomain) {
+        
+        \Log::info($subdomain);
         
         return redirect()->back()->with('message', __('subdomain_deleted'));
     }
     
-    public function restore(int $id)
-    {
+    public function restore(int $id) {
         $subdomain = Subdomain::onlyTrashed()->find($id);
         $res = $subdomain->restore();
         

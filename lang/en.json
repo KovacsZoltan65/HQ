@@ -188,6 +188,10 @@
     "updated_at": "Updated At",
     "deleted_at": "Deleted At",
     
+    "save_success": "The save was successful!",
+    
+    "back_to_list": "Back to List",
+    
     "required": "The :attribute field is required.",
     "url": "The :attribute format is invalid.",
     "integer": "The :attribute must be an integer."

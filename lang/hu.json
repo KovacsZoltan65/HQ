@@ -171,13 +171,14 @@
     "author": "Szerző",
     "image": "Kép",
     
-    "url": "URL",
+    "subd_url": "URL",
     "db_host": "DB kiszolgáló",
     "db_port": "DB port",
     "db_name": "DB név",
     "db_user": "DB felhasználó",
     "db_password": "DB jelszó",
-    "notification": "Értesítés",
+    "notification_title": "Értesítés",
+    "notification_desc": "Értesítés küldése",
     "state_id": "Állapot azonosító",
     "is_mirror_title": "Tükörpéldány",
     "is_mirror_desc": "Tükörpéldány",
@@ -188,6 +189,10 @@
     "created_at": "Készült",
     "updated_at": "Frissült",
     "deleted_at": "Törölve",
+    
+    "save_success": "A mentés sikeresen megtörtént!",
+    
+    "back_to_list": "Vissza a listához",
     
     "required": "A(z) :attribute megadása kötelező!",
     "url": "A(z) :attribute érvénytelen link.",
