@@ -18,11 +18,11 @@ class SubdomainController extends Controller
     public function __construct(SubdomainRepository $repository) {
         $this->repository = $repository;
         
-        $this->middleware('can:subdomain list',    ['only' => ['index', 'show']]);
-        $this->middleware('can:subdomain create',  ['only' => ['create', 'store']]);
-        $this->middleware('can:subdomain edit',    ['only' => ['edit', 'update']]);
-        $this->middleware('can:subdomain delete',  ['only' => ['destroy']]);
-        $this->middleware('can:subdomain restore', ['only' => ['restore']]);
+        //$this->middleware('can:subdomain list',    ['only' => ['index', 'show']]);
+        //$this->middleware('can:subdomain create',  ['only' => ['create', 'store']]);
+        //$this->middleware('can:subdomain edit',    ['only' => ['edit', 'update']]);
+        //$this->middleware('can:subdomain delete',  ['only' => ['destroy']]);
+        //$this->middleware('can:subdomain restore', ['only' => ['restore']]);
     }
     /**
      * Display a listing of the resource.
@@ -135,6 +135,7 @@ class SubdomainController extends Controller
     }
     public function store(StoreSubdomainRequest $request)
     {
+        dd($request);
         $subdomain = $this->repository->create($request->all());
         
         return redirect()->back()->with('message', __('subdomain_created'));

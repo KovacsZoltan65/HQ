@@ -143,12 +143,14 @@
         }
     });
 
+    // Rendezés
     function sordedSubdomain() {
         return state.Subdomains.sort((a, b) => {
             return a.subdomain.localeCompare(b.subdomain);
         });
     };
 
+    // Szűrés
     function filteredSubdomains() {
         return state.Subdomains.filter((subdomain) => {
             return subdomain.subdomain.toLowerCase().includes(state.filters.search.toLowerCase());
@@ -218,22 +220,37 @@
 
     // Törlés előkészítése
     function deleteSubdomain_init(subdomain){
+        
+        // Figyelmeztető ablak megjelenítése
         delete_alert.fire({
-            text: trans('subdomains_delete_confirmation', {name: subdomain.subdomain}),//"Biztosan törölni kívánja a " + subdomain.subdomain + " elemet?",
-            showDenyButton: false,
-            denyButtonText: trans('deny'),
-            showCancelButton: true,
+            // Ablak felirata
+            text: trans('subdomains_delete_confirmation', {name: subdomain.subdomain}),
+            // "Megerősítés" gomb felirata
             confirmButtonText: trans('yes'),
+            // "Elutasítás" gomb megjelenítése
+            showDenyButton: false,
+            // "Elutasítás" gomb felirata
+            denyButtonText: trans('deny'),
+            // "Mégsem" gomb megjelenítése
+            showCancelButton: true,
+            // "Mégsem" gomb felirata
             cancelButtonText: trans('cancel')
         }).then((result) => {
-            //console.log(result);
+            // Választás kiértékelése
+            // Feladat végrehajtható
             if( result.isConfirmed ){
+                // Törlendő elem eltárolása
                 state.deletingSubdomain = subdomain;
+                // Törlés végrehajtása
                 deleteSubdomain(subdomain);
-                //alerta.fire('Deleted!', '', 'success')
-            } else if( result.isDenied ){
+            }
+            // A feladat megtagadva
+            else if( result.isDenied ){
+                //
                 alerta.fire(trans('denied'), '', 'info');
-            } else if( result.isDismissed ){
+            }
+            // A feladat megszakítva
+            else if( result.isDismissed ){
                 alerta.fire(trans('dismissed'), '', 'info');
             }
         });
@@ -250,6 +267,7 @@
             })
             .catch((error) => {
                 console.log('deleteSubdomain', error);
+                alerta.fire(trans('delete'), '', 'error');
             });
     }
 

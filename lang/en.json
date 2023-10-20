@@ -186,5 +186,9 @@
     "last_export": "Last Export",
     "created_at": "Created At",
     "updated_at": "Updated At",
-    "deleted_at": "Deleted At"
+    "deleted_at": "Deleted At",
+    
+    "required": "The :attribute field is required.",
+    "url": "The :attribute format is invalid.",
+    "integer": "The :attribute must be an integer."
 }

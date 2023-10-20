@@ -187,5 +187,9 @@
     "last_export": "Utolsó export",
     "created_at": "Készült",
     "updated_at": "Frissült",
-    "deleted_at": "Törölve"
+    "deleted_at": "Törölve",
+    
+    "required": "A(z) :attribute megadása kötelező!",
+    "url": "A(z) :attribute érvénytelen link.",
+    "integer": "A(z) :attribute értéke szám kell, hogy legyen!"
 }

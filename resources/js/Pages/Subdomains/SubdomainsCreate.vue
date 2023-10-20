@@ -93,9 +93,7 @@
                                             focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 
                                             dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 
                                             dark:focus:border-blue-500" 
-                                    placeholder="subdomain" 
-                                    required
-                                ></TextInput>
+                                    placeholder="subdomain" ></TextInput>
                                 <InputError :message="form.errors.subdomain"></InputError>
                             </div>
 
@@ -106,13 +104,12 @@
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                 >{{ $t('url') }}</InputLabel>
                                 <TextInput v-model="form.url"
-                                    type="url" id="url" name="url" 
+                                    type="text" id="url" name="url" 
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                                             focus:ring-blue-500 focus:border-blue-500 
                                             block w-full p-2.5 
                                             dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                    placeholder="Url" required
-                                ></TextInput>
+                                    placeholder="Url" ></TextInput>
                                 <InputError :message="form.errors.url"></InputError>
                             </div>
 
@@ -127,8 +124,7 @@
                                         focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
                                         dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                         dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                    placeholder="Name" required
-                                ></TextInput>
+                                    placeholder="Name" ></TextInput>
                                 <InputError :message="form.errors.name"></InputError>
                             </div>
 
@@ -143,8 +139,7 @@
                                         focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
                                         dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                         dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                    placeholder="db_host" required
-                                ></TextInput>
+                                    placeholder="db_host" ></TextInput>
                                 <InputError :message="form.errors.db_host"></InputError>
                             </div>
 
@@ -159,8 +154,7 @@
                                             focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
                                             dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                             dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                    placeholder="db_port" required
-                                ></TextInput>
+                                    placeholder="db_port" ></TextInput>
                                 <InputError :message="form.errors.db_port"></InputError>
                             </div>
                             
@@ -175,8 +169,7 @@
                                         focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
                                         dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                         dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                    placeholder="db_name" required
-                                ></TextInput>
+                                    placeholder="db_name" ></TextInput>
                                 <InputError :message="form.errors.db_name"></InputError>
                             </div>
 
@@ -191,8 +184,7 @@
                                             focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
                                             dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                             dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                    placeholder="db_user" required
-                                ></TextInput>
+                                    placeholder="db_user" ></TextInput>
                                 <InputError :message="form.errors.db_user"></InputError>
                             </div>
                             
@@ -207,8 +199,7 @@
                                         focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
                                         dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                         dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                    placeholder="db_password" required
-                                ></TextInput>
+                                    placeholder="db_password" ></TextInput>
                                 <InputError :message="form.errors.db_password"></InputError>
                             </div>
 
@@ -222,7 +213,10 @@
                                     :options="states" 
                                     :selected="form.state_id" 
                                     id="state_id" name="state_id" 
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm 
+                                        rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full 
+                                        p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
+                                        dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 ></SelectInput>
                                 <InputError :message="form.errors.state_id"></InputError>
                             </div>
@@ -255,7 +249,9 @@
                                         id="notification" name="notification" type="checkbox"
                                         v-model="form.notification" 
                                         :value="form.notification"
-                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded 
+                                            focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 
+                                            dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 </div>
                                 <div class="ml-2 text-sm">
                                     <label for="notification" 
@@ -274,7 +270,9 @@
                                         id="is_mirror" name="is_mirror" type="checkbox"
                                         v-model="form.is_mirror" 
                                         :value="form.is_mirror"
-                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded 
+                                            focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 
+                                            dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 </div>
                                 <div class="ml-2 text-sm">
                                     <label for="is_mirror" 
@@ -293,7 +291,9 @@
                                         id="sso" name="sso" type="checkbox"
                                         v-model="form.sso" 
                                         :value="form.sso"
-                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded 
+                                            focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 
+                                            dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 </div>
                                 <div class="ml-2 text-sm">
                                     <label for="sso" 
