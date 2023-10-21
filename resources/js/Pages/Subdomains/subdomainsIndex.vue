@@ -87,7 +87,7 @@
         columns: {
             id:           { label: '#', is_visible: true, is_sortable: true, is_filterable: true, },
             subdomain:    { label: 'subdomain', is_visible: true, is_sortable: true, is_filterable: true, },
-            url:          { label: 'url', is_visible: true, is_sortable: true, is_filterable: true, },
+            url:          { label: 'subd_url', is_visible: true, is_sortable: true, is_filterable: true, },
             name:         { label: 'name', is_visible: true, is_sortable: true, is_filterable: true, },
             db_host:      { label: 'db_host', is_visible: true, is_sortable: true, is_filterable: true, },
             db_port:      { label: 'db_port', is_visible: true, is_sortable: true, is_filterable: true, },
@@ -176,33 +176,6 @@
             state.pagination.current_page = response.data.subdomains.current_page;
         });
     }
-
-    //function getData() {
-    //    return {
-    //        subdomain: state.editingSubdomain.subdomain, 
-    //        url: state.editingSubdomain.url, 
-    //        name: state.editingSubdomain.name, 
-    //        db_host: state.editingSubdomain.db_host, 
-    //        db_port: state.editingSubdomain.db_port, 
-    //        db_name: state.editingSubdomain.db_name, 
-    //        db_user: state.editingSubdomain.db_user, 
-    //        db_password: state.editingSubdomain.db_password, 
-    //        notification: state.editingSubdomain.notification, 
-    //        state_id: state.editingSubdomain.state_id, 
-    //        is_mirror: state.editingSubdomain.is_mirror, 
-    //        sso: state.editingSubdomain.sso, 
-    //        access_control_system: state.editingSubdomain.access_control_system, 
-    //        last_export: state.editingSubdomain.last_export
-    //    }
-    //}
-
-    // Törlés előkészítése
-    //function deleteSubdomain_init(subdomain) {
-    //    state.editingSubdomain = null;
-    //    state.deletingSubdomain = subdomain;
-
-    //    openDeleteModal();
-    //}
 
     // Általános alert
     const alerta = Swal.mixin({
@@ -393,7 +366,7 @@
                                     </div>
                                 </th> 
 
-                                <!-- TITLE -->
+                                <!-- SUBDOMAIN -->
                                 <th scope="col" class="px-6 py-3" v-show="state.columns.subdomain.is_visible">
                                     <div class="flex items-center"> {{ $t(state.columns.subdomain.label) }}
                                         <a href="#"
@@ -403,7 +376,7 @@
                                     </div>
                                 </th>
 
-                                <!-- AUTHOR -->
+                                <!-- URL -->
                                 <th scope="col" class="px-6 py-3" v-show="state.columns.url.is_visible">
                                     <div class="flex items-center"> {{ $t(state.columns.url.label) }}
                                         <a href="#"

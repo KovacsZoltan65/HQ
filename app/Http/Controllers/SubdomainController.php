@@ -168,9 +168,6 @@ class SubdomainController extends Controller
      */
     public function update(Request $request, $id) {
         
-        \Log::info(print_r($request->all(), true));
-        \Log::info(print_r($id, true));
-        
         $this->repository->update($request->all(), $id);
         
         //return response()->json($subdomain, Response::HTTP_OK);

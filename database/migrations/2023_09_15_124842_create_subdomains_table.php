@@ -28,7 +28,7 @@ return new class extends Migration
             $table->tinyInteger('is_mirror')->default(0)->comment('Tükör adatbázis');
             $table->tinyInteger('sso')->default(0)->comment('SSO');
             $table->integer('access_control_system')->default(0)->comment('Access Controll System');
-            $table->timestamp('last_export')->comment('Utoldó export');
+            $table->timestamp('last_export')->nullable()->comment('Utoldó export');
             
             $table->timestamps();
             $table->softDeletes();
