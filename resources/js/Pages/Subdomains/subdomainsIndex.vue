@@ -14,13 +14,13 @@
     //import SecondaryButton from '@/Components/SecondaryButton.vue';
     //import PrimaryButton from '@/Components/PrimaryButton.vue';
     import DefaultButton from '../../Components/buttons/DefaultButton.vue';
-    import GreenButton from '../../Components/buttons/GreenButton.vue';
+    //import GreenButton from '../../Components/buttons/GreenButton.vue';
     import RedButton from '../../Components/buttons/RedButton.vue';
     import LightButton from '../../Components/buttons/LightButton.vue';
 
     import SorterIcon from '../../Components/icons/SorterIcon.vue';
-    import EditIcon from '../../Components/icons/EditIcon.vue';
-    import DeleteIcon from '../../Components/icons/DeleteIcon.vue';
+    //import EditIcon from '../../Components/icons/EditIcon.vue';
+    //import DeleteIcon from '../../Components/icons/DeleteIcon.vue';
 
     //import NavLink from '../../Components/NavLink.vue';
     import GreenLink from '../../Components/linkbuttons/GreenLink.vue';
@@ -85,25 +85,25 @@
 
         // Táblázat oszlopai
         columns: {
-            id:           { label: '#', is_visible: true, is_sortable: true, is_filterable: true, },
-            subdomain:    { label: 'subdomain', is_visible: true, is_sortable: true, is_filterable: true, },
-            url:          { label: 'subd_url', is_visible: true, is_sortable: true, is_filterable: true, },
-            name:         { label: 'name', is_visible: true, is_sortable: true, is_filterable: true, },
-            db_host:      { label: 'db_host', is_visible: true, is_sortable: true, is_filterable: true, },
-            db_port:      { label: 'db_port', is_visible: true, is_sortable: true, is_filterable: true, },
-            db_name:      { label: 'db_name', is_visible: true, is_sortable: true, is_filterable: true, },
-            db_user:      { label: 'db_user', is_visible: true, is_sortable: true, is_filterable: true, },
-            db_password:  { label: 'db_password', is_visible: true, is_sortable: true, is_filterable: true, },
+                      id: { label: '#', is_visible: true, is_sortable: true, is_filterable: true, },
+               subdomain: { label: 'subdomain', is_visible: true, is_sortable: true, is_filterable: true, },
+                     url: { label: 'subd_url', is_visible: true, is_sortable: true, is_filterable: true, },
+                    name: { label: 'name', is_visible: true, is_sortable: true, is_filterable: true, },
+                 db_host: { label: 'db_host', is_visible: true, is_sortable: true, is_filterable: true, },
+                 db_port: { label: 'db_port', is_visible: true, is_sortable: true, is_filterable: true, },
+                 db_name: { label: 'db_name', is_visible: true, is_sortable: true, is_filterable: true, },
+                 db_user: { label: 'db_user', is_visible: true, is_sortable: true, is_filterable: true, },
+             db_password: { label: 'db_password', is_visible: true, is_sortable: true, is_filterable: true, },
             notification: { label: 'notification', is_visible: true, is_sortable: true, is_filterable: true, },
-            state_id:     { label: 'state_id', is_visible: true, is_sortable: true, is_filterable: true, },
-            is_mirror:    { label: 'is_mirror', is_visible: true, is_sortable: true, is_filterable: true, },
-            sso:          { label: 'sso', is_visible: true, is_sortable: true, is_filterable: true, },
+                state_id: { label: 'state_id', is_visible: true, is_sortable: true, is_filterable: true, },
+               is_mirror: { label: 'is_mirror', is_visible: true, is_sortable: true, is_filterable: true, },
+                     sso: { label: 'sso', is_visible: true, is_sortable: true, is_filterable: true, },
             access_controll_system: { label: 'access_controll_system', is_visible: true, is_sortable: true, is_filterable: true, },
-            last_export:  { label: 'last_export', is_visible: true, is_sortable: true, is_filterable: true, },
-            created_at:   { label: 'created_at', is_visible: false, is_sortable: false, is_filterable: false, },
-            updated_at:   { label: 'updated_at', is_visible: false, is_sortable: false, is_filterable: false, },
-            deleted_at:   { label: 'deleted_at', is_visible: false, is_sortable: false, is_filterable: false, },
-            action:       { label: 'actions', is_visible: true, is_sortable: false, is_filterable: false, },
+             last_export: { label: 'last_export', is_visible: true, is_sortable: true, is_filterable: true, },
+              created_at: { label: 'created_at', is_visible: false, is_sortable: false, is_filterable: false, },
+              updated_at: { label: 'updated_at', is_visible: false, is_sortable: false, is_filterable: false, },
+              deleted_at: { label: 'deleted_at', is_visible: false, is_sortable: false, is_filterable: false, },
+                  action: { label: 'actions', is_visible: true, is_sortable: false, is_filterable: false, },
         },
 
         // Oldaltörés
@@ -143,7 +143,7 @@
     });
 
     // Rendezés
-    function sordedSubdomain() {
+    function sortedSubdomain() {
         return state.Subdomains.sort((a, b) => {
             return a.subdomain.localeCompare(b.subdomain);
         });
@@ -226,11 +226,11 @@
                 alerta.fire(trans('dismissed'), '', 'info');
             }
         });
-    }
+    };
     
     // Rekord törlése
     function deleteSubdomain(subdomain) {
-        console.log(subdomain);
+        //console.log(subdomain);
         axios.delete(route('subdomains_destroy', { subdomain: subdomain }))
             .then((response) => {
                 
@@ -452,33 +452,34 @@
                 </div>
             </div>
         </div>
-    </div>
+        </div>
 
-</AppLayout>
+    </AppLayout>
 
-<!-- CONFIRM DELETE MODAL -->
-<!--
-<dialog-modal :show="state.showDeleteModal" id="delete_modal">
-    <template #subdomain> {{ $t('subdomains_delete') }}
-    </template>
-    <template #content> {{ $t('subdomains_delete_confirmation') }}
-    </template>
-    <template #footer>
-        <light-button size="text-xs" type="button" @click="closeDeleteModal()">{{ $t('cancel') }}</light-button>
-        <red-button size="text-xs" type="button" @click="deleteSubdomain()">{{ $t('delete') }}</red-button>
-    </template>
-</dialog-modal>
--->
+    <!-- CONFIRM DELETE MODAL -->
+    <!--
+    <dialog-modal :show="state.showDeleteModal" id="delete_modal">
+        <template #subdomain> {{ $t('subdomains_delete') }}
+        </template>
+        <template #content> {{ $t('subdomains_delete_confirmation') }}
+        </template>
+        <template #footer>
+            <light-button size="text-xs" type="button" @click="closeDeleteModal()">{{ $t('cancel') }}</light-button>
+            <red-button size="text-xs" type="button" @click="deleteSubdomain()">{{ $t('delete') }}</red-button>
+        </template>
+    </dialog-modal>
+    -->
 
-<!-- SETTINGS MODAL -->
-<dialog-modal :show="state.showSettingsModal" id="settings_modal">
-    <template #subdomain>{{ $t('setup') }}</template>
-    <template #content>
-        <div v-for="(config, column) in state.columns" :key="column" class="d-flex align-items-center"> <input
-                v-model="config.is_visible" :id="column" class="me-3" type="checkbox" /> <label :for="column">{{
-                $t(config.label) }}</label> </div>
-    </template>
-    <template #footer> <light-button size="text-xs" type="button" @click="closeSettingsModal()">{{ $t('back')
-            }}</light-button>
-    </template>
-</dialog-modal></template>
+    <!-- SETTINGS MODAL -->
+    <dialog-modal :show="state.showSettingsModal" id="settings_modal">
+        <template #subdomain>{{ $t('setup') }}</template>
+        <template #content>
+            <div v-for="(config, column) in state.columns" :key="column" class="d-flex align-items-center"> <input
+                    v-model="config.is_visible" :id="column" class="me-3" type="checkbox" /> <label :for="column">{{
+                    $t(config.label) }}</label> </div>
+        </template>
+        <template #footer> <light-button size="text-xs" type="button" @click="closeSettingsModal()">{{ $t('back')
+                }}</light-button>
+        </template>
+    </dialog-modal>
+</template>

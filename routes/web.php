@@ -37,49 +37,59 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     // ------------
     Route::post('/getBooks', [App\Http\Controllers\BookController::class, 'getBooks'])->name('getBooks');
     Route::resource('books', App\Http\Controllers\BookController::class)
-        ->names([
-            'index' => 'books',
-            'store' => 'books_store',
-            'update' => 'books_update',
-            'delete' => 'books_delete',
-        ]);
+    ->names([
+          'index' => 'books',
+         'create' => 'books_create',
+          'store' => 'books_store',
+         'update' => 'books_update',
+        'destroy' => 'books_destroy',
+        'restore' => 'books_restore',
+    ]);
     
     // ------------
     // USERS
     // ------------
     Route::post('/getUsers', [App\Http\Controllers\Admin\UserController::class, 'getUsers'])->name('getUsers');
     Route::resource('users', App\Http\Controllers\Admin\UserController::class)
-        ->names([
-            'index' => 'users',
-            'store' => 'users_store',
-            'update' => 'users_update',
-            'delete' => 'users_delete',
-        ]);
+    ->names([
+          'index' => 'users',
+         'create' => 'users_create',
+          'store' => 'users_store',
+           'edit' => 'users_edit',
+         'update' => 'users_update',
+        'destroy' => 'users_destroy',
+        'restore' => 'users_restore',
+    ]);
     
     // ------------
     // ROLES
     // ------------
     Route::post('/getRoles', [\App\Http\Controllers\Admin\RoleController::class, 'getRoles'])->name('getRoles');
     Route::resource('/roles', \App\Http\Controllers\Admin\RoleController::class)
-        ->names([
-             'index' => 'roles',
-             'store' => 'roles_store',
-            'update' => 'roles_update',
-            'delete' => 'roles_delete',
-        ]);
+    ->names([
+          'index' => 'roles',
+         'create' => 'roles_create',
+          'store' => 'roles_store',
+           'edit' => 'roles_edit',
+         'update' => 'roles_update',
+        'destroy' => 'roles_destroy',
+        'restore' => 'roles_restore',
+    ]);
 
     // ------------
     // PERMISSIONS
     // ------------
     Route::post('/getPermissions', [\App\Http\Controllers\Admin\PermissionController::class, 'getPermissions'])->name('getPermissions');
     Route::resource('/permissions', \App\Http\Controllers\Admin\PermissionController::class)
-        ->names([
-              'index' => 'permissions',
-              'store' => 'permissions_store',
-             'update' => 'permissions_update',
-             'delete' => 'permissions_delete',
-            'restore' => 'permissions_restore',
-        ]);
+    ->names([
+          'index' => 'permissions',
+         'create' => 'permissions_create',
+          'store' => 'permissions_store',
+           'edit' => 'permissions_edit',
+         'update' => 'permissions_update',
+        'destroy' => 'permissions_destroy',
+        'restore' => 'permissions_restore',
+    ]);
     
     // ------------
     // SUBDOMAINS

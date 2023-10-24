@@ -1,9 +1,14 @@
 <script setup>
     import { onMounted, reactive, watch } from 'vue';
+    import axios from 'axios';
     import DefaultButton from '@/Components/buttons/DefaultButton.vue';
     import GreenLink from '@/Components/linkbuttons/GreenLink.vue';
     import AppLayout from '@/Layouts/AppLayout.vue';
-import axios from 'axios';
+    import DialogModal from '@/Components/DialogModal.vue';
+    
+    import { trans } from 'laravel-vue-i18n';
+    import Swal from 'sweetalert2';
+    import 'sweetalert2/dist/sweetalert2.min.css';
 
     const local_storage_column_key = 'ln_users_grid_columns';
 
@@ -23,9 +28,9 @@ import axios from 'axios';
     };
 
     const state = reactive({
-        //
+        // Felhasználók tárolója
         Users: [],
-        //
+        // Törlésre szánt felhasználó
         deletingUser: {},
         //
         showSettingsModal: false,
@@ -35,14 +40,14 @@ import axios from 'axios';
         selectAll: false,
         //
         columns: {
-            name:       { label: 'name', is_visible: true, is_sortable: true, is_filterable: true, },
-            email:      { label: 'email', is_visible: true, is_sortable: true, is_filterable: true, },
-            language:   { label: 'language', is_visible: true, is_sortable: true, is_filterable: true, },
-            password:   { label: 'lassword', is_visible: false, is_sortable: false, is_filterable: false, },
+                  name: { label: 'name',       is_visible: true,  is_sortable: true,  is_filterable: true, },
+                 email: { label: 'email',      is_visible: true,  is_sortable: true,  is_filterable: true, },
+              language: { label: 'language',   is_visible: true,  is_sortable: true,  is_filterable: true, },
+              password: { label: 'lassword',   is_visible: false, is_sortable: false, is_filterable: false, },
             created_at: { label: 'created_at', is_visible: false, is_sortable: false, is_filterable: false, },
             updated_at: { label: 'updated_at', is_visible: false, is_sortable: false, is_filterable: false, },
             deleted_at: { label: 'deleted_at', is_visible: false, is_sortable: false, is_filterable: false, },
-            action:     { label: 'actions', is_visible: true, is_sortable: true, is_filterable: true, },
+                action: { label: 'actions',    is_visible: true,  is_sortable: true,  is_filterable: true, },
         },
 
         // Oldaltörés
@@ -81,7 +86,7 @@ import axios from 'axios';
     });
 
     // Rendezés
-    function sordedUser() {
+    function sortedUser() {
         return state.Users.sort((a, b) => {
             return a.user.localeCompare(b.user);
         });
@@ -102,18 +107,82 @@ import axios from 'axios';
         }
     };
 
+    // Táblázat adatainak lekérése
     function getUsers(){
         axios.post(route('getUsers', {
             filters: state.filters, config: { per_page: state.pagination.per_page, }, page
         }))
-        .then(response => {})
+        .then(response => {
+            state.Users = response.data.users.data;
+            state.pagination.total_number_of_pages = response.data.users.last_page;
+            state.pagination.current_page = response.data.users.current_page;
+        })
         .catch(errors => {});
+    };
+
+    // Általános alert
+    const alerta = Swal.mixin({
+        buttonsStyling: true
+    });
+
+    // Delete alert
+    const delete_alert = Swal.mixin({
+        buttonsStyling: true,
+        title: trans('delete_confirmation'),
+        icon: 'question',
+        conformButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+    });
+
+    // Törlés előkészítése
+    function deleteUser_init(user){
+        delete_alert.fire({
+            text: trans('user_delete_confirmation', {name: user.name}),
+            confirmButtonText: trans('yes'),
+            showDenyButton: false,
+            denyButtonText: trans('deny'),
+            showCancelButton: true,
+            cancelButtonText: trans('cancel')
+        }).then(result => {
+            //
+            if( result.isConfirmed ){
+                // Törlendő elem eltárolása
+                state.deletingUser = user;
+                // Törlési folyamat
+                deleteUser(user);
+            } else if( result.isDenied ){
+                // Megtagadás
+                alerta.fire(trans('denied'), '', 'info');
+            } else if( result.isDismissed ){
+                // Elutasítás
+                alerta.fire(trans('dismissed'), '', 'info');
+            }
+        });
+    };
+
+    // Rekord törlése
+    function deleteUser(user){
+        axios.delete('users_destroy', {user: user})
+        .then(response => {
+            state.Users = state.Users.filter(user => user.id!== state.deletingUser.id);
+            state.deletingUser = null;
+            alerta.fire(trans('delete'), '', 'success');
+        })
+        .catch(errors => {
+            alerta.fire({
+                icon: 'error',
+                title: trans('delete_error'),
+                text: errors.response.data.message,
+            });
+        });
     };
 
     // Beállítások előkészítése
     function settings_init() { openSettingsModal(); }
     // SETTINGS MODAL megnyitása
     function openSettingsModal() { state.showSettingsModal = true; }
+    // SETTINGS MODAL bezárása
+    function closeSettingsModal() { state.showSettingsModal = false; };
 
 </script>
 
@@ -150,4 +219,22 @@ import axios from 'axios';
         </div>
 
     </AppLayout>
+
+    <!-- "Settings" modal -->
+    <dialog-modal :show="state.showSettingsModal" id="settings_modal">
+        <template #header>{{ $t('setup') }}</template>
+        <template #content>
+            <div v-for="(config, column) in state.columns" :key="column" 
+                class="d-flex align-items-center">
+                <input v-model="config.is_visible" :id="column" class="me-3" type="checkbox" />
+                <label :for="column">{{ $t(config.label) }}</label>
+            </div>
+        </template>
+        <template #footer>
+            <light-button size="text-xs" type="button" @click="closeSettingsModal()"
+            >{{ $t('back') }}</light-button>
+        </template>
+    </dialog-modal>
+
+
 </template>
