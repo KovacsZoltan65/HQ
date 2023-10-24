@@ -27,7 +27,7 @@ class UserRepository extends BaseRepository
      */
     public function boot()
     {
-        $this->pushCriteria( UserCriteria::class );
+        $this->pushCriteria( app(UserCriteria::class) );
     }
     
 }

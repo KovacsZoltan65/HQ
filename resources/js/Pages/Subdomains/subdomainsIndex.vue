@@ -67,16 +67,16 @@
         deletingSubdomain: null,
 
         // Van nyitott ablak
-        isFormOpen: false,
+        //isFormOpen: false,
         // A folyamatban levő művelet szerkesztés
-        isEdit: false,
+        //isEdit: false,
 
         // "settings" modal megnyitása / bezárása
         showSettingsModal: false,
         // "edit" modal megnyitása / bezárása
-        showEditModal: false,
+        //showEditModal: false,
         // "delete" modal megnyitása / bezárása
-        showDeleteModal: false,
+        //showDeleteModal: false,
 
         // Kiválasztott rekordok azonosítója
         selected: [],
@@ -124,7 +124,6 @@
 
     // Figyeli az oszlopok változását
     watch(state.columns, (new_value, old_value) => {
-        //console.log(new_value);
         localStorage.setItem(local_storage_column_key, JSON.stringify(new_value));
     });
 
@@ -263,9 +262,9 @@
     // SETTINGS MODAL bezárása
     function closeSettingsModal() { state.showSettingsModal = false; }
     // DELETE MODAL megnyitása
-    function openDeleteModal() { state.showDeleteModal = true; }
+    //function openDeleteModal() { state.showDeleteModal = true; }
     // DELETE MODAL bezárása
-    function closeDeleteModal() { state.showDeleteModal = false; }
+    //function closeDeleteModal() { state.showDeleteModal = false; }
 </script>
 
 <template>
@@ -458,17 +457,18 @@
 </AppLayout>
 
 <!-- CONFIRM DELETE MODAL -->
+<!--
 <dialog-modal :show="state.showDeleteModal" id="delete_modal">
     <template #subdomain> {{ $t('subdomains_delete') }}
     </template>
     <template #content> {{ $t('subdomains_delete_confirmation') }}
     </template>
     <template #footer>
-        <!-- <secondary-button @click="closeDeleteModal()">Cancel</secondary-button> <primary-button type="button" class="ml-3" @click="deleteSubdomain()">Delete</primary-button>
-        --> <light-button size="text-xs" type="button" @click="closeDeleteModal()">{{ $t('cancel') }}</light-button>
+        <light-button size="text-xs" type="button" @click="closeDeleteModal()">{{ $t('cancel') }}</light-button>
         <red-button size="text-xs" type="button" @click="deleteSubdomain()">{{ $t('delete') }}</red-button>
     </template>
 </dialog-modal>
+-->
 
 <!-- SETTINGS MODAL -->
 <dialog-modal :show="state.showSettingsModal" id="settings_modal">

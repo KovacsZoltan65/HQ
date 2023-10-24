@@ -18,12 +18,17 @@
 
     // Általános alert
     const alerta = Swal.mixin({
-        buttonsStyling: true
+        buttonsStyling: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33'
     });
 
     // Mentés alert
     const save_alert = Swal.mixin({
-        buttonsStyling: true
+        buttonsStyling: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        icon: 'question'
     });
 
     const props = defineProps({
@@ -70,28 +75,44 @@
         last_export: props.subdomain.last_export
     });
 
+    // Mentés
     const submit = () => {
         
         form.patch(route('subdomains_update', props.subdomain.id), {
-            onSuccess: () => {
-                console.log('onSuccess');
-                save_alert.fire();
+            onSuccess: (response) => {
+                // Üzenet
+                save_alert.fire({
+                    // Ablak felirata
+                    text: trans('save_success'),
+                    // "Megerősítés" gomb felirata
+                    confirmButtonText: trans('back_to_list'),
+                    // "Elutasítás" gomb megjelenítése
+                    showDenyButton: true,
+                    // "Elutasítás" gomb felirata
+                    denyButtonText: trans('subdomains_edit')
+                }).then((result) => {
+                    // Vissza a listához
+                    if( result.isConfirmed ) {
+                        console.log('Listához');
+                        window.location.href = route('subdomains');
+                    }
+                    // Adatrögzítés folytatása
+                    else if( result.isDenied ) {
+                        //console.log('Create new');
+                    } else if( result.isDismissed ) {
+                        //
+                    }
+                });
+                //console.log('onSuccess'); 
+            },
+            onFinish: (values) => {
+                console.log('onFinish');
+                form.reset();
             },
             onError: (errors) => {
                 console.log('onError');
-                /*
-                alerta.fire({
-                    icon: 'error',
-                    title: 'Sikertelen módosítás',
-                    text: 'Sikertelen módosítás az oldalon',
-                    confirmButtonText: 'OK',
-                });
-                */
             },
-            onComplete: () => {
-                console.log('onComplete');
-                form.reset();
-            }
+            preserveScroll: true
         });
     };
 

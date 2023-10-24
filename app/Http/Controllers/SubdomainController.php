@@ -18,17 +18,17 @@ class SubdomainController extends Controller
     public function __construct(SubdomainRepository $repository) {
         $this->repository = $repository;
         
-        //$this->middleware('can:subdomain list',    ['only' => ['index', 'show']]);
-        //$this->middleware('can:subdomain create',  ['only' => ['create', 'store']]);
-        //$this->middleware('can:subdomain edit',    ['only' => ['edit', 'update']]);
-        //$this->middleware('can:subdomain destroy', ['only' => ['destroy']]);
-        //$this->middleware('can:subdomain restore', ['only' => ['restore']]);
+        $this->middleware('can:subdomain list',    ['only' => ['index', 'show']]);
+        $this->middleware('can:subdomain create',  ['only' => ['create', 'store']]);
+        $this->middleware('can:subdomain edit',    ['only' => ['edit', 'update']]);
+        $this->middleware('can:subdomain destroy', ['only' => ['destroy']]);
+        $this->middleware('can:subdomain restore', ['only' => ['restore']]);
     }
     /**
      * Display a listing of the resource.
      */
     public function index() {
-        return Inertia::render('Subdomains/subdomainsIndex', [
+        return Inertia::render('Subdomains/SubdomainsIndex', [
             'can' => [
                    'list' => Auth::user()->can('subdomain list'),
                  'create' => Auth::user()->can('subdomain create'),
@@ -166,7 +166,7 @@ class SubdomainController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id) {
+    public function update(UpdateSubdomainRequest $request, $id) {
         
         $this->repository->update($request->all(), $id);
         
