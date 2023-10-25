@@ -11,7 +11,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
-class UsersController extends Controller
+class x_UsersController extends Controller
 {
     private $repository;
 
@@ -30,6 +30,7 @@ class UsersController extends Controller
      */
     public function index()
     {
+        \Log::info('App\\Http\\Controllers\UsersController');
         return Inertia::render(route('users'), [
             'can' => [
                    'list' => Auth::user()->can('user list'),
@@ -148,7 +149,7 @@ class UsersController extends Controller
     public function edit(User $user)
     {
         return Inertia::render(
-            'Userss/UserssEdit', [
+            'Users/UsersEdit', [
                 'user' => $user,
                 'can' => [
                     'list' => Auth::user()->can('user list'),

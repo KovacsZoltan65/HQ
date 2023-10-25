@@ -25,25 +25,19 @@ class UserController extends Controller
         $this->middleware('can:user create',  ['only' => ['create', 'store']]);
         $this->middleware('can:user edit',    ['only' => ['edit', 'update']]);
         $this->middleware('can:user delete',  ['only' => ['destroy']]);
-        //$this->middleware('can:user restore', ['only' => ['restore']]);
+        $this->middleware('can:user restore', ['only' => ['restore']]);
     }
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        return Inertia::render('Admin/User/usersIndex', [
-            'can' => [
-                  'list' => Auth::user()->can('user list'),
-                'create' => Auth::user()->can('user create'),
-                  'edit' => Auth::user()->can('user edit'),
-                'delete' => Auth::user()->can('user delete'),
-            ],
+    public function index(){
+        //\Log::info('App\\Http\\Controllers\\Admin\\UsersController');
+        return Inertia::render('Admin/User/UsersIndex', [
+            'can' => $this->getRoles(),
         ]);
     }
 
-    public function getUsers(Request $request)
-    {
+    public function getUsers(Request $request){
         // Beállítások
         $config = $request->get('config', []);
         //$config = ['per_page' => 10];
@@ -100,7 +94,7 @@ class UserController extends Controller
             : config('app.per_page');
         
         $users = $this->repository->paginate($per_page)->toArray();
-        \Log::info('users: ' . print_r($users, true));
+        //\Log::info('users: ' . print_r($users, true));
         // Adatcsomag összeállítása
         $data = [
               'users' => $users,
@@ -115,13 +109,19 @@ class UserController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(){}
+    public function create(Request $request){
+        $user = new User();
+
+        return Inertia::render('Admin/User/UsersCreate', [
+            'user' => $user,
+            'can' => $this->getRoles(),
+        ]);
+    }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreUserRequest $request)
-    {
+    public function store(StoreUserRequest $request){
         $user = $this->repository->create($request->all());
         
         return redirect()->back()->with('message', __('users_created'));
@@ -135,7 +135,12 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(int $id){}
+    public function edit(User $user){
+        return Inertia::render('Admin/User/UsersEdit', [
+            'user' => $user,
+            'can' => $this->getRoles(),
+        ]);
+    }
 
     /**
      * Update the specified resource in storage.
@@ -164,5 +169,15 @@ class UserController extends Controller
         $res = $user->restore();
         
         return redirect()->back()->with('message', __('users_restored'));
+    }
+
+    private function getRoles(){
+        return [
+               'list' => Auth::user()->can('user list'),
+             'create' => Auth::user()->can('user create'),
+               'edit' => Auth::user()->can('user edit'),
+             'delete' => Auth::user()->can('user delete'),
+            'restore' => Auth::user()->can('user restore'),
+        ];
     }
 }
