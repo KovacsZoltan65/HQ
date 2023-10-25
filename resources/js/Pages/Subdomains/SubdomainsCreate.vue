@@ -9,7 +9,7 @@
 
     import DefaultButton from '@/Components/buttons/DefaultButton.vue';
     import GreenButton from '@/Components/buttons/GreenButton.vue';
-    import GreenLink from '@/Components/linkbuttons/GreenLink.vue';
+    //import GreenLink from '@/Components/linkbuttons/GreenLink.vue';
     import DefaultLink from '@/Components/linkbuttons/DefaultLink.vue';
 
     import { trans } from 'laravel-vue-i18n';
