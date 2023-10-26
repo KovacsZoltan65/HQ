@@ -11,8 +11,8 @@
             required: true,
         },
         selected: {
-            type: Number,
-            default: 0,
+            type: String,
+            default: 'hu',
         }
     });
 
@@ -35,7 +35,7 @@
             v-for="option in options" 
             :key="option.id" 
             :value="option.id"
-            :selected="option.id === selected"
+            :selected="option.id == selected"
         >{{ option.name }}</option>
     </select>
 </template>
