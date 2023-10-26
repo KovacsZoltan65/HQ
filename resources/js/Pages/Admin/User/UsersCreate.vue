@@ -1,13 +1,14 @@
 <script setup>
     import { router, useForm } from '@inertiajs/vue3';
-    import axios from 'axios';
+    //import { onMounted } from 'vue';
+    //import axios from 'axios';
     import AppLayout from '@/Layouts/AppLayout.vue';
     import InputLabel from '@/Components/InputLabel.vue';
     import InputError from '@/Components/InputError.vue';
     import TextInput from '@/Components/TextInput.vue';
     import SelectInput from '@/Components/SelectInput.vue';
 
-    import DefaultButton from '@/Components/buttons/DefaultButton.vue';
+    //import DefaultButton from '@/Components/buttons/DefaultButton.vue';
     import GreenButton from '@/Components/buttons/GreenButton.vue';
     //import GreenLink from '@/Components/linkbuttons/GreenLink.vue';
     import DefaultLink from '@/Components/linkbuttons/DefaultLink.vue';
@@ -31,8 +32,17 @@
         can: {
             type: Object,
             required: true,
-        }
+        },
+        user: {
+            type: Object,
+            required: true,
+        },
     });
+
+    //onMounted(() => {
+        //console.log(props.user);
+        //console.log(form);
+    //});
 
     const languages = [
         {id: 'en', name: 'English'},
@@ -41,9 +51,9 @@
 
     // Form adatai
     const form = useForm({
-        name: '',
-        email: '',
-        language: '',
+            name: props.user.name,
+           email: props.user.email,
+        language: props.user.language,
     });
 
     // Mentés
@@ -147,8 +157,7 @@
                                     for="language" 
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                 >{{ $t('language') }}</InputLabel>
-                                <SelectInput 
-                                    v-model="form.language"
+                                <SelectInput v-model="form.language"
                                     :options="languages"
                                     :seleced="form.language"
                                     id="language" name="language" 

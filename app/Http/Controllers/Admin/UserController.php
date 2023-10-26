@@ -31,8 +31,6 @@ class UserController extends Controller
      * Display a listing of the resource.
      */
     public function index(){
-        \Log::info('App\\Http\\Controllers\\Admin\\UsersController');
-        //\Log::info(print_r($this->getRoles(), true));
         return Inertia::render('Admin/User/UsersIndex', [
             'can' => $this->getRoles(),
         ]);
