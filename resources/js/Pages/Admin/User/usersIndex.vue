@@ -250,7 +250,8 @@
 
         <!-- header -->
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ $t('users') }}</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight"
+            >{{ $t('users') }}</h2>
         </template>
 
         <!-- Új elem felvitelle -->
@@ -263,19 +264,29 @@
                     <div class="flex justify-between items=center">
                         
                         <!-- FELIRAT -->
-                        <div class="flex space-x-2 items-center">{{ $t('users_description') }}</div>
+                        <div class="flex space-x-2 items-center"
+                        >{{ $t('users_description') }}</div>
                         
                         <!-- GOMBOK -->
                         <div class="flex space-x-2 items-center">
+
+                            <!-- "beállítások" gomb -->
                             <DefaultButton 
                                 type="button" 
                                 size="text-base" 
                                 @click="settings_init"
                             >{{ $t('setup') }}</DefaultButton>
-                            <GreenLink 
+
+                            <!--
+                                "Új felhasználó" gomb
+                                "create" jogosultság vizsgálata
+                            -->
+                            <GreenLink v-if="can.create"
                                 type="button" 
+                                size="medium"
                                 :href="route('users_create')"
                             >+ {{ $t('users_new') }}</GreenLink>
+
                         </div>
 
                     </div>
@@ -412,12 +423,15 @@
                                 <td class="px-4 py-2 w-45 border" width="250px"
                                     v-show="state.columns.action.is_visible">
                                     <div type="justify-start lg:justify-end" no-wrap>
-                                        <GreenLink 
+
+                                        <!-- "edit" jogosultság vizsgálata -->
+                                        <GreenLink v-if="can.edit"
                                             type="button" 
                                             :href="route('users_edit', user.id)"
                                         >{{ $t('edit') }}</GreenLink>
 
-                                        <RedButton 
+                                        <!-- "delete" jogosultság vizsgálata -->
+                                        <RedButton v-if="can.delete"
                                             class="mt-1" 
                                             size="text-xs" 
                                             @click="deleteUser_init(user)"
@@ -444,7 +458,7 @@
 
     <!-- SETTINGS MODAL -->
     <dialog-modal :show="state.showSettingsModal" id="settings_modal">
-        <template #user>{{ $t('setup') }}</template>
+        <template #header>{{ $t('setup') }}</template>
         <template #content>
             <div v-for="(config, column) in state.columns" :key="column" class="d-flex align-items-center"> <input
                     v-model="config.is_visible" :id="column" class="me-3" type="checkbox" /> <label :for="column">{{
@@ -454,4 +468,5 @@
                 }}</light-button>
         </template>
     </dialog-modal>
+
 </template>

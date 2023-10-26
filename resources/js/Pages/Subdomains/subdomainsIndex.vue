@@ -272,7 +272,8 @@
 
         <!-- header -->
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ $t('subdomains') }}</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight"
+            >{{ $t('subdomains') }}</h2>
         </template>
 
         <!-- Új elem felvitelle -->
@@ -289,8 +290,20 @@
                         
                         <!-- GOMBOK -->
                         <div class="flex space-x-2 items-center">
-                            <DefaultButton type="button" size="text-base" @click="settings_init">{{ $t('setup') }}</DefaultButton>
-                            <GreenLink type="button" :href="route('subdomains_create')">+ {{ $t('subdomains_new') }}</GreenLink>
+                            
+                            <!-- "beállítások" gomb -->
+                            <DefaultButton type="button" size="text-base" 
+                                @click="settings_init">{{ $t('setup') }}</DefaultButton>
+                            
+                            <!--
+                                "Új subdomain" gomb
+                                "create" jogosultság vizsgálata
+                            -->
+                            <GreenLink v-if="can.create"
+                                type="button" 
+                                :href="route('subdomains_create')"
+                            >+ {{ $t('subdomains_new') }}</GreenLink>
+
                         </div>
 
                     </div>
@@ -316,30 +329,34 @@
                         <div class="pb-4 bg-white dark:bg-gray-900">
                             <div class="relative mt-5 ml-10 mr-10">
                                 
-                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                    <svg
-                                        class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 
+                                    pointer-events-none">
+                                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" 
+                                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" 
+                                        fill="none" viewBox="0 0 20 20">
+                                        <path stroke="currentColor" 
+                                            stroke-linecap="round" stroke-linejoin="round"
                                             stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                                     </svg> 
                                 </div>
 
                                 <!-- search field -->
                                 <input type="search" id="default-search"
-                                    class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 
-                                           focus:ring-blue-500 focus:border-blue-500
-                                           dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    :placeholder="$t('subdomains_search_placeholder')" 
-                                    v-model="state.filters.search"
-                                    required> 
+                                    class="block w-full p-4 pl-10 text-sm text-gray-900 border 
+                                        border-gray-300 rounded-lg bg-gray-50 
+                                        focus:ring-blue-500 focus:border-blue-500
+                                        dark:bg-gray-700 dark:border-gray-600 
+                                        dark:placeholder-gray-400 dark:text-white 
+                                        dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        :placeholder="$t('subdomains_search_placeholder')" 
+                                        v-model="state.filters.search" required>
                                 <!-- search button --> 
                                 <button type="submit"
-                                        class="text-white absolute right-2.5 bottom-2.5 bg-blue-700
-                                                hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300
-                                                font-medium rounded-lg text-sm px-4 py-2
-                                                dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                                        @click="getSubdomains()">{{ $t('search') }}</button>
+                                    class="text-white absolute right-2.5 bottom-2.5 bg-blue-700
+                                            hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300
+                                            font-medium rounded-lg text-sm px-4 py-2
+                                            dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                    @click="getSubdomains()">{{ $t('search') }}</button>
                         </div>
                     </div>
 
@@ -349,18 +366,21 @@
                             <tr class="bg-gray-100"> <!-- header checkbox -->
                                 <th scope="col" class="px-6 py-3">
                                     <div>
-                                        <input id="checkbox-all" type="checkbox" v-model="state.selectAll"
-                                            @click="select"
+                                        <input id="checkbox-all" type="checkbox" 
+                                            v-model="state.selectAll" @click="select"
                                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500
                                                 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800
                                                 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                        <label for="checkbox-all" class="sr-only">checkbox</label>
+                                        <label for="checkbox-all" 
+                                            class="sr-only">checkbox</label>
                                     </div>
                                 </th>
 
                                 <!-- ID -->
-                                <th scope="col" class="px-6 py-3" v-show="state.columns.id.is_visible">
-                                    <div class="flex items-center"> {{ state.columns.id.label }}
+                                <th scope="col" class="px-6 py-3" 
+                                    v-show="state.columns.id.is_visible">
+                                    <div class="flex items-center">
+                                        {{ state.columns.id.label }}
                                         <a href="#" v-show="state.columns.id.is_sortable">
                                             <SorterIcon />
                                         </a>
@@ -368,39 +388,44 @@
                                 </th> 
 
                                 <!-- SUBDOMAIN -->
-                                <th scope="col" class="px-6 py-3" v-show="state.columns.subdomain.is_visible">
-                                    <div class="flex items-center"> {{ $t(state.columns.subdomain.label) }}
-                                        <a href="#"
-                                            v-show="state.columns.subdomain.is_sortable">
+                                <th scope="col" class="px-6 py-3" 
+                                    v-show="state.columns.subdomain.is_visible">
+                                    <div class="flex items-center">
+                                        {{ $t(state.columns.subdomain.label) }}
+                                        <a href="#" v-show="state.columns.subdomain.is_sortable">
                                             <SorterIcon />
                                         </a>
                                     </div>
                                 </th>
 
                                 <!-- URL -->
-                                <th scope="col" class="px-6 py-3" v-show="state.columns.url.is_visible">
-                                    <div class="flex items-center"> {{ $t(state.columns.url.label) }}
-                                        <a href="#"
-                                            v-show="state.columns.url.is_sortable">
+                                <th scope="col" class="px-6 py-3" 
+                                    v-show="state.columns.url.is_visible">
+                                    <div class="flex items-center">
+                                        {{ $t(state.columns.url.label) }}
+                                        <a href="#" v-show="state.columns.url.is_sortable">
                                             <SorterIcon />
                                         </a>
                                     </div>
                                 </th>
 
                                 <!-- IMAGE -->
-                                <th scope="col" class="px-6 py-3" v-show="state.columns.name.is_visible">
-                                    <div class="flex items-center"> {{ $t(state.columns.name.label) }} <a href="#"
-                                            v-show="state.columns.name.is_sortable">
+                                <th scope="col" class="px-6 py-3" 
+                                    v-show="state.columns.name.is_visible">
+                                    <div class="flex items-center">
+                                        {{ $t(state.columns.name.label) }}
+                                        <a href="#" v-show="state.columns.name.is_sortable">
                                             <SorterIcon />
-                                        </a> </div>
+                                        </a>
+                                    </div>
                                 </th>
 
                                 <!-- ACTION -->
                                 <th scope="col" class="px-6 py-3" width="250px"
                                     v-show="state.columns.action.is_visible">
-                                    <div class="flex items-center"> {{ $t(state.columns.action.label) }}
-                                        <a href="#"
-                                            v-show="state.columns.action.is_sortable">
+                                    <div class="flex items-center">
+                                        {{ $t(state.columns.action.label) }}
+                                        <a href="#" v-show="state.columns.action.is_sortable">
                                             <SorterIcon />
                                         </a>
                                     </div>
@@ -412,12 +437,16 @@
                             <tr v-for="subdomain in state.Subdomains">
                                 <td class="px-6 py-3 border">
                                     <div>
-                                        <input :id="subdomain.id" type="checkbox" :value="subdomain.id"
-                                            :key="subdomain.id" v-model="state.selected"
+                                        <input :id="subdomain.id" 
+                                            type="checkbox" 
+                                            :value="subdomain.id"
+                                            :key="subdomain.id" 
+                                            v-model="state.selected"
                                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500
                                                 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800
                                                 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                        <label class="sr-only" :for="subdomain.id">checkbox</label>
+                                        <label class="sr-only" 
+                                            :for="subdomain.id">checkbox</label>
                                     </div>
                                 </td>
                                 <td class="px-4 py-2 border" v-show="state.columns.id.is_visible">{{ subdomain.id }}</td>
@@ -428,22 +457,28 @@
                                 <td class="px-4 py-2 w-45 border" width="250px"
                                     v-show="state.columns.action.is_visible">
                                     <div type="justify-start lg:justify-end" no-wrap>
-                                        <GreenLink 
+
+                                        <!-- "edit" jogosultság vizsgálata -->
+                                        <GreenLink v-if="can.edit"
                                             type="button" 
                                             :href="route('subdomains_edit', subdomain.id)"
                                         >{{ $t('edit') }}</GreenLink>
 
-                                        <RedButton 
+                                        <!-- "delete" jogosultság vizsgálata -->
+                                        <RedButton v-if="can.delete"
                                             class="mt-1" 
                                             size="text-xs" 
                                             @click="deleteSubdomain_init(subdomain)"
                                         >{{ $t('delete') }}</RedButton>
+
                                     </div>
                                 </td>
+
                             </tr>
                         </tbody>
                     </table>
                 </div>
+
                 <!-- pagination -->
                 <div
                     class="mb-3 bg-white shadow bg-body rounded w-75 ln-max-width mx-auto p-3 d-flex align-items-center justify-content-center">
@@ -452,6 +487,7 @@
                         :range-size="state.pagination.range"
                         active-color="#DCEDFF" @update:modelValue="getSubdomains" />
                 </div>
+
             </div>
         </div>
         </div>
@@ -474,7 +510,7 @@
 
     <!-- SETTINGS MODAL -->
     <dialog-modal :show="state.showSettingsModal" id="settings_modal">
-        <template #subdomain>{{ $t('setup') }}</template>
+        <template #header>{{ $t('setup') }}</template>
         <template #content>
             <div v-for="(config, column) in state.columns" :key="column" class="d-flex align-items-center"> <input
                     v-model="config.is_visible" :id="column" class="me-3" type="checkbox" /> <label :for="column">{{
