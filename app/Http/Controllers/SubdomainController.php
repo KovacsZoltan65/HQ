@@ -29,13 +29,7 @@ class SubdomainController extends Controller
      */
     public function index() {
         return Inertia::render('Subdomains/SubdomainsIndex', [
-            'can' => [
-                   'list' => Auth::user()->can('subdomain list'),
-                 'create' => Auth::user()->can('subdomain create'),
-                   'edit' => Auth::user()->can('subdomain edit'),
-                'destroy' => Auth::user()->can('subdomain destroy'),
-                'restore' => Auth::user()->can('subdomain restore'),
-            ]
+            'can' => $this->getRoles(),
         ]);
     }
     
@@ -51,8 +45,7 @@ class SubdomainController extends Controller
         if( count($filters) > 0 )
         {
             // Ha van keresési paraméter, akkor...
-            if( isset($filters['search']) )
-            {
+            if( isset($filters['search']) ) {
                 // A keresési paramétert átteszem egy változóba
                 $value = $filters['search'];
                 // Keresési paraméter érvégyesítése az 'author' és 'title' mezőkre
@@ -116,13 +109,7 @@ class SubdomainController extends Controller
         $subdomain = new Subdomain();
         return Inertia::render('Subdomains/SubdomainsCreate', [
             'subdomain' => $subdomain,
-            'can' => [
-                   'list' => Auth::user()->can('subdomain list'),
-                 'create' => Auth::user()->can('subdomain create'),
-                   'edit' => Auth::user()->can('subdomain edit'),
-                 'delete' => Auth::user()->can('subdomain delete'),
-                'restore' => Auth::user()->can('subdomain restore'),
-            ]
+            'can' => $this->getRoles(),
         ]);
     }
 
@@ -152,13 +139,7 @@ class SubdomainController extends Controller
         return Inertia::render(
             'Subdomains/SubdomainsEdit', [
                 'subdomain' => $subdomain,
-                'can' => [
-                    'list' => Auth::user()->can('subdomain list'),
-                  'create' => Auth::user()->can('subdomain create'),
-                    'edit' => Auth::user()->can('subdomain edit'),
-                  'delete' => Auth::user()->can('subdomain delete'),
-                 'restore' => Auth::user()->can('subdomain restore'),
-                ]
+                'can' => $this->getRoles(),
             ]
         );
     }
@@ -189,5 +170,16 @@ class SubdomainController extends Controller
         $res = $subdomain->restore();
         
         return redirect()->back()->with('message', __('subdomain_restored'));
+    }
+
+    private function getRoles(){
+        //
+        return [
+            'list' => Auth::user()->can('subdomain list'),
+          'create' => Auth::user()->can('subdomain create'),
+            'edit' => Auth::user()->can('subdomain edit'),
+          'delete' => Auth::user()->can('subdomain delete'),
+         'restore' => Auth::user()->can('subdomain restore'),
+        ];
     }
 }
