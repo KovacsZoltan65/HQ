@@ -31,6 +31,10 @@
         can: {
             type: Object,
             required: true,
+        },
+        subdomain: {
+            type: Object,
+            required: true,
         }
     });
 
@@ -54,6 +58,23 @@
 
     // Form adatai
     const form = useForm({
+        subdomain:    props.subdomain.subdomain,
+        url:          props.subdomain.url,
+        name:         props.subdomain.name,
+        db_host:      props.subdomain.db_host,
+        db_port:      props.subdomain.db_port,
+        db_name:      props.subdomain.db_name,
+        db_user:      props.subdomain.db_user,
+        db_password:  props.subdomain.db_password,
+        notification: props.subdomain.notification,
+        state_id:     props.subdomain.state_id,
+        is_mirror:    props.subdomain.is_mirror,
+        sso:          props.subdomain.sso,
+        access_control_system: props.subdomain.access_control_system,
+        last_export:  props.subdomain.last_export
+    });
+    /*
+    const form = useForm({
         subdomain: '',
         url: 'http://127.0.0.1:8000',
         name: '',
@@ -69,6 +90,7 @@
         access_control_system: 0,
         last_export: ''
     });
+    */
 
     // Mentés
     const submit = () => {
