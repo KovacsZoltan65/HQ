@@ -50,6 +50,13 @@
         language: props.user.language,
     });
 
+    // "Change Password" form
+    const change_password_form = useForm({
+        old_password: props.user.password,
+        password: '',
+        password_confirmation: '',
+    });
+
     // Mentés
     const submit = () => {
 
@@ -91,6 +98,10 @@
         });
         
     };
+
+    // 
+    const changePassword_submit = () => {};
+
 </script>
 
 <template>
@@ -184,6 +195,65 @@
                         <DefaultLink type="button" class="float-right" 
                             :href="route('users')" :title="$t('back')"
                         >{{ $t('back') }}</DefaultLink>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="py-6">
+            <div class="mx-auto sm:px-6 lg:px-8">
+                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-4 py-4">
+                    
+                    <form @submit.prevent="changePassword_submit">
+                        
+                        <div class="grid gap-6 mb-6 md:grid-cols-2">
+                            <!-- PASSWORD -->
+                            <div>
+                                <InputLabel 
+                                        for="password" 
+                                        class="block mb-2 text-sm font-medium 
+                                            text-gray-900 dark:text-white"
+                                >{{ $t('password') }}</InputLabel>
+                                <TextInput 
+                                    v-model="change_password_form.password" type="text" 
+                                    id="password" name="password" 
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                                            focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 
+                                            dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 
+                                            dark:focus:border-blue-500" 
+                                    placeholder="password" ></TextInput>
+                                <InputError :message="change_password_form.errors.password"></InputError>
+                            </div>
+
+                            <!-- password_confirmation -->
+                            <div>
+                                <InputLabel 
+                                    for="password_confirmation" 
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                >{{ $t('password_confirmation') }}</InputLabel>
+                                <TextInput v-model="change_password_form.password_confirmation"
+                                    type="password_confirmation" id="password_confirmation" name="password_confirmation" 
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                                            focus:ring-blue-500 focus:border-blue-500 
+                                            block w-full p-2.5 
+                                            dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                                    placeholder="password_confirmation" ></TextInput>
+                                <InputError :message="change_password_form.errors.password_confirmation"></InputError>
+                            </div>
+
+                        </div>
+
+                        <!-- "Submit" button -->
+                        <GreenButton type="submit" 
+                            size="text-base" :title="$t('change_password')"
+                        >{{ $t('change_password') }}</GreenButton>
+                    
+                        <!-- "Cancel" button -->
+                        <!--<DefaultLink type="button" class="float-right" 
+                            :href="route('users')" :title="$t('back')"
+                        >{{ $t('back') }}</DefaultLink>-->
+                    
                     </form>
 
                 </div>

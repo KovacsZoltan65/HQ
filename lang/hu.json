@@ -38,6 +38,7 @@
     "email": "Email cím",
     "password": "Jelszó",
     "password_confirmation": "Jelszó megerősítés",
+    "change_password": "Jelszó módosítás",
     "remember_me": "Jegyezd meg",
     "already_registered": "Már regisztráltál?",
     "forgot_password": "Elfelejtette a jelszavát?",

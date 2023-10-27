@@ -54,6 +54,8 @@
             name: props.user.name,
            email: props.user.email,
         language: props.user.language,
+        password: props.user.password,
+        password_confirmation: '',
     });
 
     // Mentés
@@ -178,6 +180,42 @@
                                 <InputError :message="form.errors.name"></InputError>
                             </div>
 
+                        </div>
+
+                        <div class="grid gap-6 mb-6 md:grid-cols-2">
+                            <!-- PASSWORD -->
+                            <div>
+                                <InputLabel 
+                                        for="password" 
+                                        class="block mb-2 text-sm font-medium 
+                                            text-gray-900 dark:text-white"
+                                >{{ $t('password') }}</InputLabel>
+                                <TextInput 
+                                    v-model="form.password" type="text" 
+                                    id="password" name="password" 
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                                            focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 
+                                            dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 
+                                            dark:focus:border-blue-500" 
+                                    placeholder="password" ></TextInput>
+                                <InputError :message="form.errors.password"></InputError>
+                            </div>
+
+                            <!-- password_confirmation -->
+                            <div>
+                                <InputLabel 
+                                    for="password_confirmation" 
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                >{{ $t('password_confirmation') }}</InputLabel>
+                                <TextInput v-model="form.password_confirmation"
+                                    type="password_confirmation" id="password_confirmation" name="password_confirmation" 
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                                            focus:ring-blue-500 focus:border-blue-500 
+                                            block w-full p-2.5 
+                                            dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                                    placeholder="password_confirmation" ></TextInput>
+                                <InputError :message="form.errors.password_confirmation"></InputError>
+                            </div>
                         </div>
 
                         <!-- "Submit" button -->
