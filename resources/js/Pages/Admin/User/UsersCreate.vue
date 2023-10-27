@@ -133,7 +133,7 @@
                                             focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 
                                             dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 
                                             dark:focus:border-blue-500" 
-                                    placeholder="name" ></TextInput>
+                                    :placeholder="$t('name')" ></TextInput>
                                 <InputError :message="form.errors.name"></InputError>
                             </div>
 
@@ -149,7 +149,7 @@
                                             focus:ring-blue-500 focus:border-blue-500 
                                             block w-full p-2.5 
                                             dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                    placeholder="email" ></TextInput>
+                                    :placeholder="$t('email')" ></TextInput>
                                 <InputError :message="form.errors.email"></InputError>
                             </div>
 
@@ -197,8 +197,8 @@
                                             focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 
                                             dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 
                                             dark:focus:border-blue-500" 
-                                    placeholder="password" ></TextInput>
-                                <InputError :message="form.errors.password"></InputError>
+                                    :placeholder="$t('password')" ></TextInput>
+                                <InputError :message="form.errors.password" />
                             </div>
 
                             <!-- password_confirmation -->
@@ -213,8 +213,8 @@
                                             focus:ring-blue-500 focus:border-blue-500 
                                             block w-full p-2.5 
                                             dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                    placeholder="password_confirmation" ></TextInput>
-                                <InputError :message="form.errors.password_confirmation"></InputError>
+                                    :placeholder="$t('password_confirmation')" ></TextInput>
+                                <InputError :message="form.errors.password_confirmation" />
                             </div>
                         </div>
 

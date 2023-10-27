@@ -152,10 +152,8 @@
                                             focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 
                                             dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 
                                             dark:focus:border-blue-500" 
-                                    placeholder="subdomain" 
-                                    required
-                                ></TextInput>
-                                
+                                    :placeholder="$t('subdomain')" required />
+                                    <InputError :message="form.errors.subdomain" />
                             </div>
 
                             <!-- URL -->
@@ -170,8 +168,8 @@
                                             focus:ring-blue-500 focus:border-blue-500 
                                             block w-full p-2.5 
                                             dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                    placeholder="Url" required
-                                ></TextInput>
+                                    placeholder="$t('url')" required />
+                                <InputError :message="form.errors.url" />
                             </div>
 
                             <!-- NAME -->
@@ -185,9 +183,8 @@
                                         focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
                                         dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                         dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                    placeholder="Name" required
-                                ></TextInput>
-                                
+                                    placeholder="$t('name')" required />
+                                <InputError :message="form.errors.name" />
                             </div>
 
                             <!-- DB_HOST -->
@@ -201,9 +198,8 @@
                                         focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
                                         dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                         dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                    placeholder="db_host" required
-                                ></TextInput>
-                                
+                                    placeholder="$t('db_host')" required />
+                                <InputError :message="form.errors.db_host" />
                             </div>
 
                             <!-- DB_PORT -->
@@ -217,9 +213,8 @@
                                             focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
                                             dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                             dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                    placeholder="db_port" required
-                                ></TextInput>
-                                
+                                    placeholder="db_port" required />
+                                <InputError :message="form.errors.db_post" />
                             </div>
                             
                             <!-- DB_NAME -->
@@ -233,9 +228,8 @@
                                         focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
                                         dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                         dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                    placeholder="db_name" required
-                                ></TextInput>
-                                
+                                    placeholder="$t('db_name')" required />
+                                <InputError :message="form.errors.db_name" />
                             </div>
 
                             <!-- DB_USER -->
@@ -249,9 +243,8 @@
                                             focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
                                             dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                             dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                    placeholder="db_user" required
-                                ></TextInput>
-                                
+                                    placeholder="$t('db_user')" required />
+                                <InputError :message="form.errors.db_user" />
                             </div>
                             
                             <!-- DB_PASSWORD -->
@@ -265,9 +258,8 @@
                                         focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
                                         dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                         dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                    placeholder="db_password" required
-                                ></TextInput>
-                                
+                                    placeholder="$t('db_password')" required />
+                                <InputError :message="form.errors.db_password" />
                             </div>
 
                             <!-- state_id (állapot) -->
@@ -283,9 +275,8 @@
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                                         focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
                                         dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
-                                        dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                ></SelectInput>
-                                
+                                        dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                <InputError :message="form.errors.state_id" />
                             </div>
 
                             <!-- access_control_system (beléptető rendszer) -->
@@ -300,9 +291,8 @@
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                                         focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
                                         dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
-                                        dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                ></SelectInput>
-                                
+                                        dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                <InputError :message="form.errors.access_control_system" />
                             </div>
 
                         </div>

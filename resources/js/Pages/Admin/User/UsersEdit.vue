@@ -136,8 +136,8 @@
                                             focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 
                                             dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 
                                             dark:focus:border-blue-500" 
-                                    placeholder="name" ></TextInput>
-                                <InputError :message="form.errors.name"></InputError>
+                                    :placeholder="$t('name')" ></TextInput>
+                                <InputError :message="form.errors.name" />
                             </div>
 
                             <!-- EMAIL -->
@@ -152,8 +152,8 @@
                                             focus:ring-blue-500 focus:border-blue-500 
                                             block w-full p-2.5 
                                             dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                    placeholder="email" ></TextInput>
-                                <InputError :message="form.errors.email"></InputError>
+                                    :placeholder="$t('email')" ></TextInput>
+                                <InputError :message="form.errors.email" />
                             </div>
 
                             <!-- LANGUAGE -->
@@ -172,16 +172,7 @@
                                         dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                         dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 ></SelectInput>
-                                <!--
-                                <TextInput v-model="form.language" type="text" 
-                                    id="language" name="language" 
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
-                                        focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
-                                        dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
-                                        dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                    placeholder="Name" ></TextInput>
-                                -->
-                                <InputError :message="form.errors.name"></InputError>
+                                <InputError :message="form.errors.name" />
                             </div>
 
                         </div>
@@ -222,8 +213,8 @@
                                             focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 
                                             dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 
                                             dark:focus:border-blue-500" 
-                                    placeholder="password" ></TextInput>
-                                <InputError :message="change_password_form.errors.password"></InputError>
+                                    :placeholder="$t('password')" ></TextInput>
+                                <InputError :message="change_password_form.errors.password" />
                             </div>
 
                             <!-- password_confirmation -->
@@ -238,8 +229,8 @@
                                             focus:ring-blue-500 focus:border-blue-500 
                                             block w-full p-2.5 
                                             dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                    placeholder="password_confirmation" ></TextInput>
-                                <InputError :message="change_password_form.errors.password_confirmation"></InputError>
+                                    :placeholder="$t('password_confirmation')" ></TextInput>
+                                <InputError :message="change_password_form.errors.password_confirmation" />
                             </div>
 
                         </div>
@@ -248,11 +239,6 @@
                         <GreenButton type="submit" 
                             size="text-base" :title="$t('change_password')"
                         >{{ $t('change_password') }}</GreenButton>
-                    
-                        <!-- "Cancel" button -->
-                        <!--<DefaultLink type="button" class="float-right" 
-                            :href="route('users')" :title="$t('back')"
-                        >{{ $t('back') }}</DefaultLink>-->
                     
                     </form>
 

@@ -167,8 +167,8 @@
                                             focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 
                                             dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 
                                             dark:focus:border-blue-500" 
-                                    placeholder="subdomain" ></TextInput>
-                                <InputError :message="form.errors.subdomain"></InputError>
+                                    placeholder="subdomain" required />
+                                <InputError :message="form.errors.subdomain" />
                             </div>
 
                             <!-- URL -->
@@ -183,8 +183,8 @@
                                             focus:ring-blue-500 focus:border-blue-500 
                                             block w-full p-2.5 
                                             dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                    placeholder="Url" ></TextInput>
-                                <InputError :message="form.errors.url"></InputError>
+                                    placeholder="Url" required />
+                                <InputError :message="form.errors.url" />
                             </div>
 
                             <!-- NAME -->
@@ -198,8 +198,8 @@
                                         focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
                                         dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                         dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                    placeholder="Name" ></TextInput>
-                                <InputError :message="form.errors.name"></InputError>
+                                    placeholder="Name" required />
+                                <InputError :message="form.errors.name" />
                             </div>
 
                             <!-- DB_HOST -->
@@ -213,8 +213,8 @@
                                         focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
                                         dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                         dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                    placeholder="db_host" ></TextInput>
-                                <InputError :message="form.errors.db_host"></InputError>
+                                    placeholder="db_host" required />
+                                <InputError :message="form.errors.db_host" />
                             </div>
 
                             <!-- DB_PORT -->
@@ -228,8 +228,8 @@
                                             focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
                                             dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                             dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                    placeholder="db_port" ></TextInput>
-                                <InputError :message="form.errors.db_port"></InputError>
+                                    placeholder="db_port" required />
+                                <InputError :message="form.errors.db_port" />
                             </div>
                             
                             <!-- DB_NAME -->
@@ -243,8 +243,8 @@
                                         focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
                                         dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                         dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                    placeholder="db_name" ></TextInput>
-                                <InputError :message="form.errors.db_name"></InputError>
+                                    placeholder="db_name" required />
+                                <InputError :message="form.errors.db_name" />
                             </div>
 
                             <!-- DB_USER -->
@@ -258,8 +258,8 @@
                                             focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
                                             dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                             dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                    placeholder="db_user" ></TextInput>
-                                <InputError :message="form.errors.db_user"></InputError>
+                                    placeholder="db_user" required />
+                                <InputError :message="form.errors.db_user" />
                             </div>
                             
                             <!-- DB_PASSWORD -->
@@ -273,8 +273,8 @@
                                         focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
                                         dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                         dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                    placeholder="db_password" ></TextInput>
-                                <InputError :message="form.errors.db_password"></InputError>
+                                    placeholder="db_password" required />
+                                <InputError :message="form.errors.db_password" />
                             </div>
 
                             <!-- state_id (állapot) -->
@@ -292,7 +292,7 @@
                                         p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                         dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 ></SelectInput>
-                                <InputError :message="form.errors.state_id"></InputError>
+                                <InputError :message="form.errors.state_id" />
                             </div>
 
                             <!-- access_control_system (beléptető rendszer) -->
@@ -309,7 +309,7 @@
                                         dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                         dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 ></SelectInput>
-                                <InputError :message="form.errors.access_control_system"></InputError>
+                                <InputError :message="form.errors.access_control_system" />
                             </div>
 
                         </div>
