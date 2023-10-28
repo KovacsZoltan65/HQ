@@ -182,6 +182,8 @@
 
                         </div>
 
+                        <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+                        
                         <div class="grid gap-6 mb-6 md:grid-cols-2">
                             <!-- PASSWORD -->
                             <div>
