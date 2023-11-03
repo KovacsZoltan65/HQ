@@ -115,3 +115,12 @@ php artisan code:models --schema=shop
 composer require schubu/iseed --dev
 composer require cheesegrits/iseed --dev
 php artisan iseed 'books, ...'
+
+// ---------------------------------------
+// DATATABLES.NET
+// ---------------------------------------
+https://datatables.net/manual/vue
+
+npm install --save datatables.net-vue3
+npm install --save datatables.net-select
+npm install --save datatables.net-responsive
