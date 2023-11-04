@@ -96,6 +96,24 @@
         getRoles();
     });
 
+     // Szerepkörök lekérése
+     function getRoles(page = state.pagination.current_page) {
+        axios.post(route('getRoles', {
+            filters: state.filters,
+            config: {
+                per_page: state.pagination.per_page,
+            }, page
+        })).then(response => {
+            console.log(response);
+            state.Roles = response.data.roles.data;
+            
+            state.pagination.total_number_of_pages = response.data.roles.last_page;
+            state.pagination.current_page = response.data.roles.current_page;
+        }).catch(error => {
+            console.log(error);
+        });
+    };
+
     // Új könyv előkészítése
     function newRole_init(){
         state.Role = newRole();
@@ -112,22 +130,6 @@
             name: null,
         };
     }
-
-    // Szerepkörök lekérése
-    function getRoles(page = state.pagination.current_page) {
-        axios.post(route('getRoles', {
-            filters: state.filters,
-            config: {
-                per_page: state.pagination.per_page,
-            }, page
-        })).then(response => {
-            //console.log(response);
-            state.Roles = response.data.roles.data;
-            
-            state.pagination.total_number_of_pages = response.data.roles.last_page;
-            state.pagination.current_page = response.data.roles.current_page;
-        });
-    };
 
     // Kiválasztás
     function select(){
