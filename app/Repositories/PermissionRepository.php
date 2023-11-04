@@ -5,12 +5,12 @@ namespace App\Repositories;
 use App\Criteria\PermissionCriteria;
 use App\Models\Permission;
 
-class PermissionRepository extends BaseRepository
+class PermissionRepository extends BaseRepository implements \App\Interfaces\PermissionRepositoryInterface
 {
     /**
      * Specify Model class name
      *
-     * @return string
+     * @return class
      */
     public function model()
     {

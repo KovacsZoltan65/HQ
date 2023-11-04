@@ -19,6 +19,11 @@ php artisan migrate
 php artisan make:model Book --all
 
 // ---------------------------------------
+// Routing
+// ---------------------------------------
+php artisan route:list --name=users
+
+// ---------------------------------------
 // Design
 // ---------------------------------------
 ICONS:

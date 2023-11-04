@@ -434,6 +434,27 @@
             }
         }
     });
+
+    // Táblázat adatainak lekérése
+    function getPermissions(page = state.pagination.current_page) {
+        axios.post(route('getPermissions', {
+            filters: state.filters,
+            config: {
+                per_page: state.pagination.per_page,
+            },
+            page
+        }))
+        .then(response => {
+            //
+            state.Permissions = response.data.permissions.data;
+            
+            state.pagination.total_number_of_pages = response.data.permissions.last_page;
+            state.pagination.current_page = response.data.permissions.current_page;
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    }
     
     function sordedPermission (){
         return state.Permissions.sort((a, b) => {
@@ -456,24 +477,6 @@
             });
         }
     };
-
-    // Táblázat adatainak lekérése
-    function getPermissions(page = state.pagination.current_page) {
-        axios.post(route('getPermissions', {
-            filters: state.filters,
-            config: {
-                per_page: state.pagination.per_page,
-            },
-            page
-        }))
-        .then(response => {
-            //console.log(response);
-            state.Permissions = response.data.permissions.data;
-            console.log(state.Permissions);
-            //state.pagination.total_number_of_pages = response.data.permissions.last_page;
-            //state.pagination.current_page = response.data.permissions.current_page;
-        });
-    }
 
     // Új könyv előkészítése
     function newPermission_init(){
