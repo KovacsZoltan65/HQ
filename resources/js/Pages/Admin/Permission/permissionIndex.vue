@@ -445,7 +445,7 @@
             page
         }))
         .then(response => {
-            //
+            //console.log(response);
             state.Permissions = response.data.permissions.data;
             
             state.pagination.total_number_of_pages = response.data.permissions.last_page;
