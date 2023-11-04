@@ -372,30 +372,10 @@
 
         // Táblázat oszlopai
         columns: {
-            id: {
-                label: '#',
-                is_visible: true,
-                is_sortable: true,
-                is_filterable: true,
-            },
-            name: {
-                label: 'name',
-                is_visible: true,
-                is_sortable: true,
-                is_filterable: true,
-            },
-            guard_name: {
-                label: 'guard_name',
-                is_visible: true,
-                is_sortable: true,
-                is_filterable: true,
-            },
-            action: {
-                label: 'actions',
-                is_visible: true,
-                is_sortable: false,
-                is_filterable: false,
-            },
+            id: {label: '#', is_visible: true, is_sortable: true, is_filterable: true,},
+            name: {label: 'name', is_visible: true, is_sortable: true, is_filterable: true,},
+            guard_name: {label: 'guard_name', is_visible: true, is_sortable: true, is_filterable: true,},
+            action: {label: 'actions', is_visible: true, is_sortable: false, is_filterable: false,},
         },
 
         // Oldaltörés

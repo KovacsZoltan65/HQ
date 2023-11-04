@@ -21,4 +21,10 @@ export default {
     },
 
     plugins: [forms, typography],
+
+    variants: {
+        extend: {
+            backgroundColor: ['odd']
+        }
+    },
 };
