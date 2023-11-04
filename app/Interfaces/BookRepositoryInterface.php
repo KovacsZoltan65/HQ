@@ -2,6 +2,8 @@
 
 namespace App\Interfaces;
 
-interface BookRepositoryInterface extends \Prettus\Repository\Contracts\RepositoryInterface{
+use Prettus\Repository\Contracts\RepositoryInterface;
+
+interface BookRepositoryInterface extends RepositoryInterface {
     //
 }

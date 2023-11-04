@@ -16,8 +16,8 @@ class BookController extends Controller {
     //
     private $repository;
 
-    public function __construct(\App\Interfaces\BookRepositoryInterface $repo) {
-        $this->repository = $repo;
+    public function __construct(\App\Interfaces\BookRepositoryInterface $repository) {
+        $this->repository = $repository;
 
         $this->middleware('can:book list', ['only' => ['index', 'show']]);
         $this->middleware('can:book create', ['only' => ['create', 'store']]);
