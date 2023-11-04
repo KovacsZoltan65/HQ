@@ -10,24 +10,21 @@ use App\Models\User;
  *
  * @package namespace App\Repositories;
  */
-class UserRepository extends BaseRepository
-{
+class UserRepository extends BaseRepository implements \App\Interfaces\UserRepositoryInterface {
+
     /**
      * Specify Model class name
      *
-     * @return string
+     * @return object
      */
-    public function model()
-    {
+    public function model() {
         return User::class;
     }
 
     /**
      * Boot up the repository, pushing criteria
      */
-    public function boot()
-    {
-        $this->pushCriteria( app(UserCriteria::class) );
+    public function boot() {
+        $this->pushCriteria(UserCriteria::class);
     }
-    
 }
