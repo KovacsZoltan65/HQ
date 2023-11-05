@@ -30,7 +30,7 @@ class RoleController extends Controller {
      * Display a listing of the resource.
      */
     public function index() {
-        return Inertia::render('Admin/Role/RoleIndex', [
+        return Inertia::render('Admin/Role/RolesIndex', [
             'can' => $this->getMyRoles(),
         ]);
     }
