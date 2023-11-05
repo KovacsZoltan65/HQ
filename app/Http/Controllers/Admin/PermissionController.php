@@ -15,8 +15,8 @@ class PermissionController extends Controller {
 
     private $repository;
 
-    public function __construct(\App\Interfaces\PermissionRepositoryInterface $repo) {
-        $this->repository = $repo;
+    public function __construct(\App\Interfaces\PermissionRepositoryInterface $repository) {
+        $this->repository = $repository;
 
         $this->middleware('can:permission list', ['only' => ['index', 'show']]);
         $this->middleware('can:permission create', ['only' => ['create', 'store']]);
@@ -91,10 +91,10 @@ class PermissionController extends Controller {
         // Adatcsomag összeállítása
         $data = [
             'permissions' => $permissions,
-                 'config' => $config,
-                'filters' => $filters,
+            'config' => $config,
+            'filters' => $filters,
         ];
-        
+
         // Adatcsomag visszaküldése
         return response()->json($data, Response::HTTP_OK);
     }
