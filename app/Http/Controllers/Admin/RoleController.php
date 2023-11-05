@@ -3,20 +3,21 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreRoleRequest;
+use App\Http\Requests\UpdateRoleRequest;
+use App\Interfaces\RoleRepositoryInterface;
 use App\Models\Role;
-use App\Repositories\RoleRepository;
+use App\Models\Subdomain;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
-use App\Http\Requests\StoreRoleRequest;
-use App\Http\Requests\UpdateRoleRequest;
 
 class RoleController extends Controller {
 
     private $repository;
 
-    public function __construct(\App\Interfaces\RoleRepositoryInterface $repository) {
+    public function __construct(RoleRepositoryInterface $repository) {
         $this->repository = $repository;
 
         $this->middleware('can:role list', ['only' => ['index', 'show']]);
@@ -29,14 +30,8 @@ class RoleController extends Controller {
      * Display a listing of the resource.
      */
     public function index() {
-        return Inertia::render('Admin/Role/roleIndex', [
-                'can' => [
-                       'list' => Auth::user()->can('role list'),
-                     'create' => Auth::user()->can('role create'),
-                       'edit' => Auth::user()->can('role edit'),
-                     'delete' => Auth::user()->can('role delete'),
-                    'restore' => Auth::user()->can('role restore'),
-                ]
+        return Inertia::render('Admin/Role/RoleIndex', [
+            'can' => $this->getMyRoles(),
         ]);
     }
 
@@ -91,12 +86,14 @@ class RoleController extends Controller {
 
         // Adatok lekérése
         $roles = $this->repository->paginate($per_page);
+        $subdomains = Subdomain::all();
 
         // Adatcsomag összeállítása
         $data = [
-            'roles' => $roles,
-            'config' => $config,
-            'filters' => $filters,
+                 'roles' => $roles,
+            'subdomains' => $subdomains,
+                'config' => $config,
+               'filters' => $filters,
         ];
 
         // Adatcsomag visszaküldése
@@ -106,8 +103,15 @@ class RoleController extends Controller {
     /**
      * Show the form for creating a new resourOce.
      */
-    public function create() {
+    public function create(Request $request) {
+        $role = new Role();
+        $subdomains = Subdomain::all();
         
+        return Inertia::render('Admin/Role/RoleCreate', [
+                   'can' => $this->getMyRoles(),
+                  'role' => $role,
+            'subdomains' => $subdomains,
+        ]);
     }
 
     /**
@@ -122,15 +126,19 @@ class RoleController extends Controller {
     /**
      * Display the specified resource.
      */
-    public function show(string $id) {
-        
-    }
+    public function show(string $id) {}
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id) {
+    public function edit(Role $role) {
+        $subdomains = Subdomain::all();
         
+        return Inertia::render('Admin/Role/RoleEdit', [
+                  'role' => $role,
+            'subdomains' => $subdomains,
+                   'can' => $this->getMyRoles(),
+        ]);
     }
 
     /**
@@ -151,10 +159,23 @@ class RoleController extends Controller {
         return redirect()->back()->with('message', __('role_deleted'));
     }
 
+    /**
+     * Visszaállítás
+     */
     public function restore(int $id) {
         $role = Role::onlyTrashed()->find($id);
         $res = $role->restore();
 
         return redirect()->back()->with('message', __('roles_restored'));
+    }
+    
+    private function getMyRoles(){
+        return [
+               'list' => Auth::user()->can('role list'),
+             'create' => Auth::user()->can('role create'),
+               'edit' => Auth::user()->can('role edit'),
+             'delete' => Auth::user()->can('role delete'),
+            'restore' => Auth::user()->can('role restore'),
+        ];
     }
 }
