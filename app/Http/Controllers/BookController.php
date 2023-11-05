@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
+use App\Interfaces\BookRepositoryInterface;
 use App\Models\Book;
-use App\Repositories\BookRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +16,7 @@ class BookController extends Controller {
     //
     private $repository;
 
-    public function __construct(\App\Interfaces\BookRepositoryInterface $repository) {
+    public function __construct(BookRepositoryInterface $repository) {
         $this->repository = $repository;
 
         $this->middleware('can:book list', ['only' => ['index', 'show']]);
@@ -28,12 +28,7 @@ class BookController extends Controller {
 
     public function index() {
         return Inertia::render('Books/booksIndex', [
-                'can' => [
-                    'list' => Auth::user()->can('book list'),
-                    'create' => Auth::user()->can('book create'),
-                    'edit' => Auth::user()->can('book edit'),
-                    'delete' => Auth::user()->can('book delete'),
-                ]
+                'can' => $this->getRoles()
         ]);
     }
 
@@ -100,8 +95,13 @@ class BookController extends Controller {
         return response()->json($data, Response::HTTP_OK);
     }
 
-    public function create() {
+    public function create(REquest $request) {
+        $book = new Book();
         
+        return Inertia::render('Books/BooksCreate', [
+            'can' => $this->getRoles(),
+            'book' => $book,
+        ]);
     }
 
     /**
@@ -117,15 +117,16 @@ class BookController extends Controller {
     /**
      * Display the specified resource.
      */
-    public function show() {
-        
-    }
+    public function show() {}
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit() {
-        
+    public function edit(Book $book) {
+        return Inertia::render('Book/BookEdit', [
+            'can' => $this->getRoles(),
+            'book' => $book,
+        ]);
     }
 
     /**
@@ -142,15 +143,23 @@ class BookController extends Controller {
      */
     public function destroy(int $id) {
         $this->repository->delete($id);
-
         return redirect()->back()->with('message', __('books_deleted'));
     }
 
     public function restore(int $id) {
         $book = Book::onlyTrashed()->find($id);
-
         $res = $book->restore();
 
         return redirect()->back()->with('message', __('books_restored'));
+    }
+    
+    private function getRoles() {
+        return [
+               'list' => Auth::user()->can('book list'),
+             'create' => Auth::user()->can('book create'),
+               'edit' => Auth::user()->can('book edit'),
+             'delete' => Auth::user()->can('book delete'),
+            'restore' => Auth::user()->can('book restore'),
+        ];
     }
 }
