@@ -2,34 +2,30 @@
 
 namespace App\Repositories;
 
-use App\Models\Subdomain;
 use App\Criteria\SubdomainCriteria;
+use App\Interfaces\SubdomainRepositoryInterface;
+use App\Models\Subdomain;
 
 /**
  * Class SubdomainRepositoryEloquent.
  *
  * @package namespace App\Repositories;
  */
-class SubdomainRepository extends BaseRepository
-{
+class SubdomainRepository extends BaseRepository implements SubdomainRepositoryInterface {
+
     /**
      * Specify Model class name
      *
      * @return string
      */
-    public function model()
-    {
+    public function model() {
         return Subdomain::class;
     }
-
-    
 
     /**
      * Boot up the repository, pushing criteria
      */
-    public function boot()
-    {
+    public function boot() {
         $this->pushCriteria(app(SubdomainCriteria::class));
     }
-    
 }
