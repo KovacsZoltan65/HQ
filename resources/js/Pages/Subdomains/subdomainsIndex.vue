@@ -31,7 +31,7 @@
 
     const local_storage_column_key = 'ln_subdomains_grid_columns';
 
-    const errors = ref('');
+    //const errors = ref('');
 
     const props = defineProps({
         can: {
@@ -363,7 +363,9 @@
                     <!-- TABLE -->
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                            <tr class="bg-gray-100"> <!-- header checkbox -->
+                            <tr class="bg-gray-100">
+                                
+                                <!-- header checkbox -->
                                 <th scope="col" class="px-6 py-3">
                                     <div>
                                         <input id="checkbox-all" type="checkbox" 
