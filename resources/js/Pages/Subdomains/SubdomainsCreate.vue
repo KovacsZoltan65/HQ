@@ -1,5 +1,5 @@
 <script setup>
-    import { router, useForm } from '@inertiajs/vue3';
+    import { useForm } from '@inertiajs/vue3';
     import axios from 'axios';
     import AppLayout from '@/Layouts/AppLayout.vue';
     import InputLabel from '@/Components/InputLabel.vue';

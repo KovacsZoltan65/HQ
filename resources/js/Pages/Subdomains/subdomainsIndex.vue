@@ -357,141 +357,141 @@
                                             font-medium rounded-lg text-sm px-4 py-2
                                             dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                                     @click="getSubdomains()">{{ $t('search') }}</button>
+                            </div>
                         </div>
+
+                        <!-- TABLE -->
+                        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <tr class="bg-gray-100">
+                                    
+                                    <!-- header checkbox -->
+                                    <th scope="col" class="px-6 py-3">
+                                        <div>
+                                            <input id="checkbox-all" type="checkbox" 
+                                                v-model="state.selectAll" @click="select"
+                                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500
+                                                    dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800
+                                                    focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                            <label for="checkbox-all" 
+                                                class="sr-only">checkbox</label>
+                                        </div>
+                                    </th>
+
+                                    <!-- ID -->
+                                    <th scope="col" class="px-6 py-3" 
+                                        v-show="state.columns.id.is_visible">
+                                        <div class="flex items-center">
+                                            {{ state.columns.id.label }}
+                                            <a href="#" v-show="state.columns.id.is_sortable">
+                                                <SorterIcon />
+                                            </a>
+                                        </div>
+                                    </th> 
+
+                                    <!-- SUBDOMAIN -->
+                                    <th scope="col" class="px-6 py-3" 
+                                        v-show="state.columns.subdomain.is_visible">
+                                        <div class="flex items-center">
+                                            {{ $t(state.columns.subdomain.label) }}
+                                            <a href="#" v-show="state.columns.subdomain.is_sortable">
+                                                <SorterIcon />
+                                            </a>
+                                        </div>
+                                    </th>
+
+                                    <!-- URL -->
+                                    <th scope="col" class="px-6 py-3" 
+                                        v-show="state.columns.url.is_visible">
+                                        <div class="flex items-center">
+                                            {{ $t(state.columns.url.label) }}
+                                            <a href="#" v-show="state.columns.url.is_sortable">
+                                                <SorterIcon />
+                                            </a>
+                                        </div>
+                                    </th>
+
+                                    <!-- IMAGE -->
+                                    <th scope="col" class="px-6 py-3" 
+                                        v-show="state.columns.name.is_visible">
+                                        <div class="flex items-center">
+                                            {{ $t(state.columns.name.label) }}
+                                            <a href="#" v-show="state.columns.name.is_sortable">
+                                                <SorterIcon />
+                                            </a>
+                                        </div>
+                                    </th>
+
+                                    <!-- ACTION -->
+                                    <th scope="col" class="px-6 py-3" width="250px"
+                                        v-show="state.columns.action.is_visible">
+                                        <div class="flex items-center">
+                                            {{ $t(state.columns.action.label) }}
+                                            <a href="#" v-show="state.columns.action.is_sortable">
+                                                <SorterIcon />
+                                            </a>
+                                        </div>
+                                    </th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="subdomain in state.Subdomains">
+                                    <td class="px-6 py-3 border">
+                                        <div>
+                                            <input :id="subdomain.id" 
+                                                type="checkbox" 
+                                                :value="subdomain.id"
+                                                :key="subdomain.id" 
+                                                v-model="state.selected"
+                                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500
+                                                    dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800
+                                                    focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                            <label class="sr-only" 
+                                                :for="subdomain.id">checkbox</label>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-2 border" v-show="state.columns.id.is_visible">{{ subdomain.id }}</td>
+                                    <td class="px-4 py-2 border" v-show="state.columns.subdomain.is_visible">{{ subdomain.subdomain }}</td>
+                                    <td class="px-4 py-2 border" v-show="state.columns.url.is_visible">{{ subdomain.url }}</td>
+                                    <td class="px-4 py-2 border" v-show="state.columns.name.is_visible">{{ subdomain.name }}</td>
+
+                                    <td class="px-4 py-2 w-45 border" width="250px"
+                                        v-show="state.columns.action.is_visible">
+                                        <div type="justify-start lg:justify-end" no-wrap>
+
+                                            <!-- "edit" jogosultság vizsgálata -->
+                                            <GreenLink v-if="can.edit"
+                                                type="button" 
+                                                :href="route('subdomains_edit', subdomain.id)"
+                                            >{{ $t('edit') }}</GreenLink>
+
+                                            <!-- "delete" jogosultság vizsgálata -->
+                                            <RedButton v-if="can.delete"
+                                                class="mt-1" 
+                                                size="text-xs" 
+                                                @click="deleteSubdomain_init(subdomain)"
+                                            >{{ $t('delete') }}</RedButton>
+
+                                        </div>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
 
-                    <!-- TABLE -->
-                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                            <tr class="bg-gray-100">
-                                
-                                <!-- header checkbox -->
-                                <th scope="col" class="px-6 py-3">
-                                    <div>
-                                        <input id="checkbox-all" type="checkbox" 
-                                            v-model="state.selectAll" @click="select"
-                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500
-                                                dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800
-                                                focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                        <label for="checkbox-all" 
-                                            class="sr-only">checkbox</label>
-                                    </div>
-                                </th>
+                    <!-- pagination -->
+                    <div
+                        class="mb-3 bg-white shadow bg-body rounded w-75 ln-max-width mx-auto p-3 d-flex align-items-center justify-content-center">
+                        <v-pagination v-model="state.pagination.current_page"
+                            :pages="state.pagination.total_number_of_pages" 
+                            :range-size="state.pagination.range"
+                            active-color="#DCEDFF" @update:modelValue="getSubdomains" />
+                    </div>
 
-                                <!-- ID -->
-                                <th scope="col" class="px-6 py-3" 
-                                    v-show="state.columns.id.is_visible">
-                                    <div class="flex items-center">
-                                        {{ state.columns.id.label }}
-                                        <a href="#" v-show="state.columns.id.is_sortable">
-                                            <SorterIcon />
-                                        </a>
-                                    </div>
-                                </th> 
-
-                                <!-- SUBDOMAIN -->
-                                <th scope="col" class="px-6 py-3" 
-                                    v-show="state.columns.subdomain.is_visible">
-                                    <div class="flex items-center">
-                                        {{ $t(state.columns.subdomain.label) }}
-                                        <a href="#" v-show="state.columns.subdomain.is_sortable">
-                                            <SorterIcon />
-                                        </a>
-                                    </div>
-                                </th>
-
-                                <!-- URL -->
-                                <th scope="col" class="px-6 py-3" 
-                                    v-show="state.columns.url.is_visible">
-                                    <div class="flex items-center">
-                                        {{ $t(state.columns.url.label) }}
-                                        <a href="#" v-show="state.columns.url.is_sortable">
-                                            <SorterIcon />
-                                        </a>
-                                    </div>
-                                </th>
-
-                                <!-- IMAGE -->
-                                <th scope="col" class="px-6 py-3" 
-                                    v-show="state.columns.name.is_visible">
-                                    <div class="flex items-center">
-                                        {{ $t(state.columns.name.label) }}
-                                        <a href="#" v-show="state.columns.name.is_sortable">
-                                            <SorterIcon />
-                                        </a>
-                                    </div>
-                                </th>
-
-                                <!-- ACTION -->
-                                <th scope="col" class="px-6 py-3" width="250px"
-                                    v-show="state.columns.action.is_visible">
-                                    <div class="flex items-center">
-                                        {{ $t(state.columns.action.label) }}
-                                        <a href="#" v-show="state.columns.action.is_sortable">
-                                            <SorterIcon />
-                                        </a>
-                                    </div>
-                                </th>
-                                
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="subdomain in state.Subdomains">
-                                <td class="px-6 py-3 border">
-                                    <div>
-                                        <input :id="subdomain.id" 
-                                            type="checkbox" 
-                                            :value="subdomain.id"
-                                            :key="subdomain.id" 
-                                            v-model="state.selected"
-                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500
-                                                dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800
-                                                focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                        <label class="sr-only" 
-                                            :for="subdomain.id">checkbox</label>
-                                    </div>
-                                </td>
-                                <td class="px-4 py-2 border" v-show="state.columns.id.is_visible">{{ subdomain.id }}</td>
-                                <td class="px-4 py-2 border" v-show="state.columns.subdomain.is_visible">{{ subdomain.subdomain }}</td>
-                                <td class="px-4 py-2 border" v-show="state.columns.url.is_visible">{{ subdomain.url }}</td>
-                                <td class="px-4 py-2 border" v-show="state.columns.name.is_visible">{{ subdomain.name }}</td>
-
-                                <td class="px-4 py-2 w-45 border" width="250px"
-                                    v-show="state.columns.action.is_visible">
-                                    <div type="justify-start lg:justify-end" no-wrap>
-
-                                        <!-- "edit" jogosultság vizsgálata -->
-                                        <GreenLink v-if="can.edit"
-                                            type="button" 
-                                            :href="route('subdomains_edit', subdomain.id)"
-                                        >{{ $t('edit') }}</GreenLink>
-
-                                        <!-- "delete" jogosultság vizsgálata -->
-                                        <RedButton v-if="can.delete"
-                                            class="mt-1" 
-                                            size="text-xs" 
-                                            @click="deleteSubdomain_init(subdomain)"
-                                        >{{ $t('delete') }}</RedButton>
-
-                                    </div>
-                                </td>
-
-                            </tr>
-                        </tbody>
-                    </table>
                 </div>
-
-                <!-- pagination -->
-                <div
-                    class="mb-3 bg-white shadow bg-body rounded w-75 ln-max-width mx-auto p-3 d-flex align-items-center justify-content-center">
-                    <v-pagination v-model="state.pagination.current_page"
-                        :pages="state.pagination.total_number_of_pages" 
-                        :range-size="state.pagination.range"
-                        active-color="#DCEDFF" @update:modelValue="getSubdomains" />
-                </div>
-
             </div>
-        </div>
         </div>
 
     </AppLayout>
