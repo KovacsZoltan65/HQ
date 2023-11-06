@@ -370,6 +370,61 @@
                                 </th>
 
                             </thead>
+                            
+                            <tbody>
+                                <tr v-for="role in state.Roles">
+
+                                    <!-- checkbox -->
+                                    <td class="px-6 py-3 border">
+                                        <div>
+                                            <input :id="role.id" 
+                                                type="checkbox" 
+                                                :value="role.id"
+                                                :key="role.id" 
+                                                v-model="state.selected"
+                                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500
+                                                    dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800
+                                                    focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                            <label class="sr-only" 
+                                                :for="role.id">checkbox</label>
+                                        </div>
+                                    </td>
+                                    
+                                    <!-- ID -->
+                                    <td class="px-4 py-2 border" v-show="state.columns.id.is_visible">{{ role.id }}</td>
+                                    
+                                    <!-- NAME -->
+                                    <td class="px-4 py-2 border" v-show="state.columns.name.is_visible">{{ role.name }}</td>
+
+                                    <!-- GUARD_NAME -->
+                                    <td class="px-4 py-2 border" v-show="state.columns.guard_name.is_visible">{{ role.guard_name }}</td>
+
+                                    <!-- ACTIONS -->
+                                    <td class="px-4 py-2 w-45 border" 
+                                        width="250px" 
+                                        v-show="state.columns.action.is_visible"
+                                    >
+                                        <div type="justify-start lg:justify-end" no-wrap>
+
+                                            <!-- "edit" jogosultság vizsgálata -->
+                                            <GreenLink v-if="can.edit" 
+                                                type="button" 
+                                                :href="route('roles_edit', role.id)"
+                                            >{{ $t('edit') }}</GreenLink>
+
+                                            <!-- "delete" jogosultság vizsgálata -->
+                                            <RedButton v-if="can.delete" 
+                                                class="mt-1" 
+                                                size="text-xs"
+                                                @click="deleteRole_init(role)"
+                                            >{{ $t('delete') }}</RedButton>
+
+                                        </div>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+
                         </table>
 
                     </div>
