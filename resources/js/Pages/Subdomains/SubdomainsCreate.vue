@@ -156,9 +156,9 @@
                             <!-- SUBDOMAIN -->
                             <div>
                                 <InputLabel 
-                                        for="subdomain" 
-                                        class="block mb-2 text-sm font-medium 
-                                            text-gray-900 dark:text-white"
+                                    for="subdomain" 
+                                    class="block mb-2 text-sm font-medium 
+                                           text-gray-900 dark:text-white"
                                 >{{ $t('subdomain') }}</InputLabel>
                                 <TextInput 
                                     v-model="form.subdomain" type="text" 

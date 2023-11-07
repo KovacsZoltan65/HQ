@@ -29,7 +29,7 @@ class PermissionController extends Controller {
      * Display a listing of the resource.
      */
     public function index() {
-        return Inertia::render('Admin/Permission/permissionIndex', [
+        return Inertia::render('Admin/Permission/PermissionsIndex', [
                 'can' => [
                     'list' => Auth::user()->can('permission list'),
                     'create' => Auth::user()->can('permission create'),

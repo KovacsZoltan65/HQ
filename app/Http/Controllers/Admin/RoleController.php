@@ -105,12 +105,12 @@ class RoleController extends Controller {
      */
     public function create(Request $request) {
         $role = new Role();
-        $subdomains = Subdomain::all();
+        //$subdomains = Subdomain::all();
         
-        return Inertia::render('Admin/Role/RoleCreate', [
-                   'can' => $this->getMyRoles(),
-                  'role' => $role,
-            'subdomains' => $subdomains,
+        return Inertia::render('Admin/Role/RolesCreate', [
+             'can' => $this->getMyRoles(),
+            'role' => $role,
+            //'subdomains' => $subdomains,
         ]);
     }
 
@@ -132,12 +132,12 @@ class RoleController extends Controller {
      * Show the form for editing the specified resource.
      */
     public function edit(Role $role) {
-        $subdomains = Subdomain::all();
+        //$subdomains = Subdomain::all();
         
-        return Inertia::render('Admin/Role/RoleEdit', [
-                  'role' => $role,
-            'subdomains' => $subdomains,
-                   'can' => $this->getMyRoles(),
+        return Inertia::render('Admin/Role/RolesEdit', [
+             'can' => $this->getMyRoles(),
+            'role' => $role,
+            //'subdomains' => $subdomains,
         ]);
     }
 

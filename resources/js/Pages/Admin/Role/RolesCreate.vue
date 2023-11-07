@@ -76,4 +76,77 @@
     };
 
 </script>
-<template>Role Create</template>
+<template>
+    <AppLayout :title="$t('roles_create')">
+
+        <!-- header -->
+        <template #header>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ $t('roles_create') }}
+            </h2>
+        </template>
+
+        <!-- FORM -->
+        <div class="py-6">
+            <div class="mx-auto sm:px-6 lg:px-8">
+                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-4 py-4">
+
+                    <form @submit.prevent="submit">
+                        <div class="grid gap-6 mb-6 md:grid-cols-1">
+                            
+                            <!-- NAME -->
+                            <div>
+                                <InputLabel 
+                                    for="subdomain" 
+                                    class="block mb-2 text-sm font-medium 
+                                           text-gray-900 dark:text-white"
+                                >{{ $t('name') }}</InputLabel>
+                                <TextInput 
+                                    v-model="form.name" type="text" 
+                                    id="name" name="name" 
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                                            focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 
+                                            dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 
+                                            dark:focus:border-blue-500" 
+                                    placeholder="name" required />
+                                <InputError :message="form.errors.name" />
+                            </div>
+
+                            <!-- GUARD NAME -->
+                            <div>
+                                <InputLabel 
+                                    for="guard_name" 
+                                    class="block mb-2 text-sm font-medium 
+                                           text-gray-900 dark:text-white"
+                                >{{ $t('guard_name') }}</InputLabel>
+                                <TextInput 
+                                    v-model="form.guard_name" type="text" 
+                                    id="guard_name" name="guard_name" 
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                                            focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 
+                                            dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 
+                                            dark:focus:border-blue-500" 
+                                    placeholder="guard_name" required />
+                                <InputError :message="form.errors.guard_name" />
+                            </div>
+
+                        </div>
+
+                        <!-- "Submit" button -->
+                        <GreenButton type="submit" 
+                            size="text-base" :title="$t('save')"
+                        >{{ $t('save') }}</GreenButton>
+
+                        <!-- "Cancel" button -->
+                        <DefaultLink type="button" class="float-right" 
+                            :href="route('roles')" :title="$t('back')"
+                        >{{ $t('back') }}</DefaultLink>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+    </AppLayout>
+</template>

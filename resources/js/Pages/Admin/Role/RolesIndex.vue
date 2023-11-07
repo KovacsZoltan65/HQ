@@ -184,7 +184,7 @@
     // Rekord törlése
     function deleteRole(role) {
         
-        axios.delete(route('roless_destroy', { role: role }))
+        axios.delete(route('roles_delete', { role: role }))
             .then((response) => {
                 
                 console.log(state.Roles);
@@ -428,6 +428,16 @@
                         </table>
 
                     </div>
+
+                    <!-- pagination -->
+                    <div
+                        class="mb-3 bg-white shadow bg-body rounded w-75 ln-max-width mx-auto p-3 d-flex align-items-center justify-content-center">
+                        <v-pagination v-model="state.pagination.current_page"
+                            :pages="state.pagination.total_number_of_pages" 
+                            :range-size="state.pagination.range"
+                            active-color="#DCEDFF" @update:modelValue="getSubdomains" />
+                    </div>
+
                 </div>
             </div>
         </div>
