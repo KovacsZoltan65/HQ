@@ -80,8 +80,8 @@
         }))
         .then(response => {
             state.Permissions = response.data.permissions.data; 
-            state.pagination.total_number_of_pages = response.data.roles.last_page; 
-            state.pagination.current_page = response.data.roles.current_page;
+            state.pagination.total_number_of_pages = response.data.permissions.last_page; 
+            state.pagination.current_page = response.data.permissions.current_page;
         });
     };
 
@@ -153,6 +153,217 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight"
             >{{ $t('permissions') }}</h2>
         </template>
+
+        <!-- Új elem felvitelle -->
+        <div class="py-6" style="padding-bottom: 0px;">
+            <!-- Új elem -->
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-5">
+
+                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-5">
+
+                    <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-4 py-4">
+                        <div class="flex justify-between items=center">
+                            
+                            <!-- FELIRAT -->
+                            <div class="flex space-x-2 items-center">{{ $t('permissions_description') }}</div>
+                            
+                            <!-- GOMBOK -->
+                            <div class="flex space-x-2 items-center">
+                                
+                                <!-- "beállítások" gomb -->
+                                <DefaultButton type="button" size="text-base" 
+                                    @click="settings_init">{{ $t('setup') }}</DefaultButton>
+                                
+                                <!--
+                                    "Új permission" gomb
+                                    "create" jogosultság vizsgálata
+                                -->
+                                <GreenLink v-if="can.create"
+                                    type="button" 
+                                    :href="route('permissions_create')"
+                                >+ {{ $t('permissions_new') }}</GreenLink>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Engedélyek listája -->
+        <div class="py-6">
+            <div class="mx-auto sm:px-6 lg:px-8">
+                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-4 py-4">
+
+                    <!-- selected ids -->
+                    <div class="text-uppercase text-bold mb-4 mt-4">
+                        <div class="relative">id selected: {{ state.selected }}</div>
+                    </div>
+
+                    <!-- TABLE AND SEARCH -->
+                    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+
+                        <!-- SEARCH -->
+                        <div class="pb-4 bg-white dark:bg-gray-900">
+                            <div class="relative mt-5 ml-10 mr-10">
+                                
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 
+                                    pointer-events-none">
+                                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" 
+                                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" 
+                                        fill="none" viewBox="0 0 20 20">
+                                        <path stroke="currentColor" 
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                                    </svg> 
+                                </div>
+
+                                <!-- search field -->
+                                <input type="search" id="default-search"
+                                    class="block w-full p-4 pl-10 text-sm text-gray-900 border 
+                                        border-gray-300 rounded-lg bg-gray-50 
+                                        focus:ring-blue-500 focus:border-blue-500
+                                        dark:bg-gray-700 dark:border-gray-600 
+                                        dark:placeholder-gray-400 dark:text-white 
+                                        dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        :placeholder="$t('subdomains_search_placeholder')" 
+                                        v-model="state.filters.search" required>
+                                <!-- search button --> 
+                                <button type="submit"
+                                    class="text-white absolute right-2.5 bottom-2.5 bg-blue-700
+                                            hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300
+                                            font-medium rounded-lg text-sm px-4 py-2
+                                            dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                    @click="getSubdomains()">{{ $t('search') }}</button>
+                            </div>
+                        </div>
+
+                        <!-- TABLE -->
+                        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                            
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <!-- header checkbox -->
+                                <th scope="col" class="px-6 py-3">
+                                    <div>
+                                        <input id="checkbox-all" type="checkbox" 
+                                            v-model="state.selectAll" @click="select"
+                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500
+                                                dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800
+                                                focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                        <label for="checkbox-all" 
+                                            class="sr-only">checkbox</label>
+                                    </div>
+                                </th>
+
+                                <!-- ID -->
+                                <th scope="col" class="px-6 py-3" 
+                                    v-show="state.columns.id.is_visible">
+                                    <div class="flex items-center">
+                                        {{ state.columns.id.label }}
+                                        <a href="#" v-show="state.columns.id.is_sortable">
+                                            <SorterIcon />
+                                        </a>
+                                    </div>
+                                </th>
+                                
+                                <!-- NAME -->
+                                <th scope="col" class="px-6 py-3" 
+                                    v-show="state.columns.name.is_visible">
+                                    <div class="flex items-center">
+                                        {{ state.columns.name.label }}
+                                        <a href="#" v-show="state.columns.name.is_sortable">
+                                            <SorterIcon />
+                                        </a>
+                                    </div>
+                                </th>
+
+                                <!-- GUARD_NAME -->
+                                <th scope="col" class="px-6 py-3" 
+                                    v-show="state.columns.guard_name.is_visible">
+                                    <div class="flex items-center">
+                                        {{ state.columns.guard_name.label }}
+                                        <a href="#" v-show="state.columns.guard_name.is_sortable">
+                                            <SorterIcon />
+                                        </a>
+                                    </div>
+                                </th>
+
+                                <!-- ACTION -->
+                                <th scope="col" class="px-6 py-3" width="250px"
+                                    v-show="state.columns.action.is_visible">
+                                    <div class="flex items-center">
+                                        {{ $t(state.columns.action.label) }}
+                                        <a href="#" v-show="state.columns.action.is_sortable">
+                                            <SorterIcon />
+                                        </a>
+                                    </div>
+                                </th>
+
+                            </thead>
+
+                            <tbody>
+                                <tr v-for="permission in state.Permissions">
+                                    <!-- checkbox -->
+                                    <td class="px-6 py-3 border">
+                                        <div>
+                                            <input :id="permission.id" 
+                                                type="checkbox" 
+                                                :value="permission.id"
+                                                :key="permission.id" 
+                                                v-model="state.selected"
+                                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500
+                                                    dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800
+                                                    focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                            <label class="sr-only" 
+                                                :for="permission.id">checkbox</label>
+                                        </div>
+                                    </td>
+
+                                    <!-- ID -->
+                                    <td class="px-4 py-2 border" v-show="state.columns.id.is_visible">{{ permission.id }}</td>
+                                    
+                                    <!-- NAME -->
+                                    <td class="px-4 py-2 border" v-show="state.columns.name.is_visible">{{ permission.name }}</td>
+
+                                    <!-- GUARD_NAME -->
+                                    <td class="px-4 py-2 border" v-show="state.columns.guard_name.is_visible">{{ permission.guard_name }}</td>
+
+                                    <!-- ACTIONS -->
+                                    <td class="px-4 py-2 w-45 border" 
+                                        width="250px" 
+                                        v-show="state.columns.action.is_visible"
+                                    >
+                                        <div type="justify-start lg:justify-end" no-wrap>
+
+                                            <!-- "edit" jogosultság vizsgálata -->
+                                            <GreenLink v-if="can.edit" 
+                                                type="button" 
+                                                :href="route('permissions_edit', permission.id)"
+                                            >{{ $t('edit') }}</GreenLink>
+
+                                            <!-- "delete" jogosultság vizsgálata -->
+                                            <RedButton v-if="can.delete" 
+                                                class="mt-1" 
+                                                size="text-xs"
+                                                @click="deletePermission_init(permission)"
+                                            >{{ $t('delete') }}</RedButton>
+
+                                        </div>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
 
     </AppLayout>
 </template>

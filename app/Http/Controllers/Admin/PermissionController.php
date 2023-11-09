@@ -103,7 +103,12 @@ class PermissionController extends Controller {
      * Show the form for creating a new resourOce.
      */
     public function create() {
+        $permission = new Permission();
         
+        return Inertia::render('Admin/Permission/PermissionsCreate', [
+                   'can' => $this->getMyRoles(),
+            'permission' => $permission,
+        ]);
     }
 
     /**
@@ -118,15 +123,16 @@ class PermissionController extends Controller {
     /**
      * Display the specified resource.
      */
-    public function show(string $id) {
-        
-    }
+    public function show(Permission $permission) {}
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id) {
-        
+    public function edit(Permission $permission) {
+        return Inertia::render('Admin/Permission/PermissionsEdit', [
+                   'can' => $this->getMyRoles(),
+            'permission' => $permission,
+        ]);
     }
 
     /**
@@ -153,5 +159,15 @@ class PermissionController extends Controller {
         $res = $permission->restore();
 
         return redirect()->back()->with('message', __('permissions_restored'));
+    }
+    
+    private function getMyRoles(){
+        return [
+               'list' => Auth::user()->can('permission list'),
+             'create' => Auth::user()->can('permission create'),
+               'edit' => Auth::user()->can('permission edit'),
+             'delete' => Auth::user()->can('permission delete'),
+            'restore' => Auth::user()->can('permission restore'),
+        ];
     }
 }
