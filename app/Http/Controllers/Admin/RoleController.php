@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
 use App\Interfaces\RoleRepositoryInterface;
+use App\Models\Permission;
 use App\Models\Role;
 use App\Models\Subdomain;
 use Illuminate\Http\Request;
@@ -105,12 +106,12 @@ class RoleController extends Controller {
      */
     public function create(Request $request) {
         $role = new Role();
-        //$subdomains = Subdomain::all();
+        $permissions = Permission::all()->toArray();
         
         return Inertia::render('Admin/Role/RolesCreate', [
-             'can' => $this->getMyRoles(),
-            'role' => $role,
-            //'subdomains' => $subdomains,
+                    'can' => $this->getMyRoles(),
+                   'role' => $role,
+            'permissions' => $permissions,
         ]);
     }
 
@@ -126,18 +127,18 @@ class RoleController extends Controller {
     /**
      * Display the specified resource.
      */
-    public function show(string $id) {}
+    public function show(Role $role) {}
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Role $role) {
-        //$subdomains = Subdomain::all();
+        $permissions = Permission::all()->toArray();
         
         return Inertia::render('Admin/Role/RolesEdit', [
-             'can' => $this->getMyRoles(),
-            'role' => $role,
-            //'subdomains' => $subdomains,
+                    'can' => $this->getMyRoles(),
+                   'role' => $role,
+            'permissions' => $permissions,
         ]);
     }
 
