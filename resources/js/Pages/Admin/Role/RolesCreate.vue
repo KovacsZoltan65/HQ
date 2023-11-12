@@ -30,13 +30,23 @@
         role: {
             type: Object,
             required: true,
+        },
+        roles: {
+            type: Object,
+            required: true,
+        },
+        permissions: {
+            type: Object,
+            required: true,
         }
     });
 
     // Form adatai
     const form = useForm({
         name: props.role.name,
-        guard_name: props.role.guard_name
+        guard_name: props.role.guard_name,
+        permissions: null,
+        roles: null
     });
 
     // Mentés
@@ -128,6 +138,38 @@
                                             dark:focus:border-blue-500" 
                                     placeholder="guard_name" required />
                                 <InputError :message="form.errors.guard_name" />
+                            </div>
+
+                        </div>
+
+                        <div class="grid gap-6 mb-6 md:grid-cols-2">
+
+                            <!-- ROLES -->
+                            <div>
+                                <InputLabel for="roles" class="">ROLES</InputLabel>
+                                <SelectInput multiple v-model="form.roles" 
+                                    :options="roles"
+                                    :selected="1"
+                                    id="roles" name="roles" 
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                                            focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 
+                                            dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 
+                                            dark:focus:border-blue-500"
+                                ></SelectInput>
+                            </div>
+
+                            <!-- PERMISSIONS -->
+                            <div>
+                                <InputLabel for="permissions" class="">PERMISSIONS</InputLabel>
+                                <SelectInput multiple v-model="form.permissions" 
+                                    :options="permissions"
+                                    :selected="1"
+                                    id="permissions" name="permissions" 
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                                            focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 
+                                            dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 
+                                            dark:focus:border-blue-500"
+                                ></SelectInput>
                             </div>
 
                         </div>

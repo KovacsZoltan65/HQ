@@ -107,10 +107,12 @@ class RoleController extends Controller {
     public function create(Request $request) {
         $role = new Role();
         $permissions = Permission::all()->toArray();
+        $roles = Role::all()->toArray();
         
         return Inertia::render('Admin/Role/RolesCreate', [
                     'can' => $this->getMyRoles(),
                    'role' => $role,
+                  'roles' => $roles,
             'permissions' => $permissions,
         ]);
     }
@@ -134,10 +136,12 @@ class RoleController extends Controller {
      */
     public function edit(Role $role) {
         $permissions = Permission::all()->toArray();
+        $roles = Role::all()->toArray();
         
         return Inertia::render('Admin/Role/RolesEdit', [
                     'can' => $this->getMyRoles(),
                    'role' => $role,
+                  'roles' => $roles,
             'permissions' => $permissions,
         ]);
     }
