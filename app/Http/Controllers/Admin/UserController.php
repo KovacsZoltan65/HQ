@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Interfaces\UserRepositoryInterface;
+use App\Models\Permission;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -31,6 +33,19 @@ class UserController extends Controller
      * Display a listing of the resource.
      */
     public function index(){
+        
+        $users = User::all();
+        
+        //\Log::info('users: ' . print_r($users, true));
+        
+        //foreach( $users as $user ){
+        //    \Log::info('username: ' . print_r($user->name, true));
+        //    $RoleName = $user->getRoleNames();
+        //    \Log::info('RoleNames: ' . print_r($RoleName, true));
+        //    $PermissionNames = $user->getPermissionNames();
+        //    \Log::info('PermissionNames: ' . print_r($PermissionNames, true));
+        //}
+        
         return Inertia::render('Admin/User/UsersIndex', [
             'can' => $this->getRoles(),
         ]);
@@ -92,8 +107,18 @@ class UserController extends Controller
             ? $config['per_page'] 
             : config('app.per_page');
         
-        $users = $this->repository->paginate($per_page)->toArray();
+        $users = $this->repository->paginate($per_page);
         //\Log::info('users: ' . print_r($users, true));
+        
+        foreach( $users as $user ) {            
+            $roleNames = $user->getRoleNames();
+            
+            $permissionNames = $user->getPermissionNames();
+            
+            $user->roleNames = $roleNames;
+            $user->permissionNames = $permissionNames;
+        }
+        
         // Adatcsomag összeállítása
         $data = [
               'users' => $users,
@@ -108,12 +133,13 @@ class UserController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request){
-        $user = new User();
-
+    public function create(Request $request) {
+        \Log::info('permissions: ' . print_r(Permission::all(), true) );
         return Inertia::render('Admin/User/UsersCreate', [
-            'user' => $user,
-            'can' => $this->getRoles(),
+                    'can' => $this->getRoles(),
+                   'user' => new User(),
+                  'roles' => Role::all(),
+            'permissions' => Permission::all(),
         ]);
     }
 

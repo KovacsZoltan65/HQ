@@ -37,6 +37,14 @@
             type: Object,
             required: true,
         },
+        roles: {
+            type: Object,
+            required: true,
+        },
+        permissions: {
+            type: Object,
+            required: true,
+        },
     });
 
     //onMounted(() => {
@@ -56,6 +64,8 @@
         language: props.user.language,
         password: props.user.password,
         password_confirmation: '',
+           roles: props.user.roles,
+        permissions: props.user.permissions,
     });
 
     // Mentés
@@ -168,15 +178,6 @@
                                         dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                         dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 ></SelectInput>
-                                <!--
-                                <TextInput v-model="form.language" type="text" 
-                                    id="language" name="language" 
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
-                                        focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
-                                        dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
-                                        dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                    placeholder="Name" ></TextInput>
-                                -->
                                 <InputError :message="form.errors.name"></InputError>
                             </div>
 
@@ -218,6 +219,39 @@
                                     :placeholder="$t('password_confirmation')" ></TextInput>
                                 <InputError :message="form.errors.password_confirmation" />
                             </div>
+                        </div>
+
+                        <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+
+                        <div class="grid gap-6 mb-6 md:grid-cols-2">
+                            <!-- ROLES -->
+                            <div>
+                                <InputLabel>{{ $t('roles') }}</InputLabel>
+                                <SelectInput v-model="form.roles"
+                                    :options="props.roles"
+                                    :selected="1"
+                                    id="roles" name="roles" multiple
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                                            focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 
+                                            dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 
+                                            dark:focus:border-blue-500"
+                                />
+                            </div>
+
+                            <!-- PERMISSIONS -->
+                            <div>
+                                <InputLabel>{{ $t('permissions') }}</InputLabel>
+                                <SelectInput v-model="form.permissions"
+                                    :options="props.permissions"
+                                    :selected="1"
+                                    id="permissions" name="permissions" multiple
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                                            focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 
+                                            dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 
+                                            dark:focus:border-blue-500"
+                                />
+                            </div>
+
                         </div>
 
                         <!-- "Submit" button -->

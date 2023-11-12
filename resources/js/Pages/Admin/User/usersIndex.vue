@@ -81,6 +81,7 @@
             email:    { label: 'email', is_visible: true, is_sortable: true, is_filterable: true, },
             //password: { label: 'password', is_visible: true, is_sortable: true, is_filterable: true, },
             language: { label: 'language', is_visible: true, is_sortable: true, is_filterable: true, },
+            roles:    { label: 'roles', is_visible: true, is_sortable: true, is_filterable: true, },
             action:   { label: 'actions',is_visible: true,is_sortable: false,is_filterable: false, },
         },
 
@@ -390,6 +391,15 @@
                                     </div>
                                 </th>
 
+                                <!-- ROLES -->
+                                <th scope="col" class="px-6 py-3" v-show="state.columns.roles.is_visible">
+                                    <div class="flex items-center"> {{ state.columns.roles.label }}
+                                        <a href="#" v-show="state.columns.roles.is_sortable">
+                                            <SorterIcon />
+                                        </a>
+                                    </div>
+                                </th>
+
                                 <!-- ACTION -->
                                 <th scope="col" class="px-6 py-3" width="250px"
                                     v-show="state.columns.action.is_visible">
@@ -419,6 +429,12 @@
                                 <td class="px-4 py-2 border" v-show="state.columns.name.is_visible">{{ user.name }}</td>
                                 <td class="px-4 py-2 border" v-show="state.columns.email.is_visible">{{ user.email }}</td>
                                 <td class="px-4 py-2 border" v-show="state.columns.language.is_visible">{{ user.language }}</td>
+                                
+                                <td class="px-4 py-2 border" 
+                                    v-if="user.roles.length !== 0" 
+                                    v-for="role in user.roles"
+                                >{{ role.name }}</td>
+                                <td class="px-4 py-2 border" v-else></td>
 
                                 <td class="px-4 py-2 w-45 border" width="250px"
                                     v-show="state.columns.action.is_visible">

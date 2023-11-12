@@ -146,7 +146,7 @@
 
                             <!-- ROLES -->
                             <div>
-                                <InputLabel for="roles" class="">ROLES</InputLabel>
+                                <InputLabel for="roles" class="">{{ $t('roles') }}</InputLabel>
                                 <SelectInput multiple v-model="form.roles" 
                                     :options="roles"
                                     :selected="1"
@@ -160,7 +160,7 @@
 
                             <!-- PERMISSIONS -->
                             <div>
-                                <InputLabel for="permissions" class="">PERMISSIONS</InputLabel>
+                                <InputLabel for="permissions" class="">{{ $t('permissions') }}</InputLabel>
                                 <SelectInput multiple v-model="form.permissions" 
                                     :options="permissions"
                                     :selected="1"
