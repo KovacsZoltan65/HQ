@@ -134,7 +134,6 @@ class UserController extends Controller
      * Show the form for creating a new resource.
      */
     public function create(Request $request) {
-        \Log::info('permissions: ' . print_r(Permission::all(), true) );
         return Inertia::render('Admin/User/UsersCreate', [
                     'can' => $this->getRoles(),
                    'user' => new User(),
@@ -162,8 +161,10 @@ class UserController extends Controller
      */
     public function edit(User $user){
         return Inertia::render('Admin/User/UsersEdit', [
-            'user' => $user,
-            'can' => $this->getRoles(),
+                    'can' => $this->getRoles(),
+                   'user' => $user,
+                  'roles' => Role::all(),
+            'permissions' => Permission::all(),
         ]);
     }
 
