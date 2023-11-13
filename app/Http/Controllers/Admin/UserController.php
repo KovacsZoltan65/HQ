@@ -160,10 +160,12 @@ class UserController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(User $user){
+        $roles = Role::select('id', 'name')->get()->toArray();
+        \Log::info(print_r($roles, true));
         return Inertia::render('Admin/User/UsersEdit', [
                     'can' => $this->getRoles(),
                    'user' => $user,
-                  'roles' => Role::all(),
+                  'roles' => $roles,
             'permissions' => Permission::all(),
         ]);
     }

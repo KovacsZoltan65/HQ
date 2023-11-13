@@ -16,6 +16,10 @@
     import Swal from 'sweetalert2';
     import 'sweetalert2/dist/sweetalert2.min.css';
 
+    import MultiSelect from '@vueform/multiselect';
+    import '@vueform/multiselect/themes/default.css';
+    //import '@vueform/multiselect/themes/tailwind.css';
+
     // Általános alert
     const alerta = Swal.mixin({
         buttonsStyling: true
@@ -212,7 +216,7 @@
                             <!-- ROLES -->
                             <div>
                                 <InputLabel>{{ $t('roles') }}</InputLabel>
-                                <SelectInput v-model="form.roles"
+                                <!--<SelectInput v-model="form.roles"
                                     :options="props.roles"
                                     :selected="1"
                                     id="roles" name="roles" multiple
@@ -220,6 +224,20 @@
                                             focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 
                                             dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 
                                             dark:focus:border-blue-500"
+                                />-->
+                                <MultiSelect id="roles" name="roles"
+                                    v-model="form.roles" 
+                                    :options="props.roles" 
+                                    :multiple="true" 
+                                    :close-on-select="false"
+                                    :clear-on-select="false"
+                                    :preserve-search="true"
+                                    :preselect-first="true"
+                                    :loading="isLoading"
+                                    placeholder="Pick some"
+                                    label="name"
+                                    track-by="name"
+                                    
                                 />
                             </div>
 
