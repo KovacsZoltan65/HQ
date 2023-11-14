@@ -6,6 +6,7 @@
     import InputError from '@/Components/InputError.vue';
     import TextInput from '@/Components/TextInput.vue';
     import SelectInput from '@/Components/SelectInput.vue';
+    import MultiSelect from '../../../Components/MultiSelect.vue';
 
     //import DefaultButton from '@/Components/buttons/DefaultButton.vue';
     import GreenButton from '@/Components/buttons/GreenButton.vue';
@@ -15,10 +16,6 @@
     import { trans } from 'laravel-vue-i18n';
     import Swal from 'sweetalert2';
     import 'sweetalert2/dist/sweetalert2.min.css';
-
-    import MultiSelect from '@vueform/multiselect';
-    import '@vueform/multiselect/themes/default.css';
-    //import '@vueform/multiselect/themes/tailwind.css';
 
     // Általános alert
     const alerta = Swal.mixin({
@@ -57,9 +54,11 @@
 
     // Form adatai
     const form = useForm({
-        name:     props.user.name,
-        email:    props.user.email,
-        language: props.user.language,
+               name: props.user.name,
+              email: props.user.email,
+           language: props.user.language,
+              //roles: props.user.roles,
+        //permissions: props.user.permissions,
     });
 
     // "Change Password" form
@@ -67,14 +66,19 @@
         old_password: props.user.password,
         password: '',
         password_confirmation: '',
-        roles: [],
-        permissions: [],
+    });
+
+    // "Change Roles" form
+    const change_roles_form = useForm({
+        id: props.user.id,
+        roles: props.user.roles,
+        permissions: props.user.permissions,
     });
 
     // Mentés
     const submit = () => {
 
-        form.patch(route('users_store', props.user.id), {
+        form.post(route('users_store', props.user.id), {
             onSuccess: (response) => {
                 // Üzenet
                 save_alert.fire({
@@ -114,7 +118,40 @@
     };
 
     // 
-    const changePassword_submit = () => {};
+    const changePassword_submit = () => {
+        console.log('change password submit');
+        /*
+        change_password_form.patch(route(''), props.user.id, {
+            onSuccess: (response) => {},
+            onFinish: (values) => {},
+            onError: (errors) => {},
+            preserveScroll: true
+        });
+        */
+    };
+
+    const changeRoles_submit = () => {
+        console.log(props.user.id);
+        change_roles_form.patch(route('users_ChangeRole'), {});
+        /*
+        change_roles_form.post(route('users_ChangeRole'), props.user.id, {
+            onSuccess: (response) => {
+                console.log('onSuccess');
+                console.log(response);
+            },
+            onFinish: (values) => {
+                console.log('onFinish');
+                console.log(values);
+                change_roles_form.reset();
+            },
+            onError: (errors) => {
+                console.log('onError');
+                console.log(errors);
+            },
+            preserveScroll: true
+        });
+        */
+    };
 
 </script>
 
@@ -206,45 +243,52 @@
             </div>
         </div>
 
+        <!-- ROLES AND PERMISSIONS -->
         <div class="py-6">
             <div class="mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-4 py-4">
                     
-                    <form @submit.prevent="changePassword_submit">
+                    <form @submit.prevent="changeRoles_submit">
                         
                         <div class="grid gap-6 mb-6 md:grid-cols-2">
                             <!-- ROLES -->
                             <div>
                                 <InputLabel>{{ $t('roles') }}</InputLabel>
-                                <!--<SelectInput v-model="form.roles"
+                                <!--
+                                {{ props.roles }}
+                                
+                                <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+                                
+                                {{ change_roles_form.roles }}
+                                -->
+                                <MultiSelect multiple
+                                    v-model="form.user" title="roles" 
                                     :options="props.roles"
-                                    :selected="1"
-                                    id="roles" name="roles" multiple
+                                    :selected="change_roles_form.roles"
+                                    id="roles" name="roles"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                                             focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 
                                             dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 
                                             dark:focus:border-blue-500"
-                                />-->
-                                <MultiSelect id="roles" name="roles"
-                                    v-model="form.roles" 
-                                    :options="props.roles" 
-                                    :multiple="true" 
-                                    :close-on-select="false"
-                                    :clear-on-select="false"
-                                    :preserve-search="true"
-                                    :preselect-first="true"
-                                    :loading="isLoading"
-                                    placeholder="Pick some"
-                                    label="name"
-                                    track-by="name"
-                                    
                                 />
+
                             </div>
 
                             <!-- PERMISSIONS -->
                             <div>
                                 <InputLabel>{{ $t('permissions') }}</InputLabel>
-                                <SelectInput v-model="form.permissions"
+                                <MultiSelect multiple
+                                    v-model="form.user" title="permissions" 
+                                    :options="props.permissions"
+                                    :selected="change_roles_form.permissions"
+                                    id="permissions" name="permissions"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                                            focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 
+                                            dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 
+                                            dark:focus:border-blue-500"
+                                />
+                                <!--
+                                <SelectInput v-model="form.permissions" title="permissions" 
                                     :options="props.permissions"
                                     :selected="1"
                                     id="permissions" name="permissions" multiple
@@ -253,6 +297,7 @@
                                             dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 
                                             dark:focus:border-blue-500"
                                 />
+                                -->
                             </div>
                         </div>
                         

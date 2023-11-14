@@ -2,6 +2,8 @@
 
 namespace App\Interfaces;
 
-interface SubdomainRepositoryInterface extends \Prettus\Repository\Contracts\RepositoryInterface{
+use Prettus\Repository\Contracts\RepositoryInterface;
+
+interface SubdomainRepositoryInterface extends RepositoryInterface {
     //
 }

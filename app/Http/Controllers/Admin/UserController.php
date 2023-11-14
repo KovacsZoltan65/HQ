@@ -160,24 +160,37 @@ class UserController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(User $user){
-        $roles = Role::select('id', 'name')->get()->toArray();
-        \Log::info(print_r($roles, true));
+        //$roles = Role::select('id', 'name')->get()->toArray();
+        $roles = Role::all();
+        //\Log::info('UserController@edit $roles: ' . print_r($roles, true));
+        $permissions = Permission::all();
+        //\Log::info('UserController@edit $permissions: ' . print_r($permissions, true));
+        
+        $roleNames = $user->getRoleNames();
+            
+        $permissionNames = $user->getPermissionNames();
+
+        $user->roleNames = $roleNames;
+        $user->permissionNames = $permissionNames;
+        //\Log::info('UserController@edit $user: ' . print_r($user, true));
+        
         return Inertia::render('Admin/User/UsersEdit', [
                     'can' => $this->getRoles(),
                    'user' => $user,
                   'roles' => $roles,
-            'permissions' => Permission::all(),
+            'permissions' => $permissions,
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUserRequest $request, int $id)
+    public function update(Request $request, int $id)
     {
-        $user = $this->repository->update($request->all(), $id);
+        dd($request);
+        //$user = $this->repository->update($request->all(), $id);
         
-        return response()->json($user, Response::HTTP_OK);
+        //return response()->json($user, Response::HTTP_OK);
     }
 
     /**
@@ -207,5 +220,10 @@ class UserController extends Controller
              'delete' => Auth::user()->can('user delete'),
             'restore' => Auth::user()->can('user restore'),
         ];
+    }
+    
+    public function changeRoles(Request $request) {
+        //\Log::info('id: ' . print_r($id, true));
+        \Log::info('request: ' . print_r($request, true));
     }
 }

@@ -1,9 +1,27 @@
 <?php
 
-namespace App\Interfaces;
+namespace App\Repositories;
 
-use Prettus\Repository\Contracts\RepositoryInterface;
+use App\Criteria\PostCriteria;
+use App\Interfaces\PostRepositoryInterface;
+use App\Models\Post;
 
-interface PostRepositoryInterface extends RepositoryInterface {
-    //
+/*
+ * Class BookRepositoryEloquent
+ * @package namespace App\Repositories 
+ */
+
+class PostRepository extends BaseRepository implements PostRepositoryInterface {
+
+    /**
+     * Specify Model class name
+     * @return class
+     */
+    public function model() {
+        return Post::class;
+    }
+
+    public function boot() {
+        $this->pushCriteria(PostCriteria::class);
+    }
 }

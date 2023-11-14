@@ -50,6 +50,15 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     // USERS
     // ------------
     Route::post('/getUsers', [App\Http\Controllers\Admin\UserController::class, 'getUsers'])->name('getUsers');
+    
+    //Route::post('/users_ChangeRole', [App\Http\Controllers\Admin\UserController::class, 'changeRoles'])->name('users_ChangeRole');
+    Route::patch(
+        '/users_ChangeRole', 
+        function(\Illuminate\Http\Request $request) {
+            dd($request->id, $request->roles, $request->permissions);
+        }
+    )->name('users_ChangeRole');
+    
     Route::resource('users', App\Http\Controllers\Admin\UserController::class)
     ->names([
           'index' => 'users',

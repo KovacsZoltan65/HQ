@@ -121,11 +121,3 @@ composer require schubu/iseed --dev
 composer require cheesegrits/iseed --dev
 php artisan iseed 'books, ...'
 
-// ---------------------------------------
-// MULTI SELECT
-// ---------------------------------------
-https://vue-multiselect.js.org/#sub-multiple-select
-https://www.npmjs.com/package/vue-multiselect
-https://vuejsexamples.com/vue-3-multiselect-component-with-multiselect-and-tagging-options/
-
-npm install @vueform/multiselect
