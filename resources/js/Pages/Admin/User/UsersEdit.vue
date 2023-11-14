@@ -57,8 +57,6 @@
                name: props.user.name,
               email: props.user.email,
            language: props.user.language,
-              //roles: props.user.roles,
-        //permissions: props.user.permissions,
     });
 
     // "Change Password" form
@@ -212,7 +210,7 @@
                                 <InputLabel 
                                     for="language" 
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                >{{ $t('language') }}</InputLabel>
+                                >{{ $t('languages') }}</InputLabel>
                                 <SelectInput 
                                     v-model="form.language"
                                     :options="languages"
@@ -253,19 +251,15 @@
                         <div class="grid gap-6 mb-6 md:grid-cols-2">
                             <!-- ROLES -->
                             <div>
-                                <InputLabel>{{ $t('roles') }}</InputLabel>
-                                <!--
-                                {{ props.roles }}
-                                
-                                <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
-                                
-                                {{ change_roles_form.roles }}
-                                -->
+                                <InputLabel 
+                                    for="roles" 
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                >{{ $t('roles') }}</InputLabel>
                                 <MultiSelect multiple
-                                    v-model="form.user" title="roles" 
+                                    v-model="change_roles_form.roles" title="roles" 
                                     :options="props.roles"
                                     :selected="change_roles_form.roles"
-                                    id="roles" name="roles"
+                                    id="roles[]" name="roles[]"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                                             focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 
                                             dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 
@@ -276,12 +270,15 @@
 
                             <!-- PERMISSIONS -->
                             <div>
-                                <InputLabel>{{ $t('permissions') }}</InputLabel>
+                                <InputLabel 
+                                    for="permissions" 
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                >{{ $t('permissions') }}</InputLabel>
                                 <MultiSelect multiple
-                                    v-model="form.user" title="permissions" 
+                                    v-model="change_roles_form.permissions" title="permissions" 
                                     :options="props.permissions"
                                     :selected="change_roles_form.permissions"
-                                    id="permissions" name="permissions"
+                                    id="permissions[]" name="permissions[]"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
                                             focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 
                                             dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 

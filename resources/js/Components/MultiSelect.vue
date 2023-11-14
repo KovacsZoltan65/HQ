@@ -1,4 +1,5 @@
 <script setup>
+    import { ref } from 'vue';
     const props = defineProps({
         modelValue: {
             type: String,
@@ -31,6 +32,10 @@
             default: true
         }
     });
+
+    const input = ref(null);
+
+    defineExpose({ focus: () => input.value.focus() });
 
     const compare = (option) => {
         var retval = false;

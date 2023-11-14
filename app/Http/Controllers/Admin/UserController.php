@@ -160,10 +160,18 @@ class UserController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(User $user){
-        //$roles = Role::select('id', 'name')->get()->toArray();
-        $roles = Role::all();
+        $roles = Role::select('id', 'name')
+            ->orderBy('name', 'asc')
+            ->get()
+            ->toArray();
+        //$roles = Role::all();
         //\Log::info('UserController@edit $roles: ' . print_r($roles, true));
-        $permissions = Permission::all();
+        
+        $permissions = Permission::select('id', 'name')
+            ->orderBy('name', 'asc')
+            ->get()
+            ->toArray();
+        //$permissions = Permission::all();
         //\Log::info('UserController@edit $permissions: ' . print_r($permissions, true));
         
         $roleNames = $user->getRoleNames();
@@ -187,7 +195,7 @@ class UserController extends Controller
      */
     public function update(Request $request, int $id)
     {
-        dd($request);
+        dd($request, $id);
         //$user = $this->repository->update($request->all(), $id);
         
         //return response()->json($user, Response::HTTP_OK);
