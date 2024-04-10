@@ -38,6 +38,10 @@ class BookController extends Controller {
         //$config = ['per_page' => 10];
         // Szűrők és keresések
         $filters = $request->get('filters', []);
+        
+//\Log::info($config, $filters);
+\Log::info('$filters: ' . print_r($filters['search'], true) );
+        
         //$filters = [
         //    'search' => 're',
         //    'column' => 'title',
@@ -49,18 +53,23 @@ class BookController extends Controller {
             if (isset($filters['search'])) {
                 // A keresési paramétert átteszem egy változóba
                 $value = $filters['search'];
+\Log::info('$value: ' . print_r($value, true));
                 // Keresési paraméter érvégyesítése az 'author' és 'title' mezőkre
-                $this->repository->findWhere([
-                    ['author', 'LIKE', "%$value%"],
-                    ['title', 'LIKE', "%$value%"]
-                ]);
+                //$this->repository->findWhere(['author', 'LIKE', "%$value%"]);
+                $this->repository->findWhere(['title', 'LIKE', "%$value%"]);
+//                $this->repository->findWhere([
+//                    ['author', 'LIKE', "%$value%"],
+//                    ['title', 'LIKE', "%$value%"]
+//                ]);
+                //$this->repository->where('author', 'LIKE', "%$value%");
+                //$this->repository->where('title', 'LIKE', "%$value%");
             }
 
             // ----------------
             // RENDEZÉS
             // ----------------
             // Rendezés a 'name' oszlop szerint
-            $column = 'name';
+            $column = 'id';
             // Ha van más beállítás, akkor...
             if (isset($filters['column'])) {
                 // azt állítom be
@@ -81,16 +90,22 @@ class BookController extends Controller {
         // Oldaltörés értékének kezelése
         $per_page = count($config) != 0 && isset($config['per_page']) ? $config['per_page'] : config('app.per_page');
 
+        \DB::enableQueryLog();
+        
         // Adatok lekérése
         $books = $this->repository->paginate($per_page);
 
+        $queries = \DB::getQueryLog();
+        \Log::info(print_r($queries, true));
+        \DB::disableQueryLog();
+        
         // Adatcsomag összeállítása
         $data = [
             'books' => $books,
             'config' => $config,
             'filters' => $filters,
         ];
-
+        
         // Adatcsomag visszaküldése
         return response()->json($data, Response::HTTP_OK);
     }
