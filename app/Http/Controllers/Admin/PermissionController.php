@@ -54,10 +54,14 @@ class PermissionController extends Controller {
                 // A keresési paramétert átteszem egy változóba
                 $value = $filters['search'];
                 // Keresési paraméter érvégyesítése az 'author' és 'title' mezőkre
+                $this->repository->where('name', 'LIKE', "%$value%");
+                $this->repository->orWhere('guard_name', 'LIKE', "%$value%");
+                /*
                 $this->repository->findWhere([
                     ['author', 'LIKE', "%$value%"],
                     ['title', 'LIKE', "%$value%"]
                 ]);
+                */
             }
 
             // ----------------
@@ -106,7 +110,7 @@ class PermissionController extends Controller {
         $permission = new Permission();
         
         return Inertia::render('Admin/Permission/PermissionsCreate', [
-                   'can' => $this->getMyRoles(),
+                   'can' => $this->_getRoles(),
             'permission' => $permission,
         ]);
     }
@@ -130,7 +134,7 @@ class PermissionController extends Controller {
      */
     public function edit(Permission $permission) {
         return Inertia::render('Admin/Permission/PermissionsEdit', [
-                   'can' => $this->getMyRoles(),
+                   'can' => $this->_getRoles(),
             'permission' => $permission,
         ]);
     }
@@ -161,7 +165,7 @@ class PermissionController extends Controller {
         return redirect()->back()->with('message', __('permissions_restored'));
     }
     
-    private function getMyRoles(){
+    private function _getRoles(){
         return [
                'list' => Auth::user()->can('permission list'),
              'create' => Auth::user()->can('permission create'),

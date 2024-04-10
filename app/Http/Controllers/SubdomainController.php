@@ -30,7 +30,7 @@ class SubdomainController extends Controller {
      */
     public function index() {
         return Inertia::render('Subdomains/SubdomainsIndex', [
-                'can' => $this->getRoles(),
+                'can' => $this->_getRoles(),
         ]);
     }
 
@@ -48,6 +48,7 @@ class SubdomainController extends Controller {
                 // A keresési paramétert átteszem egy változóba
                 $value = $filters['search'];
                 // Keresési paraméter érvégyesítése az 'author' és 'title' mezőkre
+                /*
                 $this->repository->findWhere([
                     ['subdomain', 'LIKE', "%$value%"],
                     ['url', 'LIKE', "%$value%"],
@@ -56,6 +57,13 @@ class SubdomainController extends Controller {
                     ['db_name', 'LIKE', "%$value%"],
                     ['db_user', 'LIKE', "%$value%"],
                 ]);
+                */
+                $this->repository->where('subdomain', 'LIKE', "%$value%");
+                $this->repository->orWhere('url', 'LIKE', "%$value%");
+                $this->repository->orWhere('name', 'LIKE', "%$value%");
+                $this->repository->orWhere('db_host', 'LIKE', "%$value%");
+                $this->repository->orWhere('db_name', 'LIKE', "%$value%");
+                $this->repository->orWhere('db_user', 'LIKE', "%$value%");
             }
 
             // ----------------
@@ -104,7 +112,7 @@ class SubdomainController extends Controller {
         $subdomain = new Subdomain();
         return Inertia::render('Subdomains/SubdomainsCreate', [
                 'subdomain' => $subdomain,
-                'can' => $this->getRoles(),
+                'can' => $this->_getRoles(),
         ]);
     }
 
@@ -133,7 +141,7 @@ class SubdomainController extends Controller {
     public function edit(Subdomain $subdomain) {
         return Inertia::render('Subdomains/SubdomainsEdit', [
                 'subdomain' => $subdomain,
-                'can' => $this->getRoles(),
+                'can' => $this->_getRoles(),
                 ]
         );
     }
@@ -162,7 +170,7 @@ class SubdomainController extends Controller {
         return redirect()->back()->with('message', __('subdomain_restored'));
     }
 
-    private function getRoles() {
+    private function _getRoles() {
         //
         return [
             'list' => Auth::user()->can('subdomain list'),

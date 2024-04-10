@@ -47,7 +47,7 @@ class UserController extends Controller
         //}
         
         return Inertia::render('Admin/User/UsersIndex', [
-            'can' => $this->getRoles(),
+            'can' => $this->_getRoles(),
         ]);
     }
 
@@ -72,10 +72,14 @@ class UserController extends Controller
                 $value = $filters['search'];
                 //\Log::info('value: ' . print_r($value, true));
                 // Keresési paraméter érvégyesítése az 'author' és 'title' mezőkre
+                $this->repository->where('name', 'LIKE', "%$value%");
+                $this->repository->orWhere('email', 'LIKE', "%$value%");
+                /*
                 $this->repository->findWhere([
                     ['name', 'LIKE', "%$value%"],
                     ['email', 'LIKE', "%$value%"]
                 ]);
+                */
             }
             
             // ----------------
@@ -135,7 +139,7 @@ class UserController extends Controller
      */
     public function create(Request $request) {
         return Inertia::render('Admin/User/UsersCreate', [
-                    'can' => $this->getRoles(),
+                    'can' => $this->_getRoles(),
                    'user' => new User(),
                   'roles' => Role::all(),
             'permissions' => Permission::all(),
@@ -183,7 +187,7 @@ class UserController extends Controller
         //\Log::info('UserController@edit $user: ' . print_r($user, true));
         
         return Inertia::render('Admin/User/UsersEdit', [
-                    'can' => $this->getRoles(),
+                    'can' => $this->_getRoles(),
                    'user' => $user,
                   'roles' => $roles,
             'permissions' => $permissions,
@@ -220,7 +224,7 @@ class UserController extends Controller
         return redirect()->back()->with('message', __('users_restored'));
     }
 
-    private function getRoles(){
+    private function _getRoles(){
         return [
                'list' => Auth::user()->can('user list'),
              'create' => Auth::user()->can('user create'),

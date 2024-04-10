@@ -28,7 +28,7 @@ class BookController extends Controller {
 
     public function index() {
         return Inertia::render('Books/booksIndex', [
-                'can' => $this->getRoles()
+                'can' => $this->_getRoles()
         ]);
     }
 
@@ -103,7 +103,7 @@ class BookController extends Controller {
         $book = new Book();
         
         return Inertia::render('Books/BooksCreate', [
-            'can' => $this->getRoles(),
+            'can' => $this->_getRoles(),
             'book' => $book,
         ]);
     }
@@ -128,7 +128,7 @@ class BookController extends Controller {
      */
     public function edit(Book $book) {
         return Inertia::render('Book/BookEdit', [
-            'can' => $this->getRoles(),
+            'can' => $this->_getRoles(),
             'book' => $book,
         ]);
     }
@@ -157,7 +157,7 @@ class BookController extends Controller {
         return redirect()->back()->with('message', __('books_restored'));
     }
     
-    private function getRoles() {
+    private function _getRoles() {
         return [
                'list' => Auth::user()->can('book list'),
              'create' => Auth::user()->can('book create'),

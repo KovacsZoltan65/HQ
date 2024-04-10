@@ -32,7 +32,7 @@ class RoleController extends Controller {
      */
     public function index() {
         return Inertia::render('Admin/Role/RolesIndex', [
-            'can' => $this->getMyRoles(),
+            'can' => $this->_getRoles(),
         ]);
     }
 
@@ -54,10 +54,14 @@ class RoleController extends Controller {
                 // A keresési paramétert átteszem egy változóba
                 $value = $filters['search'];
                 // Keresési paraméter érvégyesítése az 'author' és 'title' mezőkre
+                $this->repository->where('name', 'LIKE', "%$value%");
+                $this->repository->orWhere('guard_name', 'LIKE', "%$value%");
+                /*
                 $this->repository->findWhere([
                     ['author', 'LIKE', "%$value%"],
                     ['title', 'LIKE', "%$value%"]
                 ]);
+                */
             }
 
             // ----------------
@@ -110,7 +114,7 @@ class RoleController extends Controller {
         $roles = Role::all()->toArray();
         
         return Inertia::render('Admin/Role/RolesCreate', [
-                    'can' => $this->getMyRoles(),
+                    'can' => $this->_getRoles(),
                    'role' => $role,
                   'roles' => $roles,
             'permissions' => $permissions,
@@ -139,7 +143,7 @@ class RoleController extends Controller {
         $roles = Role::all()->toArray();
         
         return Inertia::render('Admin/Role/RolesEdit', [
-                    'can' => $this->getMyRoles(),
+                    'can' => $this->_getRoles(),
                    'role' => $role,
                   'roles' => $roles,
             'permissions' => $permissions,
@@ -174,7 +178,7 @@ class RoleController extends Controller {
         return redirect()->back()->with('message', __('roles_restored'));
     }
     
-    private function getMyRoles(){
+    private function _getRoles(){
         return [
                'list' => Auth::user()->can('role list'),
              'create' => Auth::user()->can('role create'),
