@@ -22,8 +22,13 @@
         "@hennge/vue3-pagination": "^1.0.17",
         "@inertiajs/inertia-vue3": "^0.6.0",
         "@vueform/multiselect": "^2.6.6",
+        "filepond": "^4.30.6",
+        "filepond-plugin-file-poster": "^2.5.1",
+        "filepond-plugin-file-validate-type": "^1.2.9",
+        "filepond-plugin-image-preview": "^4.6.12",
         "flowbite": "^1.7.0",
         "laravel-vue-i18n": "^2.7.1",
-        "sweetalert2": "^11.6.13"
+        "sweetalert2": "^11.6.13",
+        "vue-filepond": "^7.0.4"
     }
 }
