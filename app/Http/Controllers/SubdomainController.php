@@ -48,16 +48,6 @@ class SubdomainController extends Controller {
                 // A keresési paramétert átteszem egy változóba
                 $value = $filters['search'];
                 // Keresési paraméter érvégyesítése az 'author' és 'title' mezőkre
-                /*
-                $this->repository->findWhere([
-                    ['subdomain', 'LIKE', "%$value%"],
-                    ['url', 'LIKE', "%$value%"],
-                    ['name', 'LIKE', "%$value%"],
-                    ['db_host', 'LIKE', "%$value%"],
-                    ['db_name', 'LIKE', "%$value%"],
-                    ['db_user', 'LIKE', "%$value%"],
-                ]);
-                */
                 $this->repository->where('subdomain', 'LIKE', "%$value%");
                 $this->repository->orWhere('url', 'LIKE', "%$value%");
                 $this->repository->orWhere('name', 'LIKE', "%$value%");

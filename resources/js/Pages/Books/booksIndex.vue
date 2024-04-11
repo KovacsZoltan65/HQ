@@ -174,8 +174,17 @@
                                     <td class="px-4 py-2 w-45 border" width="250px" 
                                         v-show="state.columns.action.is_visible">
                                         <div type="justify-start lg:justify-end" no-wrap>
-                                            <green-button class="mt-1" size="text-xs" @click="editBook(book)">{{ $t('edit') }}</green-button>
-                                            <red-button class="mt-1" size="text-xs" @click="deleteBook_init(book)">{{ $t('delete') }}</red-button>
+                                            
+                                            <green-button class="mt-1" 
+                                                          size="text-xs" 
+                                                          @click="editBook(book)"
+                                            >{{ $t('edit') }}</green-button>
+                                            
+                                            <red-button class="mt-1" 
+                                                        size="text-xs" 
+                                                        @click="deleteBook_init(book)"
+                                            >{{ $t('delete') }}</red-button>
+
                                         </div>
                                     </td>
                                 </tr>

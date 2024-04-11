@@ -54,16 +54,12 @@ class BookController extends Controller {
                 // Keresési paraméter érvégyesítése az 'author' és 'title' mezőkre
                 $this->repository->where('author', 'LIKE', "%$value%");
                 $this->repository->orWhere('title', 'LIKE', "%$value%");
-//                $this->repository->findWhere([
-//                    ['author', 'LIKE', "%$value%"],
-//                    ['title', 'LIKE', "%$value%"]
-//                ]);
             }
 
             // ----------------
             // RENDEZÉS
             // ----------------
-            // Rendezés a 'name' oszlop szerint
+            // Rendezés az "id" oszlop szerint
             $column = 'id';
             // Ha van más beállítás, akkor...
             if (isset($filters['column'])) {
@@ -79,7 +75,7 @@ class BookController extends Controller {
                 $direction = $filters['direction'];
             }
             // Rendezés érvényesítése
-            //$this->repository->orderBy($column, $direction);
+            $this->repository->orderBy($column, $direction);
         }
 
         // Oldaltörés értékének kezelése
