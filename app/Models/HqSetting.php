@@ -1,29 +1,15 @@
 <?php
 
-/**
- * Created by Reliese Model.
- */
-
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class HqSetting
- * 
- * @property int $id
- * @property string $key
- * @property string $value
- *
- * @package App\Models
- */
-class HqSetting extends Model
+class HQSetting extends Model
 {
-	protected $table = 'hq_settings';
-	public $timestamps = false;
+    use HasFactory;
+    
+    protected $table = 'hq_settings';
 
-	protected $fillable = [
-		'key',
-		'value'
-	];
+    protected $fillable = ['key', 'value'];
 }

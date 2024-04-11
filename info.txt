@@ -121,3 +121,16 @@ composer require schubu/iseed --dev
 composer require cheesegrits/iseed --dev
 php artisan iseed 'books, ...'
 
+// ---------------------------------------
+// HQ SETTINGS
+// ---------------------------------------
+php artisan make:model HQSetting --all
+    C:\wamp64\www\softc\HQ\app\Models\HQSetting.php
+    C:\wamp64\www\softc\HQ\database\factories\HQSettingFactory.php
+    C:\wamp64\www\softc\HQ\database\migrations/2024_04_11_141947_create_h_q_settings_table.php
+    C:\wamp64\www\softc\HQ\database\seeders\HQSettingSeeder.php
+    C:\wamp64\www\softc\HQ\app\Http\Requests\StoreHQSettingRequest.php
+    C:\wamp64\www\softc\HQ\app\Http\Requests\UpdateHQSettingRequest.php
+    C:\wamp64\www\softc\HQ\app\Http\Controllers\HQSettingController.php
+    C:\wamp64\www\softc\HQ\app\Policies\HQSettingPolicy.php
+php artisan make:repository HQSetting
