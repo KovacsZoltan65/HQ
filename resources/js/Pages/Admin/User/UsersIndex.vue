@@ -438,23 +438,33 @@
                                 >{{ role.name }}</td>
                                 <td class="px-4 py-2 border" v-else></td>
 
-                                <td class="px-4 py-2 w-45 border" width="250px"
-                                    v-show="state.columns.action.is_visible">
+                                <td class="px-4 py-2 w-45 border" width="250px" v-show="state.columns.action.is_visible">
+                                    <div class="flex justify-between items=center">
+                                        <!-- SZERKESZTÉS -->
+                                        <green-link v-if="can.edit"
+                                                    :href="route('users_edit', user.id)"
+                                        >{{ $t('edit') }}</green-link>
+
+                                        <!-- TÖRLÉS -->
+                                        <red-button v-if="can.delete"
+                                                    @click="deleteUser_init(user)"
+                                        >{{ $t('delete') }}</red-button>
+                                    </div>
+                                    <!--
                                     <div type="justify-start lg:justify-end" no-wrap>
 
-                                        <!-- "edit" jogosultság vizsgálata -->
                                         <GreenLink v-if="can.edit"
                                             type="button" 
                                             :href="route('users_edit', user.id)"
                                         >{{ $t('edit') }}</GreenLink>
 
-                                        <!-- "delete" jogosultság vizsgálata -->
                                         <RedButton v-if="can.delete"
                                             class="mt-1" 
                                             size="text-xs" 
                                             @click="deleteUser_init(user)"
                                         >{{ $t('delete') }}</RedButton>
                                     </div>
+                                    -->
                                 </td>
                             </tr>
                         </tbody>

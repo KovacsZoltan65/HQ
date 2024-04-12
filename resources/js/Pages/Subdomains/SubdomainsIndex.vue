@@ -461,9 +461,9 @@
                                         <div class="flex justify-between items=center">
                                             <!-- SZERKESZTÉS -->
                                             <green-link v-if="can.edit" 
-                                                          class="mt-1"
-                                                          size="text-xs"
-                                                          :href="route('subdomains_edit', subdomain.id)"
+                                                        class="mt-1"
+                                                        size="text-xs"
+                                                        :href="route('subdomains_edit', subdomain.id)"
                                             >{{ $t('edit') }}</green-link>
 
                                             <!-- TÖRLÉS -->
