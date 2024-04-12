@@ -457,19 +457,15 @@
                                     <td class="px-4 py-2 border" v-show="state.columns.url.is_visible">{{ subdomain.url }}</td>
                                     <td class="px-4 py-2 border" v-show="state.columns.name.is_visible">{{ subdomain.name }}</td>
 
-                                    <td class="px-4 py-2 w-45 border" width="250px" v-show="state.columns.action.is_visible">
-                                        <div class="flex justify-between items=center">
+                                    <td class="px-4 py-2 w-45 border items-center" width="250px" v-show="state.columns.action.is_visible">
+                                        <div class="flex items-center">
                                             <!-- SZERKESZTÉS -->
                                             <green-link v-if="can.edit" 
-                                                        class="mt-1"
-                                                        size="text-xs"
                                                         :href="route('subdomains_edit', subdomain.id)"
                                             >{{ $t('edit') }}</green-link>
 
                                             <!-- TÖRLÉS -->
                                             <red-button v-if="can.delete"
-                                                        class="mt-1"
-                                                        size="text-xs"
                                                         @click="deleteSubdomain_init(subdomain)"
                                             >{{ $t('delete') }}</red-button>
                                         </div>

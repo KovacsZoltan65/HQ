@@ -439,7 +439,7 @@
                                 <td class="px-4 py-2 border" v-else></td>
 
                                 <td class="px-4 py-2 w-45 border" width="250px" v-show="state.columns.action.is_visible">
-                                    <div class="flex justify-between items=center">
+                                    <div class="flex justify-between items-center">
                                         <!-- SZERKESZTÉS -->
                                         <green-link v-if="can.edit"
                                                     :href="route('users_edit', user.id)"

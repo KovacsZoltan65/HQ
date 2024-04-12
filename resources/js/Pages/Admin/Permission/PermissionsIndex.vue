@@ -341,34 +341,14 @@
                                         <div class="flex justify-between items=center">
                                             <!-- SZERKESZTÉS -->
                                             <green-link v-if="can.edit" 
-                                                          class="mt-1"
-                                                          size="text-xs"
                                                           :href="route('permissions_edit', permission.id)"
                                             >{{ $t('edit') }}</green-link>
 
                                             <!-- TÖRLÉS -->
                                             <red-button v-if="can.delete"
-                                                        class="mt-1"
-                                                        size="text-xs"
                                                         @click="deletePermission_init(permission)"
                                             >{{ $t('delete') }}</red-button>
                                         </div>
-                                        <!--
-                                        <div type="justify-start lg:justify-end" no-wrap>
-
-                                            <GreenLink v-if="can.edit" 
-                                                type="button" 
-                                                :href="route('permissions_edit', permission.id)"
-                                            >{{ $t('edit') }}</GreenLink>
-
-                                            <RedButton v-if="can.delete" 
-                                                class="mt-1" 
-                                                size="text-xs"
-                                                @click="deletePermission_init(permission)"
-                                            >{{ $t('delete') }}</RedButton>
-
-                                        </div>
-                                        -->
                                     </td>
 
                                 </tr>
