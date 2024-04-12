@@ -24,6 +24,7 @@
 
     //import NavLink from '../../Components/NavLink.vue';
     import GreenLink from '../../Components/linkbuttons/GreenLink.vue';
+    import GreenButton from '../../Components/buttons/GreenButton.vue';
     
     import { trans } from 'laravel-vue-i18n';
     import Swal from 'sweetalert2';
@@ -456,23 +457,21 @@
                                     <td class="px-4 py-2 border" v-show="state.columns.url.is_visible">{{ subdomain.url }}</td>
                                     <td class="px-4 py-2 border" v-show="state.columns.name.is_visible">{{ subdomain.name }}</td>
 
-                                    <td class="px-4 py-2 w-45 border" width="250px"
-                                        v-show="state.columns.action.is_visible">
-                                        <div type="justify-start lg:justify-end" no-wrap>
+                                    <td class="px-4 py-2 w-45 border" width="250px" v-show="state.columns.action.is_visible">
+                                        <div class="flex justify-between items=center">
+                                            <!-- SZERKESZTÉS -->
+                                            <green-link v-if="can.edit" 
+                                                          class="mt-1"
+                                                          size="text-xs"
+                                                          :href="route('subdomains_edit', subdomain.id)"
+                                            >{{ $t('edit') }}</green-link>
 
-                                            <!-- "edit" jogosultság vizsgálata -->
-                                            <GreenLink v-if="can.edit"
-                                                type="button" 
-                                                :href="route('subdomains_edit', subdomain.id)"
-                                            >{{ $t('edit') }}</GreenLink>
-
-                                            <!-- "delete" jogosultság vizsgálata -->
-                                            <RedButton v-if="can.delete"
-                                                class="mt-1" 
-                                                size="text-xs" 
-                                                @click="deleteSubdomain_init(subdomain)"
-                                            >{{ $t('delete') }}</RedButton>
-
+                                            <!-- TÖRLÉS -->
+                                            <red-button v-if="can.delete"
+                                                        class="mt-1"
+                                                        size="text-xs"
+                                                        @click="deleteSubdomain_init(subdomain)"
+                                            >{{ $t('delete') }}</red-button>
                                         </div>
                                     </td>
 
