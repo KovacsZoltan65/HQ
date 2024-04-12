@@ -116,6 +116,16 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
         'destroy' => 'subdomains_destroy',
         'restore' => 'subdomains_restore',
     ]);
+
+    // ------------
+    // COMPANIES
+    // ------------
+    Route::get('/companies', function() { dd('Fejlesztés alatt'); })->name('companies.index');
+
+    // ------------
+    // KÜLSŐ ADMINOK
+    // ------------
+    Route::get('/external_admins', function() { dd('Fejlesztés alatt'); })->name('external_admins.index');
 });
 
 Route::group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin', 'middleware' => ['auth']],

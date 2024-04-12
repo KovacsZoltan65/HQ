@@ -1,6 +1,8 @@
 {
     "welcome": "Üdvözlet",
     "dashboard": "Műszerfal",
+    "admin": "Admin",
+    "specimen": "Példányok",
     "register": "Regisztráció",
     "login": "Belépés",
     "logout": "Kilépés",
@@ -33,6 +35,9 @@
     "create": "Létrehoz",
 
     "setup": "Beállítások",
+
+    "manage_admin": "Adminisztráció kezelése",
+    "manage_specimen": "Példánykezelés",
 
     "name": "Név",
     "email": "Email cím",
@@ -168,6 +173,10 @@
     "subdomains_restored": "Aldomain visszaállítva",
     "subdomains_delete_confirmation": "Biztosan törli a(z) :name aldomaint?",
     "subdomains_search_placeholder": "Keress az aldomainek között név vagy url szerint...",
+
+    "companies": "Cégek",
+
+    "external_admins": "Külső adminok",
 
     "author": "Szerző",
     "image": "Kép",

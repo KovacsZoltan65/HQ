@@ -1,6 +1,8 @@
 {
     "welcome": "Welcome",
     "dashboard": "Dashboard",
+    "admin": "Admin",
+    "specimen": "Specimen",
     "register": "Register",
     "login": "Log in",
     "logout": "Log out",
@@ -33,6 +35,9 @@
     "create": "Create",
 
     "setup": "Setup",
+
+    "manage_admin": "Manage Admin",
+    "manage_specimen": "Manage Specimen",
 
     "name": "Name",
     "email": "Email address",
@@ -169,6 +174,10 @@
     "subdomains_delete_confirmation": "Are you sure you want to delete this subdomain?",
     "subdomains_search_placeholder": "",
     
+    "companies": "Companies",
+
+    "external_admins": "External Admins",
+
     "author": "Author",
     "image": "Image",
     
